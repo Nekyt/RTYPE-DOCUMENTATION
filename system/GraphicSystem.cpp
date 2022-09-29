@@ -5,17 +5,17 @@
 ** system
 */
 
-#include "system.hpp"
+#include "GraphicSystem.hpp"
 
 void Graphic::preupdate()
 {
     m_window->clear(sf::Color::Black);
-    if(m_system->get_id = 0)
+    if (m_system->get_id() = 0)
         m_system->set_texture("r-typesheet1-0.png");
-        m->system->set_size_sprite(0,0,10,10);
-    if(m_system->get_id = 1)
+        m_system->set_size_sprite(0,0,10,10);
+    if (m_system->get_id() = 1)
         m_system->set_texture("r-typesheet1-0.png");
-        m->system->set_size_sprite(0,0,10,10);
+        m_system->set_size_sprite(0,0,10,10);
     m_system->set_rotate(0);
     m_system->set_size(10,10);
 }

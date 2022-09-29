@@ -14,7 +14,20 @@
 #include <cstdio>
 #include <SFML/Graphics.hpp>
 
-class Manager{};
+class Manager
+{
+    public:
+        void set_texture(std::string){};
+        int get_id(){return (0);};
+        void set_size(int,int){};
+        void set_size_sprite(int,int,int,int);
+        int get_size_sprite();
+        int get_position_x();
+        int get_position_y();
+        std::string get_texture();
+        void set_rotate(int);
+}
+;
 
 class Graphic
 {
