@@ -10,10 +10,7 @@
 
 #include "./Entity/EntityManager.hpp"
 #include "./Component/ComponentManager.hpp"
-#include <iostream>
-#include <unordered_map>
-#include <any>
-#include <memory>
+#include "../Include.hpp"
 
 namespace ECS
 {
