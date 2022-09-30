@@ -23,6 +23,26 @@ std::shared_ptr<sf::RenderWindow> InitSfml::getWindow()
     return _window;
 }
 
+void InitSfml::setSprite(std::string idSprite, std::string namePath)
+{
+    sf::Texture texture;
+    sf::Sprite sprite;
+
+    texture.loadFromFile(namePath);
+    sprite.setTexture(texture);
+    _spriteList.emplace(idSprite, std::make_shared(sprite));
+}
+
+std::shared_ptr<sf::Sprite> InitSfml::getSprite(std::string idSprite)
+{
+    return _spriteList.at(idSprite);
+}
+
+std::map<std::string, std::shared_ptr<sf::Sprite>> InitSfml::getAllSprite()
+{
+    return _spriteList;
+}
+
 void InitSfml::clear()
 {
     _window->clear();

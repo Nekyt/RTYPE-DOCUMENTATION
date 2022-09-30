@@ -5,7 +5,12 @@
 ** main
 */
 
+#include "./GameClient.hpp"
+
 int main()
 {
+    GameClient client;
+
+    client.gameLoop();
     return (0);
 }

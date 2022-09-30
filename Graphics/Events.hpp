@@ -8,7 +8,9 @@
 #ifndef EVENTS_HPP_
 #define EVENTS_HPP_
 
+#include "SFML/Graphics.hpp"
 #include <map>
+#include <string>
 
 enum class Button {
         Left,
@@ -35,6 +37,10 @@ class Events {
     public:
         Events() = default;
         ~Events() = default;
+
+        Button getEventType(const sf::Event &event) const;
+        std::string getTextEntered(const sf::Event &event) const;
+
 
     protected:
     private:
