@@ -29,6 +29,7 @@ class InitSfml {
 
     protected:
     private:
+        sf::Event _event;
         std::shared_ptr<sf::RenderWindow> _window;
         std::map<std::string, std::shared_ptr<sf::Sprite>> _spriteList;
 };

@@ -30,7 +30,7 @@ void InitSfml::setSprite(std::string idSprite, std::string namePath)
 
     texture.loadFromFile(namePath);
     sprite.setTexture(texture);
-    _spriteList.emplace(idSprite, std::make_shared(sprite));
+    _spriteList.emplace(idSprite, std::make_shared<sf::Sprite>(sprite));
 }
 
 std::shared_ptr<sf::Sprite> InitSfml::getSprite(std::string idSprite)
