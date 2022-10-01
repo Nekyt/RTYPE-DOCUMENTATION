@@ -9,9 +9,11 @@
 
 GameClient::GameClient()
 {
+    srand(time(NULL));
     _graphical = std::make_shared<InitSfml>();
     _graphical->setSprite("bg-menu", "Assets/menu/bg-menu.jpeg");
     _graphical->setSprite("logo", "Assets/menu/logo.png");
+    _state = Game;
     //load sprite start
     //load text and music
     loadComponents();

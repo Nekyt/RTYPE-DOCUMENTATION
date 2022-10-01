@@ -7,24 +7,23 @@
 
 #include "Events.hpp"
 
-const std::map<Button, sf::Keyboard::Key> Events::eventsButton = {
-    std::make_pair(Button::Left, sf::Keyboard::Left),
-    std::make_pair(Button::Right, sf::Keyboard::Right),
-    std::make_pair(Button::Up, sf::Keyboard::Up),
-    std::make_pair(Button::Down, sf::Keyboard::Down),
-    std::make_pair(Button::Q, sf::Keyboard::Q),
-    std::make_pair(Button::D, sf::Keyboard::D),
-    std::make_pair(Button::Z, sf::Keyboard::Z),
-    std::make_pair(Button::S, sf::Keyboard::S),
-    std::make_pair(Button::Start, sf::Keyboard::C),
-    std::make_pair(Button::Select, sf::Keyboard::V),
-    std::make_pair(Button::F1, sf::Keyboard::F1),
-    std::make_pair(Button::F2, sf::Keyboard::F2),
-    std::make_pair(Button::F3, sf::Keyboard::F3),
-    std::make_pair(Button::F4, sf::Keyboard::F4),
-    std::make_pair(Button::F5, sf::Keyboard::F5),
-    std::make_pair(Button::F6, sf::Keyboard::F6),
-    std::make_pair(Button::F7, sf::Keyboard::F7),
+const std::map<sf::Keyboard::Key, Button> Events::eventsButton = {
+    std::make_pair(sf::Keyboard::Left, Button::Left),
+    std::make_pair(sf::Keyboard::Right, Button::Right),
+    std::make_pair(sf::Keyboard::Up, Button::Up),
+    std::make_pair(sf::Keyboard::Down, Button::Down),
+    std::make_pair(sf::Keyboard::Q, Button::Q),
+    std::make_pair(sf::Keyboard::D, Button::D),
+    std::make_pair(sf::Keyboard::Z, Button::Z),
+    std::make_pair(sf::Keyboard::S, Button::S),
+    std::make_pair(sf::Keyboard::Enter, Button::Enter),
+    std::make_pair(sf::Keyboard::F1, Button::F1),
+    std::make_pair(sf::Keyboard::F2, Button::F2),
+    std::make_pair(sf::Keyboard::F3, Button::F3),
+    std::make_pair(sf::Keyboard::F4, Button::F4),
+    std::make_pair(sf::Keyboard::F5, Button::F5),
+    std::make_pair(sf::Keyboard::F6, Button::F6),
+    std::make_pair(sf::Keyboard::F7, Button::F7),
 };
 
 Button Events::getEventType(const sf::Event &event) const

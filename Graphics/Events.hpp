@@ -21,8 +21,7 @@ enum class Button {
         Z,
         S,
         D,
-        Start,
-        Select,
+        Enter,
         F1,
         F2,
         F3,
@@ -44,7 +43,7 @@ class Events {
 
     protected:
     private:
-        static const std::map<Button, sf::Keyboard::Key> eventsButton;
+        static const std::map<sf::Keyboard::Key, Button> eventsButton;
 };
 
 #endif /* !EVENTS_HPP_ */
