@@ -10,7 +10,3 @@
 ECS::ShootSystem::ShootSystem()
 {
 }
-
-ECS::ShootSystem::~ShootSystem()
-{
-}

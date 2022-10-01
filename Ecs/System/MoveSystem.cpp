@@ -11,6 +11,3 @@ ECS::MoveSystem::MoveSystem()
 {
 }
 
-ECS::MoveSystem::~MoveSystem()
-{
-}
