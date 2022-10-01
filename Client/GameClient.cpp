@@ -10,8 +10,8 @@
 GameClient::GameClient()
 {
     _graphical = std::make_shared<InitSfml>();
-    _graphical.setSprite("bg-menu", "Assets/menu/bg-menu.jpeg");
-    _graphical.setSprite("logo", "Assets/menu/logo.png");
+    _graphical->setSprite("bg-menu", "Assets/menu/bg-menu.jpeg");
+    _graphical->setSprite("logo", "Assets/menu/logo.png");
     //load sprite start
     //load text and music
     loadComponents();
@@ -35,10 +35,10 @@ void GameClient::gameLoop()
             const sf::Event &event = _graphical->getEvent();
             handleEvents(event);
         }
-        _graphical.clear();
+        _graphical->clear();
         //paralax
         selectMode();
-        _graphical.display();
+        _graphical->display();
     }
 }
 
@@ -67,7 +67,7 @@ void GameClient::handleEventsKey(Button eventKey)
 
 void GameClient::handleEventsTextEntered(const sf::Event &event)
 {
-    std::string text = _events.getTextEntered();
+    std::string text = _events.getTextEntered(event);
 
     switch (_state) {
         case GameState::Game:

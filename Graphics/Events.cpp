@@ -7,7 +7,7 @@
 
 #include "Events.hpp"
 
-const std::map<Button, sf::Keyboard::key> Events::eventsButton = {
+const std::map<Button, sf::Keyboard::Key> Events::eventsButton = {
     std::make_pair(Button::Left, sf::Keyboard::Left),
     std::make_pair(Button::Right, sf::Keyboard::Right),
     std::make_pair(Button::Up, sf::Keyboard::Up),
@@ -27,19 +27,19 @@ const std::map<Button, sf::Keyboard::key> Events::eventsButton = {
     std::make_pair(Button::F7, sf::Keyboard::F7),
 };
 
-Button SfmlEventFactory::getEventType(const sf::Event &event) const
+Button Events::getEventType(const sf::Event &event) const
 {
     if (event.type == sf::Event::KeyPressed)
     {
-        if (eventType.find(event.key.code) != eventType.end())
-            return eventType.at(event.key.code);
+        if (eventsButton.find(event.key.code) != eventsButton.end())
+            return eventsButton.at(event.key.code);
         else
             return Button::None;
     }
     return Button::None;
 }
 
-std::string SfmlEventFactory::getTextEntered(const sf::Event &event) const
+std::string Events::getTextEntered(const sf::Event &event) const
 {
     if (event.type == sf::Event::TextEntered)
     {
