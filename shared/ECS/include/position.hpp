@@ -1,3 +1,6 @@
+#ifndef _POSITION
+#define _POSITION
+
 #include "IComp.hpp"
 
 namespace ECS {
@@ -22,3 +25,5 @@ class Position : public IComp {
         unsigned short _y;
 };
 };
+
+#endif

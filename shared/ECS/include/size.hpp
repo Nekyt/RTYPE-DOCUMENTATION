@@ -1,3 +1,6 @@
+#ifndef _SIZE
+#define _SIZE
+
 #include "IComp.hpp"
 
 namespace ECS {
@@ -22,3 +25,5 @@ class Size : public IComp {
         unsigned short _y;
 };
 };
+
+#endif

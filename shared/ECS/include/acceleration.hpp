@@ -1,3 +1,6 @@
+#ifndef _ACCELERATION
+#define _ACCELERATION
+
 #include "IComp.hpp"
 #include <utility>
 
@@ -21,3 +24,5 @@ class Acceleration : public IComp {
         int _y;
 };
 };
+
+#endif

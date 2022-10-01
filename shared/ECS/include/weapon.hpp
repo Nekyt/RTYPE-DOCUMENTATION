@@ -1,3 +1,6 @@
+#ifndef _WEAPON
+#define _WEAPON
+
 #include "IComp.hpp"
 
 namespace ECS {
@@ -14,3 +17,5 @@ namespace ECS {
     };
 
 };
+
+#endif

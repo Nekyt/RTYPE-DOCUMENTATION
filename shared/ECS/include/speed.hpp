@@ -1,3 +1,6 @@
+#ifndef _SPEED
+#define _SPEED
+
 #include "IComp.hpp"
 
 namespace ECS {
@@ -25,3 +28,5 @@ class Speed : public IComp {
 };
 
 };
+
+#endif

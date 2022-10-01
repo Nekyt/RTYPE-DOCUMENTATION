@@ -1,3 +1,6 @@
+#ifndef _DAMAGE
+#define _DAMAGE
+
 #include "IComp.hpp"
 
 namespace ECS {
@@ -19,3 +22,5 @@ class Damage : public IComp {
 };
 
 };
+
+#endif

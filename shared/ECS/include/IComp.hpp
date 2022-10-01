@@ -1,4 +1,5 @@
-#include <memory.h>
+#ifndef _ICOMP
+#define _ICOMP
 
 //valgrind --tool=cachegrind ./exec
 
@@ -8,3 +9,5 @@ namespace ECS {
             virtual ~IComp() noexcept = default;
     };
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef _CONTROLABLE
+#define _CONTROLABLE
+
 #include "IComp.hpp"
 
 namespace ECS {
@@ -19,3 +22,5 @@ class Controlable : public IComp {
 };
 
 };
+
+#endif

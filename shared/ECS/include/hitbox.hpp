@@ -1,3 +1,6 @@
+#ifndef _HITBOX
+#define _HITBOX
+
 #include "IComp.hpp"
 #include "position.hpp"
 
@@ -24,3 +27,5 @@ class Hitbox : public IComp {
         unsigned short _sizey;
 };
 };
+
+#endif

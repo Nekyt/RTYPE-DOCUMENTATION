@@ -1,3 +1,6 @@
+#ifndef _ROTATION
+#define _ROTATION
+
 #include "IComp.hpp"
 
 namespace ECS {
@@ -19,3 +22,5 @@ class Rotation : public IComp {
 };
 
 };
+
+#endif

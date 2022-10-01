@@ -1,3 +1,6 @@
+#ifndef _TEXT
+#define _TEXT
+
 #include "IComp.hpp"
 #include <string>
 
@@ -5,8 +8,8 @@ namespace ECS {
 
     class Text : public IComp {
         public:
-            explicit Text(std::string & ) noexcept;
-            Text(const Text& bonus) noexcept;
+            explicit Text(std::string) noexcept;
+            Text(const Text& text) noexcept;
             explicit Text(Text&&) noexcept = delete;
             ~Text() noexcept override = default;
 
@@ -21,3 +24,5 @@ namespace ECS {
     };
 
 };
+
+#endif

@@ -1,3 +1,6 @@
+#ifndef _HEALTH
+#define _HEALTH
+
 #include "IComp.hpp"
 
 namespace ECS {
@@ -24,3 +27,5 @@ class Health : public IComp {
 };
 
 };
+
+#endif

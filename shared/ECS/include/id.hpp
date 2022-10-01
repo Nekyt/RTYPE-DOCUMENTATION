@@ -1,3 +1,6 @@
+#ifndef _ID
+#define _ID
+
 #include "IComp.hpp"
 
 namespace ECS {
@@ -19,3 +22,5 @@ class ID : public IComp {
 };
 
 };
+
+#endif

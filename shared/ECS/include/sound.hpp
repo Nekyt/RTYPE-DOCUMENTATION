@@ -1,3 +1,6 @@
+#ifndef _SOUND
+#define _SOUND
+
 #include "IComp.hpp"
 
 namespace ECS {
@@ -14,3 +17,5 @@ namespace ECS {
     };
 
 };
+
+#endif
