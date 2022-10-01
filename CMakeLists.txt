@@ -18,9 +18,10 @@ if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
 endif()
 
 include(${CMAKE_BINARY_DIR}/conan.cmake)
+# include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 
 conan_cmake_run(REQUIRES Catch2/2.6.0@catchorg/stable
-                BASIC_SETUP)
+BASIC_SETUP)
 
 add_executable(r-type_client ${ClientSrc})
 add_executable(r-type_server ${ServerSrc})
