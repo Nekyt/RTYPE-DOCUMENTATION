@@ -33,7 +33,7 @@ void ECS::TextSystem::update()
     for (const auto &entity : entities) {
          if (!checkIsValidEntity(entity))
             continue;
-        auto &position = _componentManager->getComponent(entity, ComponentType::POSITION);
+        ECS::Position &position = dynamic_cast<ECS::Position&>(entity, ComponentType::POSITION);
         auto &texts = _componentManager->getComponent(entity, ComponentType::TEXT);
         sf::Text text;
         sf::Font font;
@@ -47,9 +47,9 @@ void ECS::TextSystem::update()
 
 /**
  * If the entity has a position and text component, then it's a valid entity
- * 
+ *
  * @param entity The entity to check
- * 
+ *
  * @return A boolean value.
  */
 bool ECS::TextSystem::checkIsValidEntity(Entity entity)

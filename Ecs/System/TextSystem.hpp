@@ -25,6 +25,7 @@ namespace ECS
         protected:
         private:
             sf::RenderWindow window;
-};
+    };
+}
 
 #endif /* !TEXTSYSTEM_HPP_ */

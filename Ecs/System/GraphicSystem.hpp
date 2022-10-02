@@ -5,8 +5,8 @@
 ** system
 */
 
-#ifndef SYSTEM_HPP_
-#define SYSTEM_HPP_
+#ifndef GRAPHICSYSTEM_HPP_
+#define GRAPHICSYSTEM_HPP_
 
 #include "./System.hpp"
 #include <SFML/Graphics.hpp>

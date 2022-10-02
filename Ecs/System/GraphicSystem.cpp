@@ -7,7 +7,6 @@
 
 #include "GraphicSystem.hpp"
 
-
 /**
  * It clears the window, then it checks if the entity is valid, then it checks if the entity is a
  * player or an ennemy, then it sets the texture and the size of the entity
@@ -53,7 +52,7 @@ void ECS::Graphic::update()
         ECS::Size &size = dynamic_cast<ECS::Size&>(entity, ComponentType::SIZE);
         ECS::Texture &textures = dynamic_cast<ECS::Texture&>(entity, ComponentType::TEXTURE);
         sf::Texture texture;
-        texture.loadFromFile(textures->getTexture);
+        texture.loadFromFile(textures.getTexture());
         sf::Sprite sprite;
         sprite.setTexture(texture);
         sprite.setTextureRect(sf::IntRect(textures->getSizeTexture_x(), textures->getSizeTexture_y()));
