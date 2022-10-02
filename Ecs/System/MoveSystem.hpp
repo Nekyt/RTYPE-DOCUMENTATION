@@ -8,17 +8,16 @@
 #ifndef MOVESYSTEM_HPP_
 #define MOVESYSTEM_HPP_
 
-#include "../Include.hpp"
-
+#include "./System.hpp"
 namespace ECS
 {
-    class MoveSystem {
+    class MoveSystem : public System {
         public:
-            MoveSystem();
+            MoveSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager);
             ~MoveSystem() = default;
 
             void update();
-            bool checkIsValidEntity(const std::size_t id);
+            bool checkIsValidEntity(Entity entity);
 
         protected:
         private:

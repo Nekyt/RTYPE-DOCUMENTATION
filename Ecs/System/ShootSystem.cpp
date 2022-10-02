@@ -7,6 +7,6 @@
 
 #include "ShootSystem.hpp"
 
-ECS::ShootSystem::ShootSystem()
+ECS::ShootSystem::ShootSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager)
 {
 }

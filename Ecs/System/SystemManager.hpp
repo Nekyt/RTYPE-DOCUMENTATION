@@ -10,7 +10,7 @@
 
 #include "./Entity/EntityManager.hpp"
 #include "./Component/ComponentManager.hpp"
-#include "../Include.hpp"
+#include "../IncludeCpp.hpp"
 
 namespace ECS
 {

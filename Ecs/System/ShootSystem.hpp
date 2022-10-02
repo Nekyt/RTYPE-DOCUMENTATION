@@ -8,13 +8,13 @@
 #ifndef SHOOTSYSTEM_HPP_
 #define SHOOTSYSTEM_HPP_
 
-#include "../Include.hpp"
+#include "./System.hpp"
 
 namespace ECS
 {
-    class ShootSystem {
+    class ShootSystem : public System {
         public:
-            ShootSystem();
+            ShootSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager);
             ~ShootSystem() = default;
 
             void update();

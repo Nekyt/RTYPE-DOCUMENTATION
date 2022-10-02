@@ -10,7 +10,7 @@
 #include "id.hpp"
 #include "pattern.hpp"
 #include "position.hpp"
-#include "rotation.hpp"
+#include "rotate.hpp"
 #include "size.hpp"
 #include "sound.hpp"
 #include "speed.hpp"
