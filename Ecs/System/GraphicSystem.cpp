@@ -7,22 +7,23 @@
 
 #include "GraphicSystem.hpp"
 
+
 /**
- * It clears the window and then for each entity, it checks if it's a valid entity, and if it is, it
- * sets the texture and the size of the entity
+ * It clears the window, then it checks if the entity is valid, then it checks if the entity is a
+ * player or an ennemy, then it sets the texture and the size of the entity
  */
 void ECS::Graphic::preUpdate()
 {
-    window.clear();
+    window.clear(sf::Color::Black);
 
     const auto &entities = _entityManager->getEntities();
 
     for (const auto &entity : entities) {
         if (!checkIsValidEntity(entity))
             continue;
-        auto &rotation = _componentManager->getComponent(entity, ComponentType::ROTATION);
-        auto &size = _componentManager->getComponent(entity, ComponentType::SIZE);
-        auto &texture = _componentManager->getComponent(entity, ComponentType::TEXTURE);
+        ECS::Rotate &rotation = dynamic_cast<ECS::Rotate&>(getComponent(entity, ComponentType::ROTATION));
+        ECS::Size &size = dynamic_cast<ECS::Size&>(entity, ComponentType::SIZE);
+        ECS::Texture &texture = dynamic_cast<ECS::Texture&>(entity, ComponentType::TEXTURE);
 
         if (entity.getType() == EntityType::PLAYER)
             texture->setTexture("assets/entities/r-typesheet1-0.png");
@@ -38,8 +39,8 @@ void ECS::Graphic::preUpdate()
 }
 
 /**
- * It gets all the entities, checks if they have all the components needed to be drawn, and then draws
- * them
+ * It takes all the entities that have a position, rotation, size and texture component, and draws them
+ * to the screen
  */
 void ECS::Graphic::update()
 {
@@ -47,10 +48,10 @@ void ECS::Graphic::update()
     for (const auto &entity : entities) {
          if (!checkIsValidEntity(entity))
             continue;
-        auto &position = _componentManager->getComponent(entity, ComponentType::POSITION);
-        auto &rotation = _componentManager->getComponent(entity, ComponentType::ROTATION);
-        auto &size = _componentManager->getComponent(entity, ComponentType::SIZE);
-        auto &textures = _componentManager->getComponent(entity, ComponentType::TEXTURE);
+        ECS::Position &position = dynamic_cast<ECS::Position&>(entity, ComponentType::POSITION);
+        ECS::Rotate &rotation = dynamic_cast<ECS::Rotate&>(getComponent(entity, ComponentType::ROTATION));
+        ECS::Size &size = dynamic_cast<ECS::Size&>(entity, ComponentType::SIZE);
+        ECS::Texture &textures = dynamic_cast<ECS::Texture&>(entity, ComponentType::TEXTURE);
         sf::Texture texture;
         texture.loadFromFile(textures->getTexture);
         sf::Sprite sprite;
@@ -79,7 +80,7 @@ void Graphic::postupdate()
  */
 bool ECS::Graphic::checkIsValidEntity(Entity entity)
 {
-    auto &components = _componentManager->getComponentList(entity);
+    ECS::Component &component = dynamic_cast<ECS::Component&>(getComponentList());
 
     try
     {
