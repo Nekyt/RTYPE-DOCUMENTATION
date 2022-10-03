@@ -19,13 +19,12 @@ void ECS::TextSystem::preUpdate()
             continue;
         ECS::Text &text = dynamic_cast<ECS::Text&>(_componentManager->getComponent(entity, ComponentType::TEXT));
         text.setSizeText(24);
-        text.setText("text de test");
+        text.setSentence("text de test");
     }
 }
 
 /**
- * It gets all the entities, checks if they are valid, gets the position and text components, creates a
- * sf::Text object, sets the font, text, position, and color, and then draws it to the window
+ * It updates the text of the entities that have the Text component
  */
 void ECS::TextSystem::update()
 {
@@ -35,20 +34,20 @@ void ECS::TextSystem::update()
             continue;
         ECS::Position &position = dynamic_cast<ECS::Position&>(_componentManager->getComponent(entity, ComponentType::POSITION));
         ECS::Text &texts = dynamic_cast<ECS::Text&>(_componentManager->getComponent(entity, ComponentType::TEXT));
-        sf::Text text;
         sf::Font font;
-        font.loadFromFile("assets/font/origintech.ttf");
-        text.setFont(font);
-        text.setString(texts.getText());
-        text.setCharacterSize(texts.getSizeText());
-        text.setPosition(position.getPosition_x(), position.getPosition_y());
-        text.setFillColor(sf::Color::White);
+        sf::Text *text = texts.getText();
+        text->setFont(font);
+        text->setString(texts.getSentence());
+        text->setCharacterSize(texts.getSizeText());
+        text->setPosition(position.getPosition_x(), position.getPosition_y());
+        text->setFillColor(sf::Color::White);
+        _window->draw(*text);
     }
 }
 
 /**
  * This function sets the sfml pointer to the sfml pointer passed in as a parameter
- * 
+ *
  * @param sfml This is the InitSfml class that we created in the previous chapter.
  */
 void ECS::TextSystem::setSfml(std::shared_ptr<InitSfml> sfml)
