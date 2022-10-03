@@ -7,10 +7,6 @@
 
 #include "ComponentManager.hpp"
 
-ECS::ComponentManager::ComponentManager()
-{
-}
-
 /**
  * It adds a component to an entity
  * 

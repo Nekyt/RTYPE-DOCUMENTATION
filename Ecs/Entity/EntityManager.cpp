@@ -8,16 +8,18 @@
 #include "EntityManager.hpp"
 #include <algorithm>
 
-ECS::EntityManager::EntityManager()
-{
-}
-
-ECS::EntityManager::~EntityManager()
-{
-}
-
+/**
+ * Create a new entity and add it to the list of entities.
+ * 
+ * @param type The type of entity you want to create.
+ */
 ECS::Entity ECS::EntityManager::createEntity(ECS::EntityType type) {_entities.push_back(ECS::Entity(_entities.size(), type));} //Need modif to create auto IDs when we set them
 
+/**
+ * It removes the entity from the list of entities
+ * 
+ * @param e The entity to destroy.
+ */
 void ECS::EntityManager::destroyEntity(ECS::Entity e)
 {
     _entities.erase(std::find(_entities.begin(), _entities.end(), e));

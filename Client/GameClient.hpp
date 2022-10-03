@@ -10,6 +10,8 @@
 
 #include "../Graphics/InitSfml.hpp"
 #include "../Graphics/Events.hpp"
+#include "../Ecs/Manager.hpp"
+#include "../Ecs/IncludeSystem.hpp"
 
 enum GameState
 {
@@ -32,12 +34,17 @@ class GameClient {
 
         void selectMode();
 
+        void manageMenu();
+        void manageGame();
+
     protected:
     private:
         GameState _state;
+        Manager _manager;
 
         Events _events;
         std::shared_ptr<InitSfml> _graphical;
+        sf::Sprite _sprite;
 };
 
 #endif /* !GAMECLIENT_HPP_ */

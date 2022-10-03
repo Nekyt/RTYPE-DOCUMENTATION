@@ -7,6 +7,7 @@
 
 #include "Events.hpp"
 
+/* It's a map of the sfml keycodes to the Button enum. */
 const std::map<sf::Keyboard::Key, Button> Events::eventsButton = {
     std::make_pair(sf::Keyboard::Left, Button::Left),
     std::make_pair(sf::Keyboard::Right, Button::Right),
@@ -26,6 +27,14 @@ const std::map<sf::Keyboard::Key, Button> Events::eventsButton = {
     std::make_pair(sf::Keyboard::F7, Button::F7),
 };
 
+/**
+ * If the event type is a key press, and the key pressed is in the map, return the
+ * value of the key pressed in the map
+ * 
+ * @param event The event to check.
+ * 
+ * @return the Button type.
+ */
 Button Events::getEventType(const sf::Event &event) const
 {
     if (event.type == sf::Event::KeyPressed)
@@ -38,6 +47,14 @@ Button Events::getEventType(const sf::Event &event) const
     return Button::None;
 }
 
+/**
+ * If the event is a text entered event, and the unicode value is a valid ASCII
+ * character, return the character as a string
+ * 
+ * @param event The event to check.
+ * 
+ * @return A string of the character that was entered.
+ */
 std::string Events::getTextEntered(const sf::Event &event) const
 {
     if (event.type == sf::Event::TextEntered)

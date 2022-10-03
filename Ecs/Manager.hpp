@@ -15,8 +15,13 @@ class Manager {
         Manager();
         ~Manager() = default;
 
-        ECS::Entity createEntity();
+        ECS::Entity createEntity(ECS::EntityType type);
         void destroyEntity(ECS::Entity entity);
+
+        void addComponent(ECS::Entity e, ECS::ComponentType c);
+        ECS::IComp &getComponent(ECS::Entity e, ECS::ComponentType c);
+        std::map<ECS::ComponentType, ECS::IComp> &getComponentList(ECS::Entity entity);
+        std::vector<ECS::Entity> &getEntityList(ECS::ComponentType type);
 
         template<class System>
         System &addSystem();

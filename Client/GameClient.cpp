@@ -9,11 +9,13 @@
 
 GameClient::GameClient()
 {
+
     srand(time(NULL));
     _graphical = std::make_shared<InitSfml>();
-    _graphical->setSprite("bg-menu", "Assets/menu/bg-menu.jpeg");
-    _graphical->setSprite("logo", "Assets/menu/logo.png");
-    _state = Game;
+
+    _graphical->setTexture("bg-menu", "Assets/menu/bg-menu.jpeg");
+    _graphical->setTexture("logo", "./Assets/menu/logo.png");
+    _state = Menu;
     //load sprite start
     //load text and music
     loadComponents();
@@ -27,7 +29,10 @@ void GameClient::loadComponents()
 
 void GameClient::loadSystems()
 {
-    //load systems
+    _manager.addSystem<ECS::MoveSystem>();
+    _manager.addSystem<ECS::CollisionSystem>();
+    _manager.addSystem<ECS::TextSystem>();
+    _manager.addSystem<ECS::Graphic>();
 }
 
 void GameClient::gameLoop()
@@ -83,10 +88,30 @@ void GameClient::handleEventsTextEntered(const sf::Event &event)
 void GameClient::selectMode()
 {
     switch (_state) {
-        case GameState::Game:
-            //selectMode game
+        case GameState::Menu:
+                manageMenu();
             break;
         default:
             break;
     }
+}
+
+void GameClient::manageMenu()
+{
+    std::shared_ptr<sf::Texture> sfmlTexture;
+    std::shared_ptr<sf::Texture> sfmlTexture2;
+    sf::Sprite sprite;
+    sfmlTexture = _graphical->getTexture("logo");
+    _sprite.setTexture(*sfmlTexture);
+    _sprite.setPosition(sf::Vector2f(600, 100));
+    sfmlTexture2 = _graphical->getTexture("bg-menu");
+    sprite.setTexture(*sfmlTexture2);
+    sprite.setScale(sf::Vector2f(1.9, 1.9));
+    _graphical->getWindow()->draw(sprite);
+    _graphical->getWindow()->draw(_sprite);
+}
+
+void GameClient::manageGame()
+{
+
 }

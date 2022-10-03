@@ -14,7 +14,6 @@
 
 namespace ECS
 {
-    enum SystemTypes {MoveSystem, GraphicsSystem};
     class SystemManager {
         public:
             SystemManager(const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager);

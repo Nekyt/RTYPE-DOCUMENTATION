@@ -11,7 +11,7 @@
 #include <string>
 #include <memory>
 #include <map>
-#include "SFML/Graphics.hpp"
+#include <SFML/Graphics.hpp>
 
 class InitSfml {
     public:
@@ -20,9 +20,9 @@ class InitSfml {
         std::shared_ptr<sf::RenderWindow> getWindow();
         sf::Event &getEvent();
 
-        void setSprite(std::string idSprite, std::string namePath);
-        std::shared_ptr<sf::Sprite> getSprite(std::string idSprite);
-        std::map<std::string, std::shared_ptr<sf::Sprite>> getAllSprite();
+        void setTexture(std::string idTexture, std::string namePath);
+        std::shared_ptr<sf::Texture> getTexture(std::string idTexture);
+        std::map<std::string, std::shared_ptr<sf::Texture>> getAllTexture();
 
         void clear();
         void display();
@@ -31,7 +31,7 @@ class InitSfml {
     private:
         sf::Event _event;
         std::shared_ptr<sf::RenderWindow> _window;
-        std::map<std::string, std::shared_ptr<sf::Sprite>> _spriteList;
+        std::map<std::string, std::shared_ptr<sf::Texture>> _textureList;
 };
 
 #endif /* !INITSFML_HPP_ */

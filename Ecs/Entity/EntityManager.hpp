@@ -19,7 +19,7 @@ namespace ECS
 
     class EntityManager {
         public:
-            EntityManager();
+            EntityManager() = default;
             ~EntityManager() = default;
 
             Entity createEntity(EntityType t);
