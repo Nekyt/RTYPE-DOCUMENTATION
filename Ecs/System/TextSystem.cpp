@@ -18,8 +18,8 @@ void ECS::TextSystem::preUpdate()
         if (!checkIsValidEntity(entity))
             continue;
         ECS::Text &text = dynamic_cast<ECS::Text&>(_componentManager->getComponent(entity, ComponentType::TEXT));
-
-        text->setText("text de test");
+        text.setSizeText(24);
+        text.setText("text de test");
     }
 }
 
@@ -39,11 +39,22 @@ void ECS::TextSystem::update()
         sf::Font font;
         font.loadFromFile("assets/font/origintech.ttf");
         text.setFont(font);
-        text.setString(texts->getText());
-        text.setCharacterSize(24);
+        text.setString(texts.getText());
+        text.setCharacterSize(texts.getSizeText());
         text.setPosition(position.getPosition_x(), position.getPosition_y());
         text.setFillColor(sf::Color::White);
     }
+}
+
+/**
+ * This function sets the sfml pointer to the sfml pointer passed in as a parameter
+ * 
+ * @param sfml This is the InitSfml class that we created in the previous chapter.
+ */
+void ECS::TextSystem::setSfml(std::shared_ptr<InitSfml> sfml)
+{
+    _sfml = sfml;
+    _window = sfml->getWindow();
 }
 
 /**

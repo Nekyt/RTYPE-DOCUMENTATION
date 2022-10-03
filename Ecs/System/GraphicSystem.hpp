@@ -9,8 +9,7 @@
 #define GRAPHICSYSTEM_HPP_
 
 #include "./System.hpp"
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
+#include "../../Graphics/InitSfml.hpp"
 
 namespace ECS
 {
@@ -22,11 +21,13 @@ namespace ECS
             void preUpdate();
             void update();
             void postUpdate();
+            void setSfml(std::shared_ptr<InitSfml> sfml);
             bool checkIsValidEntity(Entity entity);
 
         protected:
         private:
-            sf::RenderWindow window;
+            std::shared_ptr<InitSfml> _sfml;
+            std::shared_ptr<sf::RenderWindow> _window;
     };
 }
 
