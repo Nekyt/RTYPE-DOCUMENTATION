@@ -30,12 +30,14 @@ void ECS::MoveSystem::update()
     for (const auto &entity : entities) {
         if (!checkIsValidEntity(entity))
             continue;
-        auto &position = _componentManager->getComponent(entity, ComponentType::POSITION);
-        auto &speed = _componentManager->getComponent(entity, ComponentType::SPEED);
-        auto &acceleration = _componentManager->getComponent(entity, ComponentType::ACCELERATION);
+        ECS::Position &position = dynamic_cast<ECS::Position&>(_componentManager->getComponent(entity, ComponentType::POSITION));
+        auto &speed = dynamic_cast<ECS::Speed&>(_componentManager->getComponent(entity, ComponentType::SPEED));
+        auto &acceleration =dynamic_cast<ECS::Acceleration&>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
 
-        //position->setPosition_x(getPosition_x() += acceleration->getAcceleration_x() * speed->getSpeed());
-        //position->setPosition_x(getPosition_y() += acceleration->getAcceleration_y() * speed->getSpeed());
+        auto posX = position.getPosition_x();
+        auto posY = position.getPosition_x();
+        position.setPosition_x(posX += acceleration.getAcceleration_x() * speed.getSpeed());
+        position.setPosition_x(posY += acceleration.getAcceleration_y() * speed.getSpeed());
     }
 }
 
@@ -49,15 +51,13 @@ void ECS::MoveSystem::update()
  */
 bool ECS::MoveSystem::checkIsValidEntity(Entity entity)
 {
-    auto &position = _componentManager->getComponentList(entity);
-    auto &speed = _componentManager->getComponentList(entity);
-    auto &acceleration = _componentManager->getComponentList(entity);
+    auto &components = _componentManager->getComponentList(entity);
 
     try
     {
-        position.at(ComponentType::POSITION);
-        position.at(ComponentType::SPEED);
-        position.at(ComponentType::ACCELERATION);
+        components.at(ComponentType::POSITION);
+        components.at(ComponentType::SPEED);
+        components.at(ComponentType::ACCELERATION);
         return true;
     }
     catch(const std::exception& e)
