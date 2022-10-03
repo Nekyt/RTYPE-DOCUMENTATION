@@ -8,11 +8,11 @@
 #include "GraphicSystem.hpp"
 
 /**
- * It checks if the entity is valid, then it sets the texture, the size and the rotation of the entity
+ * It clears the window, then for each entity, if it's a valid entity, it sets the texture and rotation
  */
 void ECS::Graphic::preUpdate()
 {
-    window.clear(sf::Color::Black);
+    _window->clear(sf::Color::Black);
 
     const auto &entities = _entityManager->getEntities();
 
@@ -20,44 +20,46 @@ void ECS::Graphic::preUpdate()
         if (!checkIsValidEntity(entity))
             continue;
         ECS::Rotate &rotation = dynamic_cast<ECS::Rotate&>(_componentManager->getComponent(entity, ComponentType::ROTATION));
-        ECS::Size &size = dynamic_cast<ECS::Size&>(_componentManager->getComponent(entity, ComponentType::SIZE));
         ECS::Texture &texture = dynamic_cast<ECS::Texture&>(_componentManager->getComponent(entity, ComponentType::TEXTURE));
 
         if (entity.getType() == EntityType::PLAYER)
-            texture.setTexture("assets/entities/r-typesheet1-0.png");
-            texture.setSizeTexture_x(10);
-            texture.setSizeTexture_Y(10);
+            // texture.setTexture();
+            texture.setRectSize_x(10);
+            texture.setRectSize_y(10);
+            texture.setRectPos_x(0);
+            texture.setRectPos_y(0);
         if (entity.getType() == EntityType::ENEMY)
-            texture.setTexture("assets/entities/r-typesheet1-40.png");
-            texture.setSizeTexture_x(10);
-            texture.setSizeTexture_y(10);
+            // texture.setTexture();
+            texture.setRectSize_x(10);
+            texture.setRectSize_y(10);
+            texture.setRectPos_x(0);
+            texture.setRectPos_y(0);
         rotation.setRotate(0);
-        size.setSize(10);
     }
 }
 
 /**
- * It takes all the entities that have a position, rotation, size and texture component, and draws them
- * to the screen
+ * It takes all the entities that have a graphic component, and draws them on the screen
  */
 void ECS::Graphic::update()
 {
     const auto &entities = _entityManager->getEntities();
     for (const auto &entity : entities) {
-         if (!checkIsValidEntity(entity))
+        if (!checkIsValidEntity(entity))
             continue;
         ECS::Position &position = dynamic_cast<ECS::Position&>(_componentManager->getComponent(entity, ComponentType::POSITION));
         ECS::Rotate &rotation = dynamic_cast<ECS::Rotate&>(_componentManager->getComponent(entity, ComponentType::ROTATION));
-        ECS::Size &size = dynamic_cast<ECS::Size&>(_componentManager->getComponent(entity, ComponentType::SIZE));
         ECS::Texture &textures = dynamic_cast<ECS::Texture&>(_componentManager->getComponent(entity, ComponentType::TEXTURE));
-        sf::Texture texture;
-        texture.loadFromFile(textures.getTexture());
-        sf::Sprite sprite;
-        sprite.setTexture(texture);
-        sprite.setTextureRect(sf::IntRect(textures.getSizeTexture_x(), textures.getSizeTexture_y()));
-        sprite.setPosition(position.getPosition_x(), position.getPosition_y());
-        sprite.setRotation(rotation.getRotate());
-        window.draw(sprite);
+        sf::Sprite *sprite = textures.getSprite();
+
+        sf::Vector2i posRect(textures.getRectPos_x(), textures.getRectPos_y());
+        sf::Vector2i sizeRect(textures.getRectSize_x(), textures.getRectSize_y());
+        sf::IntRect r2(posRect, sizeRect);
+        // sprite.setTexture(texture);
+        sprite->setTextureRect(r2);
+        sprite->setPosition(position.getPosition_x(), position.getPosition_y());
+        sprite->setRotation(rotation.getRotate());
+        _window->draw(*sprite);
     }
 }
 
@@ -66,11 +68,22 @@ void ECS::Graphic::update()
  */
 void ECS::Graphic::postUpdate()
 {
-    window.display();
+    _window->display();
 }
 
 /**
- * If the entity has all the components required to be drawn, return true
+ * It sets the sfml pointer to the one passed in
+ *
+ * @param sfml The InitSfml class that is used to initialize the SFML library.
+ */
+void ECS::Graphic::setSfml(std::shared_ptr<InitSfml> sfml)
+{
+    _sfml = sfml;
+    _window = sfml->getWindow();
+}
+
+/**
+ * If the entity has a position, rotation, and texture component, then it's a valid entity
  *
  * @param entity The entity to check
  *
@@ -84,7 +97,6 @@ bool ECS::Graphic::checkIsValidEntity(Entity entity)
     {
         components.at(ComponentType::POSITION);
         components.at(ComponentType::ROTATION);
-        components.at(ComponentType::SIZE);
         components.at(ComponentType::TEXTURE);
         return true;
     }

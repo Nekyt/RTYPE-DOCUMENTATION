@@ -3,6 +3,8 @@
 
 #include "IComp.hpp"
 #include <string>
+#include <Text.hpp>
+#include "../../Graphics/InitSfml.hpp"
 
 namespace ECS {
 
@@ -16,11 +18,16 @@ namespace ECS {
             Text &operator=(const Text&) const noexcept = delete;
             Text &operator=(Text&&) const noexcept = delete;
 
-            void setText(const std::string &text) noexcept;
-            [[nodiscard]]std::string getText() const noexcept;
+            void setSentence(const std::string &text) noexcept;
+            [[nodiscard]]std::string getSentence() const noexcept;
+            void setSizeText(int) noexcept;
+            [[nodiscard]]int getSizeText() const noexcept;
+            [[nodiscard]]sf::Text *getText() const noexcept;
 
         private:
-            std::string _text;
+            std::string _sentence;
+            int _size;
+            sf::Text _text;
     };
 
 };

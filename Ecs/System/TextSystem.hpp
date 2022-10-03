@@ -12,19 +12,22 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <Text.hpp>
+#include "../../Graphics/InitSfml.hpp"
 
 namespace ECS
 {
-    class TextSystem {
+    class TextSystem : public System {
         public:
             TextSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager);
             ~TextSystem() = default;
             void preUpdate();
             void update();
             bool checkIsValidEntity(Entity entity);
+            void setSfml(std::shared_ptr<InitSfml> sfml);
         protected:
         private:
-            sf::RenderWindow window;
+            std::shared_ptr<InitSfml> _sfml;
+            std::shared_ptr<sf::RenderWindow> _window;
     };
 }
 
