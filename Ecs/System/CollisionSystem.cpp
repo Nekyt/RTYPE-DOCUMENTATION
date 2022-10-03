@@ -43,7 +43,7 @@ void ECS::CollisionSystem::update()
             auto &position2 = dynamic_cast<ECS::Position&>(_componentManager->getComponent(entity2, ComponentType::POSITION));
             auto &hitbox2 = dynamic_cast<ECS::Hitbox&>(_componentManager->getComponent(entity2, ComponentType::HITBOX));
             auto &health2 = dynamic_cast<ECS::Health&>(_componentManager->getComponent(entity2, ComponentType::HEALTH));
-            if (hitbox.isColliding(position, hitbox2, position2) ==  true) {
+            if (hitbox.isColliding(position, hitbox2, position2) == true) {
                 if ((entity.getType() == EntityType::PLAYER) && (entity2.getType() == EntityType::ENEMY))
                     health.removeHealth(25);
                 if ((entity.getType() == EntityType::PLAYER) && (entity2.getType() == EntityType::PROJECTILES) ||
