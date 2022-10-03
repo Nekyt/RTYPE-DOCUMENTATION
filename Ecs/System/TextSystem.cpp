@@ -17,15 +17,15 @@ void ECS::TextSystem::preUpdate()
     for (const auto &entity : entities) {
         if (!checkIsValidEntity(entity))
             continue;
-        auto &text = _componentManager->getComponent(entity, ComponentType::TEXT);
+        ECS::Text &text = dynamic_cast<ECS::Text&>(_componentManager->getComponent(entity, ComponentType::TEXT));
 
         text->setText("text de test");
     }
 }
 
 /**
- * For each entity, if the entity has a position and text component, then create a text object and set
- * its font, string, character size, and color
+ * It gets all the entities, checks if they are valid, gets the position and text components, creates a
+ * sf::Text object, sets the font, text, position, and color, and then draws it to the window
  */
 void ECS::TextSystem::update()
 {
@@ -33,14 +33,15 @@ void ECS::TextSystem::update()
     for (const auto &entity : entities) {
          if (!checkIsValidEntity(entity))
             continue;
-        ECS::Position &position = dynamic_cast<ECS::Position&>(entity, ComponentType::POSITION);
-        auto &texts = _componentManager->getComponent(entity, ComponentType::TEXT);
+        ECS::Position &position = dynamic_cast<ECS::Position&>(_componentManager->getComponent(entity, ComponentType::POSITION));
+        ECS::Text &texts = dynamic_cast<ECS::Text&>(_componentManager->getComponent(entity, ComponentType::TEXT));
         sf::Text text;
         sf::Font font;
         font.loadFromFile("assets/font/origintech.ttf");
         text.setFont(font);
         text.setString(texts->getText());
         text.setCharacterSize(24);
+        text.setPosition(position.getPosition_x(), position.getPosition_y());
         text.setFillColor(sf::Color::White);
     }
 }
