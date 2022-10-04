@@ -8,7 +8,8 @@
 #include "GraphicSystem.hpp"
 
 /**
- * It clears the window, then for each entity, if it's a valid entity, it sets the texture and rotation
+ * It gets all the entities, checks if they are valid, and then sets the texture and rotation of the
+ * entity
  */
 void ECS::Graphic::preUpdate()
 {
@@ -21,19 +22,25 @@ void ECS::Graphic::preUpdate()
             continue;
         ECS::Rotate &rotation = dynamic_cast<ECS::Rotate&>(_componentManager->getComponent(entity, ComponentType::ROTATION));
         ECS::Texture &texture = dynamic_cast<ECS::Texture&>(_componentManager->getComponent(entity, ComponentType::TEXTURE));
+        std::shared_ptr<sf::Texture> sfmlTexture;
+        sf::Sprite *sprite = texture.getSprite();
 
-        if (entity.getType() == EntityType::PLAYER)
-            // texture.setTexture();
+        if (entity.getType() == EntityType::PLAYER) {
+            sfmlTexture = _sfml->getTexture("logo");
+            sprite->setTexture(sfmlTexture);
             texture.setRectSize_x(10);
             texture.setRectSize_y(10);
             texture.setRectPos_x(0);
             texture.setRectPos_y(0);
-        if (entity.getType() == EntityType::ENEMY)
-            // texture.setTexture();
+        }
+        if (entity.getType() == EntityType::ENEMY) {
+            sfmlTexture = _sfml->getTexture("bg-menu");
+            sprite->setTexture(sfmlTexture);
             texture.setRectSize_x(10);
             texture.setRectSize_y(10);
             texture.setRectPos_x(0);
             texture.setRectPos_y(0);
+        }
         rotation.setRotate(0);
     }
 }
@@ -55,7 +62,6 @@ void ECS::Graphic::update()
         sf::Vector2i posRect(textures.getRectPos_x(), textures.getRectPos_y());
         sf::Vector2i sizeRect(textures.getRectSize_x(), textures.getRectSize_y());
         sf::IntRect r2(posRect, sizeRect);
-        // sprite.setTexture(texture);
         sprite->setTextureRect(r2);
         sprite->setPosition(position.getPosition_x(), position.getPosition_y());
         sprite->setRotation(rotation.getRotate());

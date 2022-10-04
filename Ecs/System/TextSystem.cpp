@@ -24,7 +24,7 @@ void ECS::TextSystem::preUpdate()
 }
 
 /**
- * It updates the text of the entities that have the Text component
+ * It draws the text on the screen
  */
 void ECS::TextSystem::update()
 {
