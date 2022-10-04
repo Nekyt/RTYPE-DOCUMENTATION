@@ -1,4 +1,4 @@
-#include "../include/position.hpp"
+#include "../include/Position.hpp"
 
 ECS::Position::Position(unsigned short x, unsigned short y) noexcept : _x(x), _y(y) {}
 ECS::Position::Position(const Position &pos) noexcept : _x(pos.getPosition_x()), _y(pos.getPosition_y()) {}

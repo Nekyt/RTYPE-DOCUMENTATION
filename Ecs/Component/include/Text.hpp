@@ -10,7 +10,7 @@ namespace ECS {
 
     class Text : public IComp {
         public:
-            explicit Text(std::string) noexcept;
+            explicit Text(std::string&, int, sf::Font&) noexcept;
             Text(const Text& text) noexcept;
             explicit Text(Text&&) noexcept = delete;
             ~Text() noexcept override = default;
@@ -21,10 +21,12 @@ namespace ECS {
             void setSentence(const std::string &text) noexcept;
             [[nodiscard]]std::string getSentence() const noexcept;
             void setSizeText(int) noexcept;
-            [[nodiscard]]int getSizeText() const noexcept;
-            [[nodiscard]]sf::Text *getText() const noexcept;
+            [[nodiscard]]int getTextSize() const noexcept;
+            [[nodiscard]]sf::Text &getText() noexcept;
+            [[nodiscard]]sf::Font getFont() const noexcept;
 
         private:
+            sf::Font _font;
             std::string _sentence;
             int _size;
             sf::Text _text;

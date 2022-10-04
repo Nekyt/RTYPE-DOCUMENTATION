@@ -8,23 +8,6 @@
 #ifndef INCLUDECOMPONENTS_HPP_
 #define INCLUDECOMPONENTS_HPP_
 
-#include "acceleration.hpp"
-#include "bonus.hpp"
-#include "controlable.hpp"
-#include "damage.hpp"
-#include "health.hpp"
-#include "hitbox.hpp"
-#include "id.hpp"
-#include "pattern.hpp"
-#include "position.hpp"
-#include "rotate.hpp"
-#include "size.hpp"
-#include "sound.hpp"
-#include "speed.hpp"
-#include "text.hpp"
-#include "texture.hpp"
-#include "weapon.hpp"
-
 #include "./Component/include/Acceleration.hpp"
 // #include "./Component/include/Color.hpp"
 // #include "./Component/include/ComponentException.hpp"
@@ -51,7 +34,7 @@
 #include "./Component/include/Text.hpp"
 // #include "./Component/include/SfmlSound.hpp"
 // #include "./Component/include/Tag.hpp"
-#include "./Component/include/Texture.hpp"
+#include "./Component/include/Sprite.hpp"
 #include "./Component/include/Weapon.hpp"
 // #include "./Component/include/Transform/Scale.hpp"
 // #include "./Component/include/AI.hpp"

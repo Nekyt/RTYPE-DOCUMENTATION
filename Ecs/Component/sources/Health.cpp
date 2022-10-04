@@ -1,4 +1,4 @@
-#include "../include/health.hpp"
+#include "../include/Health.hpp"
 
 ECS::Health::Health(int life) noexcept : _maxHealth(life), _health(life) {}
 ECS::Health::Health(const Health &health) noexcept : _maxHealth(health.getHealth()), _health(health.getHealth()) {}

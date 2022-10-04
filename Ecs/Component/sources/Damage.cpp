@@ -1,4 +1,4 @@
-#include "../include/damage.hpp"
+#include "../include/Damage.hpp"
 
 ECS::Damage::Damage(int damage) noexcept : _damage(damage) {}
 ECS::Damage::Damage(const Damage& damage) noexcept : _damage(damage.getDamage()){}

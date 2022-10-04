@@ -1,4 +1,4 @@
-#include "../include/speed.hpp"
+#include "../include/Speed.hpp"
 
 ECS::Speed::Speed(int speed) noexcept : _maxSpeed(speed), _speed(0) {}
 ECS::Speed::Speed(const Speed &speed) noexcept : _maxSpeed(speed.getMaxSpeed()), _speed(speed.getSpeed()) {}

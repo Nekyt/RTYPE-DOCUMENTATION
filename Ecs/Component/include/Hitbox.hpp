@@ -2,7 +2,7 @@
 #define _HITBOX
 
 #include "IComp.hpp"
-#include "position.hpp"
+#include "Position.hpp"
 
 namespace ECS {
 

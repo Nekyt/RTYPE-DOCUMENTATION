@@ -1,4 +1,4 @@
-#include "../include/size.hpp"
+#include "../include/Size.hpp"
 
 ECS::Size::Size(unsigned short x, unsigned short y) noexcept : _x(x), _y(y) {}
 ECS::Size::Size(const Size &size) noexcept : _x(size.getSize_x()), _y(size.getSize_y()) {}

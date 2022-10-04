@@ -1,4 +1,4 @@
-#include "../include/controlable.hpp"
+#include "../include/Controlable.hpp"
 
 ECS::Controlable::Controlable(bool cont) noexcept : _controlable(cont) {}
 ECS::Controlable::Controlable(const Controlable& cont) noexcept : _controlable(cont.getControlable()){}
