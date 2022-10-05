@@ -3,8 +3,8 @@
 
 #include "IComp.hpp"
 #include <string>
-#include <Text.hpp>
-#include "../../Graphics/InitSfml.hpp"
+// #include <Text.hpp>
+#include "../../../Graphics/InitSfml.hpp"
 
 namespace ECS {
 

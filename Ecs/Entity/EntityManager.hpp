@@ -8,15 +8,13 @@
 #ifndef ENTITYMANAGER_HPP_
 #define ENTITYMANAGER_HPP_
 
-#include "Entity.hpp"
 #include <set>
 #include <map>
 #include <vector>
+#include "Entity.hpp"
 
 namespace ECS
 {
-    enum EntityType {PLAYER, ENEMY, PROJECTILES, OBSTACLES, GRAPHICS};
-
     class EntityManager {
         public:
             EntityManager() = default;
@@ -25,7 +23,7 @@ namespace ECS
             Entity createEntity(EntityType t);
             void destroyEntity(Entity e);
 
-            std::vector<Entity> &getEntities() const;
+            std::vector<Entity> &getEntities();
 
         private:
             std::vector<Entity> _entities;

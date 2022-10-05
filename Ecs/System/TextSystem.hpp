@@ -11,7 +11,7 @@
 #include "./System.hpp"
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
-#include <Text.hpp>
+// #include <Text.hpp>
 #include "../../Graphics/InitSfml.hpp"
 
 namespace ECS

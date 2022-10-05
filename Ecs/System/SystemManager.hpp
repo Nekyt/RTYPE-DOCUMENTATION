@@ -8,12 +8,14 @@
 #ifndef SYSTEMMANAGER_HPP_
 #define SYSTEMMANAGER_HPP_
 
-#include "./Entity/EntityManager.hpp"
-#include "./Component/ComponentManager.hpp"
+#include "../Entity/EntityManager.hpp"
+#include "../Component/ComponentManager.hpp"
 #include "../IncludeCpp.hpp"
 
 namespace ECS
 {
+    enum SystemTypes {MOVESYSTEM, GRAPHICSYSTEM};
+
     class SystemManager {
         public:
             SystemManager(const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager);

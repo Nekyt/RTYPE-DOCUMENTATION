@@ -1,6 +1,5 @@
 #include "../include/Sprite.hpp"
 
-
 ECS::Sprite::Sprite(const sf::Texture &text, int sizeX, int sizeY, int posX, int posY) noexcept : _sizeX(sizeX), _sizeY(sizeY), _posX(posX), _posY(posY)
 {
     _sprite->setTexture(text);

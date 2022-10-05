@@ -10,12 +10,13 @@
 
 #include <iostream>
 #include <utility>
-#include "EntityManager.hpp"
 
 #define MAX_ENTITY 2000
 
 namespace ECS
 {
+    enum EntityType {PLAYER, ENEMY, PROJECTILES, OBSTACLES, GRAPHICS};
+
     class Entity {
         public:
             Entity(std::size_t id, EntityType type);
