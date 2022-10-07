@@ -81,11 +81,21 @@ std::map<std::string, std::shared_ptr<sf::Texture>> InitSfml::getAllTexture()
     return _textureList;
 }
 
+/**
+ * It loads a font from a file
+ * 
+ * @param namePath The path to the font file.
+ */
 void InitSfml::setFont(std::string namePath)
 {
     _font.loadFromFile(namePath);
 }
 
+/**
+ * It returns the font
+ * 
+ * @return A copy of the font.
+ */
 sf::Font InitSfml::getFont() const
 {
     return _font;

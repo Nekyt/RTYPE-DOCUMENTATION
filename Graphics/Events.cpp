@@ -27,6 +27,7 @@ const std::map<sf::Keyboard::Key, Button> Events::eventsButton = {
     std::make_pair(sf::Keyboard::F7, Button::F7),
 };
 
+/* It's a map of the sfml mouse button codes to the Mouse enum. */
 const std::map<sf::Mouse::Button, Mouse> Events::eventsMouse = {
     std::make_pair(sf::Mouse::Left, Mouse::Left),
     std::make_pair(sf::Mouse::Right, Mouse::Right),
@@ -72,6 +73,14 @@ std::string Events::getTextEntered(const sf::Event &event) const
     return "";
 }
 
+/**
+ * If the event type is a mouse button release, and the mouse button is in the map,
+ * return the mapped value, otherwise return None
+ * 
+ * @param event The event to check.
+ * 
+ * @return The event type of the mouse.
+ */
 Mouse Events::getEventTypeMouse(const sf::Event &event) const
 {
     if (event.type == sf::Event::MouseButtonReleased)

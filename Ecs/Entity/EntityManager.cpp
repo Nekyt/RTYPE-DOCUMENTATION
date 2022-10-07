@@ -35,6 +35,11 @@ void ECS::EntityManager::destroyEntity(ECS::Entity e)
         _centities[i].erase(std::find(_centities[i].begin(), _centities[i].end(), e));*///Problème à résoudre (aucune idée de pourquoi _centities[i] n'est pas possible, la raison la plus présente sur internet c'est concernant des const donc pas compris)
 }
 
+/**
+ * Returns a reference to the vector of entities.
+ * 
+ * @return A reference to the vector of entities.
+ */
 std::vector<ECS::Entity> &ECS::EntityManager::getEntities()
 {
     return _entities;

@@ -21,7 +21,7 @@ void ECS::Graphic::preUpdate()
         if (!checkIsValidEntity(entity))
             continue;
         ECS::Rotate &rotation = dynamic_cast<ECS::Rotate&>(_componentManager->getComponent(entity, ComponentType::ROTATION));
-        ECS::Texture &texture = dynamic_cast<ECS::Texture&>(_componentManager->getComponent(entity, ComponentType::TEXTURE));
+        ECS::Texture &texture = dynamic_cast<ECS::Texture&>(_componentManager->getComponent(entity, ComponentType::SPRITE));
         std::shared_ptr<sf::Texture> sfmlTexture;
         sf::Sprite *sprite = texture.getSprite();
 

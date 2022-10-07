@@ -40,6 +40,11 @@ void Manager::destroyEntity(ECS::Entity entity)
     _entityManager->destroyEntity(entity);
 }
 
+/**
+ * It returns a reference to the vector of entities
+ * 
+ * @return A vector of entities.
+ */
 std::vector<ECS::Entity> &Manager::getEntities()
 {
     return _entityManager->getEntities();
