@@ -94,9 +94,9 @@ ECS::IComp ECS::ComponentManager::createComponent(ECS::ComponentType c)
     else if (c == ECS::ComponentType::IDE)
         return ECS::ID(0);
     else if (c == ECS::ComponentType::TEXT)
-        return ECS::Text(std::string(""));
-    else if (c == ECS::ComponentType::TEXTURE)
-        return ECS::Texture();
+        return ECS::Text();
+    else if (c == ECS::ComponentType::SPRITE)
+        return ECS::Sprite();
     else if (c == ECS::ComponentType::WEAPON)
         return ECS::Weapon();
 }

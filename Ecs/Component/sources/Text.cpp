@@ -1,11 +1,11 @@
-#include "../include/Text.hpp"
+/*
+** EPITECH PROJECT, 2022
+** r-type
+** File description:
+** Text
+*/
 
-ECS::Text::Text(std::string &text, int size, sf::Font &font) noexcept : _sentence(text), _size(size), _font(font)
-{
-    _text.setFont(_font);
-    _text.setCharacterSize(_size);
-    _text.setString(_sentence);
-}
+#include "../include/Text.hpp"
 
 ECS::Text::Text(const Text& text) noexcept : _sentence(text.getSentence()), _size(text.getTextSize()), _font(text.getFont())
 {
@@ -18,6 +18,12 @@ sf::Text &ECS::Text::getText() noexcept {return _text;}
 sf::Font ECS::Text::getFont() const noexcept {return _font;}
 std::string ECS::Text::getSentence() const noexcept {return _sentence;}
 int ECS::Text::getTextSize() const noexcept {return _size;}
+
+void ECS::Text::setFont(sf::Font &font) noexcept
+{
+    _font = font;
+    _text.setFont(_font);
+}
 
 void ECS::Text::setSizeText(int size) noexcept
 {

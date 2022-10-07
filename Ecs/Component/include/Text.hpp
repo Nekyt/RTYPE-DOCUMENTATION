@@ -1,3 +1,10 @@
+/*
+** EPITECH PROJECT, 2022
+** r-type
+** File description:
+** Text
+*/
+
 #ifndef _TEXT
 #define _TEXT
 
@@ -10,7 +17,7 @@ namespace ECS {
 
     class Text : public IComp {
         public:
-            explicit Text(std::string&, int, sf::Font&) noexcept;
+            explicit Text() noexcept;
             Text(const Text& text) noexcept;
             explicit Text(Text&&) noexcept = delete;
             ~Text() noexcept override = default;
@@ -21,6 +28,7 @@ namespace ECS {
             void setSentence(const std::string &text) noexcept;
             [[nodiscard]]std::string getSentence() const noexcept;
             void setSizeText(int) noexcept;
+            void setFont(sf::Font &font) noexcept;
             [[nodiscard]]int getTextSize() const noexcept;
             [[nodiscard]]sf::Text &getText() noexcept;
             [[nodiscard]]sf::Font getFont() const noexcept;
