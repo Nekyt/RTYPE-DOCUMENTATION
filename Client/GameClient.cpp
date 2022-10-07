@@ -12,19 +12,19 @@ GameClient::GameClient()
 
     srand(time(NULL));
     _graphical = std::make_shared<InitSfml>();
-
-    _graphical->setTexture("bg-menu", "Assets/menu/bg-menu.jpeg");
-    _graphical->setTexture("logo", "./Assets/menu/logo.png");
     _state = Menu;
-    //load sprite start
-    //load text and music
-    loadComponents();
+    setSfml();
     loadSystems();
 }
 
-void GameClient::loadComponents()
+void GameClient::setSfml()
 {
-    //load component
+    _graphical->setTexture("bg-menu", "Assets/menu/bg-menu.jpeg");
+    _graphical->setTexture("logo", "Assets/menu/logo.png");
+    _graphical->setTexture("bg-game-2", "Assets/game/bg-game-2.jpeg");
+    _graphical->setTexture("heart", "Assets/game/heart.png");
+    _graphical->setFont("Assets/font/origintech.ttf");
+    // _graphical->setMusic("menu", "space_oddity-menu.ogg");
 }
 
 void GameClient::loadSystems()
@@ -55,10 +55,23 @@ void GameClient::handleEvents(const sf::Event &event)
 
     if (event.type == sf::Event::Closed)
         _graphical->getWindow()->close();
+    else if (event.type == sf::Event::MouseButtonPressed && eventKey != Button::None)
+        handleEventsMouse();
     else if (event.type == sf::Event::KeyPressed && eventKey != Button::None)
         handleEventsKey(eventKey);
     else if (event.type == sf::Event::TextEntered && eventKey == Button::None)
         handleEventsTextEntered(event);
+}
+
+void GameClient::handleEventsMouse()
+{
+    switch (_state) {
+        case GameState::Game:
+            //handle game
+            break;
+        default:
+            break;
+    }
 }
 
 void GameClient::handleEventsKey(Button eventKey)
@@ -98,17 +111,26 @@ void GameClient::selectMode()
 
 void GameClient::manageMenu()
 {
-    std::shared_ptr<sf::Texture> sfmlTexture;
+    ECS::Entity entity = _manager.createEntity(ECS::EntityType::GRAPHICS);
+    _manager.addComponent(entity, ECS::ComponentType::SPRITE);
+    ECS::Sprite &sprite = dynamic_cast<ECS::Sprite&>(_manager.getComponent(entity, ECS::ComponentType::SPRITE));
+    sprite.setTexture(*_graphical->getTexture("logo"));
+    sprite.setRectPosX(600);
+    sprite.setRectPosY(100);
+    sprite.setRectSizeX(1);
+    sprite.setRectSizeY(1);
+
+    // std::shared_ptr<sf::Texture> sfmlTexture;
     std::shared_ptr<sf::Texture> sfmlTexture2;
-    sf::Sprite sprite;
-    sfmlTexture = _graphical->getTexture("logo");
-    _sprite.setTexture(*sfmlTexture);
-    _sprite.setPosition(sf::Vector2f(600, 100));
+    sf::Sprite sprites;
+    // sfmlTexture = _graphical->getTexture("logo");
+    // _sprite.setTexture(*sfmlTexture);
+    // _sprite.setPosition(sf::Vector2f(600, 100));
     sfmlTexture2 = _graphical->getTexture("bg-menu");
-    sprite.setTexture(*sfmlTexture2);
-    sprite.setScale(sf::Vector2f(1.9, 1.9));
-    _graphical->getWindow()->draw(sprite);
-    _graphical->getWindow()->draw(_sprite);
+    sprites.setTexture(*sfmlTexture2);
+    sprites.setScale(sf::Vector2f(1.9, 1.9));
+    _graphical->getWindow()->draw(sprites);
+    //_graphical->getWindow()->draw(_sprite);
 }
 
 void GameClient::manageGame()

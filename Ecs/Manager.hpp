@@ -17,6 +17,7 @@ class Manager {
 
         ECS::Entity createEntity(ECS::EntityType type);
         void destroyEntity(ECS::Entity entity);
+        std::vector<ECS::Entity> &getEntities();
 
         void addComponent(ECS::Entity e, ECS::ComponentType c);
         ECS::IComp &getComponent(ECS::Entity e, ECS::ComponentType c);

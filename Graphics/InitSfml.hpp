@@ -12,6 +12,7 @@
 #include <memory>
 #include <map>
 #include <SFML/Graphics.hpp>
+// #include <SFML/Audio.hpp>
 
 class InitSfml {
     public:
@@ -21,8 +22,15 @@ class InitSfml {
         sf::Event &getEvent();
 
         void setTexture(std::string idTexture, std::string namePath);
-        std::shared_ptr<sf::Texture> getTexture(std::string idTexture);
+        std::shared_ptr<sf::Texture> getTexture(std::string idTexture) const;
         std::map<std::string, std::shared_ptr<sf::Texture>> getAllTexture();
+
+        void setFont(std::string namePath);
+        sf::Font getFont() const;
+
+        // void setMusic(std::string idMusic, std::string namePath);
+        // std::shared_ptr<sf::Music> getMusic(std::string idMusic) const;
+        // std::map<std::string, std::shared_ptr<sf::Music>> getAllMusic();
 
         void clear();
         void display();
@@ -32,6 +40,8 @@ class InitSfml {
         sf::Event _event;
         std::shared_ptr<sf::RenderWindow> _window;
         std::map<std::string, std::shared_ptr<sf::Texture>> _textureList;
+        sf::Font _font;
+        // std::map<std::string, std::shared_ptr<sf::Music>> _musicsList;
 };
 
 #endif /* !INITSFML_HPP_ */

@@ -40,6 +40,11 @@ void Manager::destroyEntity(ECS::Entity entity)
     _entityManager->destroyEntity(entity);
 }
 
+std::vector<ECS::Entity> &Manager::getEntities()
+{
+    return _entityManager->getEntities();
+}
+
 /**
  * Add a component to an entity.
  * 
@@ -70,7 +75,7 @@ std::map<ECS::ComponentType, ECS::IComp> &Manager::getComponentList(ECS::Entity 
 /**
  * Get a list of entities that have a specific component.
  */
-std::vector<ECS::Entity> &Manager::getEntityList(ECS::ComponentType type)
+std::vector<ECS::Entity> &Manager::getEntityList()
 {
     _componentManager->getEntityList(type);
 }

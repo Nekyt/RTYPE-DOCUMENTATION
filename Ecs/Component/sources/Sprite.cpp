@@ -1,10 +1,6 @@
 #include "../include/Sprite.hpp"
 
-ECS::Sprite::Sprite(const sf::Texture &text, int sizeX, int sizeY, int posX, int posY) noexcept : _sizeX(sizeX), _sizeY(sizeY), _posX(posX), _posY(posY)
-{
-    _sprite->setTexture(text);
-    _sprite->setTextureRect(sf::IntRect(_posX, _posY, _sizeX, _sizeY));
-}
+ECS::Sprite::Sprite() noexcept : _sizeX(0), _sizeY(0), _posX(0), _posY(0) {}
 
 ECS::Sprite::Sprite(const ECS::Sprite &sprite) noexcept : _sizeX(sprite.getRectSizeX()), _sizeY(sprite.getRectSizeY()), _posX(sprite.getRectPosX()), _posY(sprite.getRectPosY()), _sprite(sprite.getSprite()) {}
 
@@ -13,11 +9,11 @@ void ECS::Sprite::setSprite(sf::Sprite *sprite) noexcept
     sf::IntRect rec;
 
     _sprite = sprite;
-    rec.height = _sizeY;
-    rec.width = _sizeX;
-    rec.left = _posX;
-    rec.top = _posY;
-    _sprite->setTextureRect(rec);
+}
+
+void ECS::Sprite::setTexture(const sf::Texture &text) noexcept
+{
+    _sprite->setTexture(text);
 }
 
 sf::Sprite *ECS::Sprite::getSprite() const noexcept {return _sprite;}

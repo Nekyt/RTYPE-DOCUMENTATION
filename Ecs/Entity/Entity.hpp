@@ -36,4 +36,8 @@ namespace ECS
     };
 } // namespace ECS
 
+inline bool operator==(ECS::Entity cur, const ECS::Entity oth) {return cur.getId() == oth.getId();}
+inline bool operator>(ECS::Entity cur, const ECS::Entity oth) {return cur.getId() > oth.getId();}
+inline bool operator<(ECS::Entity cur, const ECS::Entity oth) {return cur.getId() < oth.getId();}
+
 #endif /* !ENTITY_HPP_ */

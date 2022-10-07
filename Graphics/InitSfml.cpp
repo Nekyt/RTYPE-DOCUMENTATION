@@ -63,7 +63,7 @@ void InitSfml::setTexture(std::string idTexture, std::string namePath)
  * 
  * @return A pointer to a texture.
  */
-std::shared_ptr<sf::Texture> InitSfml::getTexture(std::string idTexture)
+std::shared_ptr<sf::Texture> InitSfml::getTexture(std::string idTexture) const
 {
     if (_textureList.find(idTexture) == _textureList.end())
         return nullptr;
@@ -80,6 +80,33 @@ std::map<std::string, std::shared_ptr<sf::Texture>> InitSfml::getAllTexture()
 {
     return _textureList;
 }
+
+void InitSfml::setFont(std::string namePath)
+{
+    _font.loadFromFile(namePath);
+}
+
+sf::Font InitSfml::getFont() const
+{
+    return _font;
+}
+
+// void InitSfml::setMusic(std::string idMusic, std::string namePath)
+// {
+//     sf::Music musics;
+//     musics.openFromFile(namePath);
+//     _musicsList.emplace(idMusic, std::make_shared<sf::Music>(musics));
+// }
+
+// std::shared_ptr<sf::Music> InitSfml::getMusic(std::string idMusic) const
+// {
+//     return _musicsList.at(idMusic);
+// }
+
+// std::map<std::string, std::shared_ptr<sf::Music>> InitSfml::getAllMusic()
+// {
+//     return _musicsList;
+// }
 
 /**
  * It clears the window.

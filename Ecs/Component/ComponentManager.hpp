@@ -14,7 +14,7 @@
 
 namespace ECS
 {
-    enum ComponentType {ACCELERATION, BONUS, PATTERN, SPEED, POSITION, DAMAGE, ROTATION, SOUND, HEALTH, HITBOX, SIZE, CONTROLABLE, IDE, TEXT, TEXTURE, WEAPON};
+    enum ComponentType {ACCELERATION, BONUS, PATTERN, SPEED, POSITION, DAMAGE, ROTATION, SOUND, HEALTH, HITBOX, SIZE, CONTROLABLE, IDE, TEXT, SPRITE, WEAPON};
     class ComponentManager {
         public:
             ComponentManager() = default;

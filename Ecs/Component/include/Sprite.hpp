@@ -8,12 +8,13 @@ namespace ECS {
 
     class Sprite : public IComp {
         public:
-            explicit Sprite(const sf::Texture &text, int sizeX, int sizeY, int posX, int posY) noexcept;
-            Sprite(const Sprite& sprite) noexcept = default;
+            explicit Sprite() noexcept;
+            Sprite(const Sprite& sprite) noexcept;
             explicit Sprite(Sprite&&) noexcept = delete;
             ~Sprite() noexcept override = default;
 
             void setSprite(sf::Sprite *sprite) noexcept;
+            void setTexture(const sf::Texture &texture) noexcept;
             [[nodiscard]] sf::Sprite *getSprite() const noexcept;
             [[nodiscard]] const sf::Texture *getTexture() const noexcept;
 

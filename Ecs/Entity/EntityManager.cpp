@@ -8,12 +8,19 @@
 #include "EntityManager.hpp"
 #include <algorithm>
 
+
 /**
- * Create a new entity and add it to the list of entities.
+ * It creates an entity and adds it to the entity manager
  * 
  * @param type The type of entity you want to create.
+ * 
+ * @return A reference to the last element in the vector.
  */
-ECS::Entity ECS::EntityManager::createEntity(ECS::EntityType type) {_entities.push_back(ECS::Entity(_entities.size(), type));} //Need modif to create auto IDs when we set them
+ECS::Entity ECS::EntityManager::createEntity(ECS::EntityType type)
+{
+    _entities.push_back(ECS::Entity(_entities.size(), type));
+    return _entities.at(_entities.size() - 1);
+} //Need modif to create auto IDs when we set them
 
 /**
  * It removes the entity from the list of entities

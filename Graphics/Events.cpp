@@ -27,6 +27,11 @@ const std::map<sf::Keyboard::Key, Button> Events::eventsButton = {
     std::make_pair(sf::Keyboard::F7, Button::F7),
 };
 
+const std::map<sf::Mouse::Button, Mouse> Events::eventsMouse = {
+    std::make_pair(sf::Mouse::Left, Mouse::Left),
+    std::make_pair(sf::Mouse::Right, Mouse::Right),
+};
+
 /**
  * If the event type is a key press, and the key pressed is in the map, return the
  * value of the key pressed in the map
@@ -65,4 +70,16 @@ std::string Events::getTextEntered(const sf::Event &event) const
         }
     }
     return "";
+}
+
+Mouse Events::getEventTypeMouse(const sf::Event &event) const
+{
+    if (event.type == sf::Event::MouseButtonReleased)
+    {
+        if (eventsMouse.find(event.mouseButton.button) != eventsMouse.end())
+            return eventsMouse.at(event.mouseButton.button);
+        else
+            return Mouse::None;
+    }
+    return Mouse::None;
 }

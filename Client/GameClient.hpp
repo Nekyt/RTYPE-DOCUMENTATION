@@ -25,10 +25,13 @@ class GameClient {
         GameClient();
         ~GameClient() = default;
 
+        void setSfml();
+
         void loadComponents();
         void loadSystems();
         void gameLoop();
         void handleEvents(const sf::Event &event);
+        void handleEventsMouse();
         void handleEventsKey(Button eventKey);
         void handleEventsTextEntered(const sf::Event &event);
 
