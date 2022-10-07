@@ -6,9 +6,32 @@
 ##
 
 SRC	=	Client/main.cpp \
-	Client/GameClient.cpp \
+	Ecs/Component/sources/Acceleration.cpp \
+	Ecs/Component/sources/Controlable.cpp \
+	Ecs/Component/sources/Damage.cpp \
+	Ecs/Component/sources/Health.cpp \
+	Ecs/Component/sources/Hitbox.cpp \
+	Ecs/Component/sources/Id.cpp \
+	Ecs/Component/sources/Position.cpp \
+	Ecs/Component/sources/Rotate.cpp \
+	Ecs/Component/sources/Size.cpp \
+	Ecs/Component/sources/Speed.cpp \
+	Ecs/Component/sources/Sprite.cpp \
+	Ecs/Component/sources/Text.cpp \
+	Ecs/Manager.cpp \
+	Ecs/Entity/Entity.cpp \
+	Ecs/Entity/EntityManager.cpp \
 	Graphics/Events.cpp \
 	Graphics/InitSfml.cpp \
+	Ecs/System/CollisionSystem.cpp \
+	Ecs/System/GraphicSystem.cpp \
+	Ecs/System/MoveSystem.cpp \
+	Ecs/System/ShootSystem.cpp \
+	Ecs/System/System.cpp \
+	Ecs/System/SystemManager.cpp \
+	Ecs/System/TextSystem.cpp \
+	Ecs/Component/ComponentManager.cpp \
+	Client/GameClient.cpp \
 
 OBJ	=	$(SRC:.cpp=.o)
 

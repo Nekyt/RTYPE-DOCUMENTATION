@@ -20,9 +20,9 @@ Manager::Manager()
 
 /**
  * It creates an entity and returns it
- * 
+ *
  * @param type The type of entity you want to create.
- * 
+ *
  * @return An entity.
  */
 ECS::Entity Manager::createEntity(ECS::EntityType type)
@@ -32,7 +32,7 @@ ECS::Entity Manager::createEntity(ECS::EntityType type)
 
 /**
  * This function destroys an entity.
- * 
+ *
  * @param entity The entity to destroy.
  */
 void Manager::destroyEntity(ECS::Entity entity)
@@ -47,7 +47,7 @@ std::vector<ECS::Entity> &Manager::getEntities()
 
 /**
  * Add a component to an entity.
- * 
+ *
  * @param e The entity to add the component to
  * @param c The component type to add to the entity.
  */
@@ -61,7 +61,7 @@ void Manager::addComponent(ECS::Entity e, ECS::ComponentType c)
  */
 ECS::IComp &Manager::getComponent(ECS::Entity e, ECS::ComponentType c)
 {
-    _componentManager->getComponent(e, c);
+    return _componentManager->getComponent(e, c);
 }
 
 /**
@@ -69,21 +69,21 @@ ECS::IComp &Manager::getComponent(ECS::Entity e, ECS::ComponentType c)
  */
 std::map<ECS::ComponentType, ECS::IComp> &Manager::getComponentList(ECS::Entity entity)
 {
-    _componentManager->getComponentList(entity);
+    return _componentManager->getComponentList(entity);
 }
 
 /**
  * Get a list of entities that have a specific component.
  */
-std::vector<ECS::Entity> &Manager::getEntityList()
+std::vector<ECS::Entity> &Manager::getEntityList(ECS::ComponentType type)
 {
-    _componentManager->getEntityList(type);
+    return _componentManager->getEntityList(type);
 }
 
 template<class System>
 /**
  * It adds a system to the system manager
- * 
+ *
  * @return A reference to the system that was added.
  */
 System &Manager::addSystem()
@@ -95,7 +95,7 @@ template<class System>
 /**
  * It returns a reference to the system of type `System` that is managed by the
  * `SystemManager`
- * 
+ *
  * @return A reference to the System object.
  */
 System &Manager::getSystem()
