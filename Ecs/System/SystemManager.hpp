@@ -8,28 +8,34 @@
 #ifndef SYSTEMMANAGER_HPP_
 #define SYSTEMMANAGER_HPP_
 
+#include "../IncludeCpp.hpp"
 #include "../Entity/EntityManager.hpp"
 #include "../Component/ComponentManager.hpp"
-#include "../IncludeCpp.hpp"
+#include "../IncludeSystem.hpp"
 
 namespace ECS
 {
-    enum SystemTypes {MOVESYSTEM, GRAPHICSYSTEM};
-
     class SystemManager {
         public:
             SystemManager(const std::shared_ptr<ComponentManager> &componentManager, const std::shared_ptr<EntityManager> &entityManager);
             ~SystemManager() = default;
 
-            template<class System>
-            System &addSystem();
+            template<typename System>
+            System &addSystem()
+            {
+                _systems.emplace(typeid(System), System(_componentManager, _entityManager));
+                return std::any_cast<System &>(_systems.at(typeid(System)));
+            }
 
             template<class System>
-            System &getSystem();
+            System &getSystem()
+            {
+                return std::any_cast<System &>(_systems[std::type_index(typeid(System).name())]);
+            }
 
         protected:
         private:
-            std::unordered_map<SystemTypes, std::any> _systems;
+            std::unordered_map<std::type_index, std::any> _systems;
             std::shared_ptr<ComponentManager> _componentManager;
             std::shared_ptr<EntityManager> _entityManager;
     };

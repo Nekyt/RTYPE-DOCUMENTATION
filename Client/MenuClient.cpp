@@ -10,7 +10,3 @@
 MenuClient::MenuClient()
 {
 }
-
-MenuClient::~MenuClient()
-{
-}

@@ -21,25 +21,24 @@ void ECS::Graphic::preUpdate()
         if (!checkIsValidEntity(entity))
             continue;
         ECS::Rotate &rotation = dynamic_cast<ECS::Rotate&>(_componentManager->getComponent(entity, ComponentType::ROTATION));
-        ECS::Texture &texture = dynamic_cast<ECS::Texture&>(_componentManager->getComponent(entity, ComponentType::SPRITE));
+        ECS::Sprite &sprite = dynamic_cast<ECS::Sprite&>(_componentManager->getComponent(entity, ComponentType::SPRITE));
         std::shared_ptr<sf::Texture> sfmlTexture;
-        sf::Sprite *sprite = texture.getSprite();
 
         if (entity.getType() == EntityType::PLAYER) {
             sfmlTexture = _sfml->getTexture("logo");
-            sprite->setTexture(sfmlTexture);
-            texture.setRectSize_x(10);
-            texture.setRectSize_y(10);
-            texture.setRectPos_x(0);
-            texture.setRectPos_y(0);
+            sprite.setTexture(*sfmlTexture);
+            sprite.setRectSizeX(10);
+            sprite.setRectSizeY(10);
+            sprite.setRectPosX(0);
+            sprite.setRectPosY(0);
         }
         if (entity.getType() == EntityType::ENEMY) {
             sfmlTexture = _sfml->getTexture("bg-menu");
-            sprite->setTexture(sfmlTexture);
-            texture.setRectSize_x(10);
-            texture.setRectSize_y(10);
-            texture.setRectPos_x(0);
-            texture.setRectPos_y(0);
+            sprite.setTexture(*sfmlTexture);
+            sprite.setRectSizeX(10);
+            sprite.setRectSizeY(10);
+            sprite.setRectPosX(0);
+            sprite.setRectPosY(0);
         }
         rotation.setRotate(0);
     }
@@ -56,16 +55,9 @@ void ECS::Graphic::update()
             continue;
         ECS::Position &position = dynamic_cast<ECS::Position&>(_componentManager->getComponent(entity, ComponentType::POSITION));
         ECS::Rotate &rotation = dynamic_cast<ECS::Rotate&>(_componentManager->getComponent(entity, ComponentType::ROTATION));
-        ECS::Texture &textures = dynamic_cast<ECS::Texture&>(_componentManager->getComponent(entity, ComponentType::TEXTURE));
-        sf::Sprite *sprite = textures.getSprite();
+        ECS::Sprite &sprite = dynamic_cast<ECS::Sprite&>(_componentManager->getComponent(entity, ComponentType::SPRITE));
 
-        sf::Vector2i posRect(textures.getRectPos_x(), textures.getRectPos_y());
-        sf::Vector2i sizeRect(textures.getRectSize_x(), textures.getRectSize_y());
-        sf::IntRect r2(posRect, sizeRect);
-        sprite->setTextureRect(r2);
-        sprite->setPosition(position.getPosition_x(), position.getPosition_y());
-        sprite->setRotation(rotation.getRotate());
-        _window->draw(*sprite);
+        _window->draw(*sprite.getSprite());
     }
 }
 
@@ -103,7 +95,7 @@ bool ECS::Graphic::checkIsValidEntity(Entity entity)
     {
         components.at(ComponentType::POSITION);
         components.at(ComponentType::ROTATION);
-        components.at(ComponentType::TEXTURE);
+        components.at(ComponentType::SPRITE);
         return true;
     }
     catch(const std::exception& e)

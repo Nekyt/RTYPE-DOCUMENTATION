@@ -9,7 +9,7 @@
 
 /**
  * It adds a component to an entity
- * 
+ *
  * @param e The entity to add the component to.
  * @param c The component type
  */
@@ -29,7 +29,7 @@ void ECS::ComponentManager::addComponent(ECS::Entity e, ECS::ComponentType c)
 
 /**
  * It returns a reference to the component of type c of entity e
- * 
+ *
  * @return A reference to the component of type c of entity e.
  */
 ECS::IComp &ECS::ComponentManager::getComponent(ECS::Entity e, ECS::ComponentType c)
@@ -39,7 +39,7 @@ ECS::IComp &ECS::ComponentManager::getComponent(ECS::Entity e, ECS::ComponentTyp
 
 /**
  * It returns a reference to the map of components for the given entity
- * 
+ *
  * @return A map of component types and components.
  */
 std::map<ECS::ComponentType, ECS::IComp> &ECS::ComponentManager::getComponentList(Entity entity)
@@ -50,7 +50,7 @@ std::map<ECS::ComponentType, ECS::IComp> &ECS::ComponentManager::getComponentLis
 /**
  * It returns a reference to the vector of entities that have the specified
  * component type
- * 
+ *
  * @return A vector of entities.
  */
 std::vector<ECS::Entity> &ECS::ComponentManager::getEntityList(ComponentType type)
@@ -60,9 +60,9 @@ std::vector<ECS::Entity> &ECS::ComponentManager::getEntityList(ComponentType typ
 
 /**
  * It creates a component of the type passed in parameter
- * 
+ *
  * @param c The type of component to create.
- * 
+ *
  * @return A component of the type specified in the parameter.
  */
 ECS::IComp ECS::ComponentManager::createComponent(ECS::ComponentType c)
@@ -97,6 +97,6 @@ ECS::IComp ECS::ComponentManager::createComponent(ECS::ComponentType c)
         return ECS::Text();
     else if (c == ECS::ComponentType::SPRITE)
         return ECS::Sprite();
-    else if (c == ECS::ComponentType::WEAPON)
+    else //if (c == ECS::ComponentType::WEAPON)
         return ECS::Weapon();
 }

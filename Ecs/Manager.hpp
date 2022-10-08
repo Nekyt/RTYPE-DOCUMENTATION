@@ -24,11 +24,16 @@ class Manager {
         std::map<ECS::ComponentType, ECS::IComp> &getComponentList(ECS::Entity entity);
         std::vector<ECS::Entity> &getEntityList(ECS::ComponentType type);
 
+        template<typename System>
+        System &addSystem()
+        {
+            return _systemManager->addSystem<System>();
+        }
         template<class System>
-        System &addSystem();
-
-        template<class System>
-        System &getSystem();
+        System &getSystem()
+        {
+            return _systemManager->getSystem<System>();
+        }
 
     protected:
     private:

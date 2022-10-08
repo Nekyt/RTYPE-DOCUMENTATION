@@ -14,6 +14,8 @@
 #include <memory>
 #include <utility>
 #include <cstdio>
+#include <typeinfo>
+#include <typeindex>
 
 
 #endif /* !INCLUDECPP_HPP_ */
