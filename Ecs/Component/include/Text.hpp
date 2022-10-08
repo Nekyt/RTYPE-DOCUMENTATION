@@ -17,7 +17,7 @@ namespace ECS {
 
     class Text : public IComp {
         public:
-            explicit Text() noexcept;
+            explicit Text() noexcept = default;
             Text(const Text& text) noexcept;
             explicit Text(Text&&) noexcept = delete;
             ~Text() noexcept override = default;
