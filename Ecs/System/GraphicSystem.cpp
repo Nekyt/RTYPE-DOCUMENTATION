@@ -20,27 +20,27 @@ void ECS::Graphic::preUpdate()
     for (const auto &entity : entities) {
         if (!checkIsValidEntity(entity))
             continue;
-        ECS::Rotate &rotation = dynamic_cast<ECS::Rotate&>(_componentManager->getComponent(entity, ComponentType::ROTATION));
-        ECS::Sprite &sprite = dynamic_cast<ECS::Sprite&>(_componentManager->getComponent(entity, ComponentType::SPRITE));
+        ECS::Rotate *rotation = dynamic_cast<ECS::Rotate*>(_componentManager->getComponent(entity, ComponentType::ROTATION));
+        ECS::Sprite *sprite = dynamic_cast<ECS::Sprite*>(_componentManager->getComponent(entity, ComponentType::SPRITE));
         std::shared_ptr<sf::Texture> sfmlTexture;
 
         if (entity.getType() == EntityType::PLAYER) {
             sfmlTexture = _sfml->getTexture("logo");
-            sprite.setTexture(*sfmlTexture);
-            sprite.setRectSizeX(10);
-            sprite.setRectSizeY(10);
-            sprite.setRectPosX(0);
-            sprite.setRectPosY(0);
+            sprite->setTexture(*sfmlTexture);
+            sprite->setRectSizeX(10);
+            sprite->setRectSizeY(10);
+            sprite->setRectPosX(0);
+            sprite->setRectPosY(0);
         }
         if (entity.getType() == EntityType::ENEMY) {
             sfmlTexture = _sfml->getTexture("bg-menu");
-            sprite.setTexture(*sfmlTexture);
-            sprite.setRectSizeX(10);
-            sprite.setRectSizeY(10);
-            sprite.setRectPosX(0);
-            sprite.setRectPosY(0);
+            sprite->setTexture(*sfmlTexture);
+            sprite->setRectSizeX(10);
+            sprite->setRectSizeY(10);
+            sprite->setRectPosX(0);
+            sprite->setRectPosY(0);
         }
-        rotation.setRotate(0);
+        rotation->setRotate(0);
     }
 }
 
@@ -53,11 +53,11 @@ void ECS::Graphic::update()
     for (const auto &entity : entities) {
         if (!checkIsValidEntity(entity))
             continue;
-        ECS::Position &position = dynamic_cast<ECS::Position&>(_componentManager->getComponent(entity, ComponentType::POSITION));
-        ECS::Rotate &rotation = dynamic_cast<ECS::Rotate&>(_componentManager->getComponent(entity, ComponentType::ROTATION));
-        ECS::Sprite &sprite = dynamic_cast<ECS::Sprite&>(_componentManager->getComponent(entity, ComponentType::SPRITE));
+        ECS::Position *position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
+        ECS::Rotate *rotation = dynamic_cast<ECS::Rotate*>(_componentManager->getComponent(entity, ComponentType::ROTATION));
+        ECS::Sprite *sprite = dynamic_cast<ECS::Sprite*>(_componentManager->getComponent(entity, ComponentType::SPRITE));
 
-        _window->draw(*sprite.getSprite());
+        _window->draw(*sprite->getSprite());
     }
 }
 

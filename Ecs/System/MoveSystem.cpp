@@ -9,7 +9,7 @@
 
 /**
  * It's a constructor for the MoveSystem class
- * 
+ *
  * @param componentsManager The ComponentManager that the system will use to get
  * components from.
  * @param entityManager The entity manager that the system will use to get
@@ -30,23 +30,23 @@ void ECS::MoveSystem::update()
     for (const auto &entity : entities) {
         if (!checkIsValidEntity(entity))
             continue;
-        ECS::Position &position = dynamic_cast<ECS::Position&>(_componentManager->getComponent(entity, ComponentType::POSITION));
-        auto &speed = dynamic_cast<ECS::Speed&>(_componentManager->getComponent(entity, ComponentType::SPEED));
-        auto &acceleration =dynamic_cast<ECS::Acceleration&>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
+        ECS::Position *position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
+        auto *speed = dynamic_cast<ECS::Speed*>(_componentManager->getComponent(entity, ComponentType::SPEED));
+        auto *acceleration =dynamic_cast<ECS::Acceleration*>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
 
-        auto posX = position.getPosition_x();
-        auto posY = position.getPosition_x();
-        position.setPosition_x(posX += acceleration.getAcceleration_x() * speed.getSpeed());
-        position.setPosition_x(posY += acceleration.getAcceleration_y() * speed.getSpeed());
+        auto posX = position->getPosition_x();
+        auto posY = position->getPosition_x();
+        position->setPosition_x(posX += acceleration->getAcceleration_x() * speed->getSpeed());
+        position->setPosition_x(posY += acceleration->getAcceleration_y() * speed->getSpeed());
     }
 }
 
 /**
  * If the entity has a position, speed, and acceleration component, then it's a
  * valid entity
- * 
+ *
  * @param entity The entity to check
- * 
+ *
  * @return A boolean value.
  */
 bool ECS::MoveSystem::checkIsValidEntity(Entity entity)

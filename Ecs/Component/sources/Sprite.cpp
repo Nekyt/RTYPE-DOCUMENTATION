@@ -1,6 +1,6 @@
 #include "../include/Sprite.hpp"
 
-ECS::Sprite::Sprite() noexcept : _sizeX(0), _sizeY(0), _posX(0), _posY(0) {}
+ECS::Sprite::Sprite() noexcept : _sizeX(0), _sizeY(0), _posX(0), _posY(0), _sprite(new sf::Sprite) {}
 
 ECS::Sprite::Sprite(const ECS::Sprite &sprite) noexcept : _sizeX(sprite.getRectSizeX()), _sizeY(sprite.getRectSizeY()), _posX(sprite.getRectPosX()), _posY(sprite.getRectPosY()), _sprite(sprite.getSprite()) {}
 

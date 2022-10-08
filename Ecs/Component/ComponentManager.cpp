@@ -15,14 +15,14 @@
  */
 void ECS::ComponentManager::addComponent(ECS::Entity e, ECS::ComponentType c)
 {
-    std::map<ComponentType, IComp> compo;
+    std::map<ComponentType, IComp*> compo;
 
     if (_eentities.find(e) == _eentities.end()) {
-        compo.insert(std::pair<ComponentType, IComp>(c, createComponent(c)));
-        _eentities.insert(std::pair<Entity, std::map<ComponentType, IComp>>(e, compo));
+        compo.insert(std::pair<ComponentType, IComp*>(c, createComponent(c)));
+        _eentities.insert(std::pair<Entity, std::map<ComponentType, IComp*>>(e, compo));
         _centities[c].push_back(e);
     } else {
-        _eentities[e].insert(std::pair<ComponentType, IComp>(c, createComponent(c)));
+        _eentities[e].insert(std::pair<ComponentType, IComp*>(c, createComponent(c)));
         _centities[c].push_back(e);
     }
 }
@@ -32,7 +32,7 @@ void ECS::ComponentManager::addComponent(ECS::Entity e, ECS::ComponentType c)
  *
  * @return A reference to the component of type c of entity e.
  */
-ECS::IComp &ECS::ComponentManager::getComponent(ECS::Entity e, ECS::ComponentType c)
+ECS::IComp *ECS::ComponentManager::getComponent(ECS::Entity e, ECS::ComponentType c)
 {
     return _eentities[e][c];
 }
@@ -42,7 +42,7 @@ ECS::IComp &ECS::ComponentManager::getComponent(ECS::Entity e, ECS::ComponentTyp
  *
  * @return A map of component types and components.
  */
-std::map<ECS::ComponentType, ECS::IComp> &ECS::ComponentManager::getComponentList(Entity entity)
+std::map<ECS::ComponentType, ECS::IComp*> &ECS::ComponentManager::getComponentList(Entity entity)
 {
     return _eentities.at(entity);
 }
@@ -65,38 +65,38 @@ std::vector<ECS::Entity> &ECS::ComponentManager::getEntityList(ComponentType typ
  *
  * @return A component of the type specified in the parameter.
  */
-ECS::IComp ECS::ComponentManager::createComponent(ECS::ComponentType c)
+ECS::IComp *ECS::ComponentManager::createComponent(ECS::ComponentType c)
 {
     if (c == ECS::ComponentType::ACCELERATION)
-        return ECS::Acceleration();
+        return new ECS::Acceleration();
     else if (c == ECS::ComponentType::BONUS)
-        return ECS::Bonus();
+        return new ECS::Bonus();
     else if (c == ECS::ComponentType::CONTROLABLE)
-        return ECS::Controlable(true);
+        return new ECS::Controlable(true);
     else if (c == ECS::ComponentType::PATTERN)
-        return ECS::Pattern();
+        return new ECS::Pattern();
     else if (c == ECS::ComponentType::SPEED)
-        return ECS::Speed(0);
+        return new ECS::Speed(0);
     else if (c == ECS::ComponentType::POSITION)
-        return ECS::Position(0, 0);
+        return new ECS::Position(0, 0);
     else if (c == ECS::ComponentType::DAMAGE)
-        return ECS::Damage(0);
+        return new ECS::Damage(0);
     else if (c == ECS::ComponentType::ROTATION)
-        return ECS::Rotate(0);
+        return new ECS::Rotate(0);
     else if (c == ECS::ComponentType::SOUND)
-        return ECS::Sound();
+        return new ECS::Sound();
     else if (c == ECS::ComponentType::HEALTH)
-        return ECS::Health(0);
+        return new ECS::Health(0);
     else if (c == ECS::ComponentType::HITBOX)
-        return ECS::Hitbox(0, 0);
+        return new ECS::Hitbox(0, 0);
     else if (c == ECS::ComponentType::SIZE)
-        return ECS::Size(0, 0);
+        return new ECS::Size(0, 0);
     else if (c == ECS::ComponentType::IDE)
-        return ECS::ID(0);
+        return new ECS::ID(0);
     else if (c == ECS::ComponentType::TEXT)
-        return ECS::Text();
+        return new ECS::Text();
     else if (c == ECS::ComponentType::SPRITE)
-        return ECS::Sprite();
+        return new ECS::Sprite();
     else //if (c == ECS::ComponentType::WEAPON)
-        return ECS::Weapon();
+        return new ECS::Weapon();
 }

@@ -43,7 +43,7 @@ void Manager::destroyEntity(ECS::Entity entity)
 
 /**
  * It returns a reference to the vector of entities
- * 
+ *
  * @return A vector of entities.
  */
 std::vector<ECS::Entity> &Manager::getEntities()
@@ -65,7 +65,7 @@ void Manager::addComponent(ECS::Entity e, ECS::ComponentType c)
 /**
  * Get a component from the component manager.
  */
-ECS::IComp &Manager::getComponent(ECS::Entity e, ECS::ComponentType c)
+ECS::IComp *Manager::getComponent(ECS::Entity e, ECS::ComponentType c)
 {
     return _componentManager->getComponent(e, c);
 }
@@ -73,7 +73,7 @@ ECS::IComp &Manager::getComponent(ECS::Entity e, ECS::ComponentType c)
 /**
  * It returns a map of all the components of a given entity.
  */
-std::map<ECS::ComponentType, ECS::IComp> &Manager::getComponentList(ECS::Entity entity)
+std::map<ECS::ComponentType, ECS::IComp*> &Manager::getComponentList(ECS::Entity entity)
 {
     return _componentManager->getComponentList(entity);
 }

@@ -21,15 +21,15 @@ namespace ECS
             ~ComponentManager() = default;
 
             void addComponent(Entity e, ComponentType c);
-            IComp &getComponent(Entity e, ComponentType c);
+            IComp *getComponent(Entity e, ComponentType c);
 
-            std::map<ComponentType, IComp> &getComponentList(Entity entity);
+            std::map<ComponentType, IComp*> &getComponentList(Entity entity);
             std::vector<Entity> &getEntityList(ComponentType type);
 
         protected:
         private:
-            IComp createComponent(ComponentType c);
-            std::map<Entity, std::map<ComponentType, IComp>> _eentities;
+            IComp *createComponent(ComponentType c);
+            std::map<Entity, std::map<ComponentType, IComp*>> _eentities;
             std::map<ComponentType, std::vector<Entity>> _centities;
     };
 } // namespace ECS

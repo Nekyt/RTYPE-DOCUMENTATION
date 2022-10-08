@@ -53,15 +53,15 @@ void ECS::Hitbox::setHeight(unsigned short height) noexcept {_sizey = height;}
  *
  * @return A boolean.
  */
-bool ECS::Hitbox::isColliding(const ECS::Position &current, const ECS::Hitbox &compare, const ECS::Position &comp) const noexcept
+bool ECS::Hitbox::isColliding(const ECS::Position *current, const ECS::Hitbox *compare, const ECS::Position *comp) const noexcept
 {
-    if (current.getPosition_x() >= comp.getPosition_x() && current.getPosition_x() <= comp.getPosition_x() + compare.getWidth() && current.getPosition_y() >= comp.getPosition_y() && current.getPosition_y() <= comp.getPosition_y() + compare.getHeight())
+    if (current->getPosition_x() >= comp->getPosition_x() && current->getPosition_x() <= comp->getPosition_x() + compare->getWidth() && current->getPosition_y() >= comp->getPosition_y() && current->getPosition_y() <= comp->getPosition_y() + compare->getHeight())
         return true;
-    else if (current.getPosition_x() >= comp.getPosition_x() && current.getPosition_x() <= comp.getPosition_x() + compare.getWidth() && current.getPosition_y() + _sizey >= comp.getPosition_y() && current.getPosition_y() + _sizey <= comp.getPosition_y() + compare.getHeight())
+    else if (current->getPosition_x() >= comp->getPosition_x() && current->getPosition_x() <= comp->getPosition_x() + compare->getWidth() && current->getPosition_y() + _sizey >= comp->getPosition_y() && current->getPosition_y() + _sizey <= comp->getPosition_y() + compare->getHeight())
         return true;
-    else if (current.getPosition_x() + _sizex >= comp.getPosition_x() && current.getPosition_x() + _sizex <= comp.getPosition_x() + compare.getWidth() && current.getPosition_y() >= comp.getPosition_y() && current.getPosition_y() <= comp.getPosition_y() + compare.getHeight())
+    else if (current->getPosition_x() + _sizex >= comp->getPosition_x() && current->getPosition_x() + _sizex <= comp->getPosition_x() + compare->getWidth() && current->getPosition_y() >= comp->getPosition_y() && current->getPosition_y() <= comp->getPosition_y() + compare->getHeight())
         return true;
-    else if (current.getPosition_x() + _sizex >= comp.getPosition_x() && current.getPosition_x() + _sizex <= comp.getPosition_x() + compare.getWidth() && current.getPosition_y() + _sizey >= comp.getPosition_y() && current.getPosition_y() + _sizey <= comp.getPosition_y() + compare.getHeight())
+    else if (current->getPosition_x() + _sizex >= comp->getPosition_x() && current->getPosition_x() + _sizex <= comp->getPosition_x() + compare->getWidth() && current->getPosition_y() + _sizey >= comp->getPosition_y() && current->getPosition_y() + _sizey <= comp->getPosition_y() + compare->getHeight())
         return true;
     return false;
 }

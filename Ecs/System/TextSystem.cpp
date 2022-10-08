@@ -17,9 +17,9 @@ void ECS::TextSystem::preUpdate()
     for (const auto &entity : entities) {
         if (!checkIsValidEntity(entity))
             continue;
-        ECS::Text &text = dynamic_cast<ECS::Text&>(_componentManager->getComponent(entity, ComponentType::TEXT));
-        text.setSizeText(24);
-        text.setSentence("text de test");
+        ECS::Text *text = dynamic_cast<ECS::Text*>(_componentManager->getComponent(entity, ComponentType::TEXT));
+        text->setSizeText(24);
+        text->setSentence("text de test");
     }
 }
 
@@ -32,14 +32,14 @@ void ECS::TextSystem::update()
     for (const auto &entity : entities) {
          if (!checkIsValidEntity(entity))
             continue;
-        ECS::Position &position = dynamic_cast<ECS::Position&>(_componentManager->getComponent(entity, ComponentType::POSITION));
-        ECS::Text &texts = dynamic_cast<ECS::Text&>(_componentManager->getComponent(entity, ComponentType::TEXT));
+        ECS::Position *position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
+        ECS::Text *texts = dynamic_cast<ECS::Text*>(_componentManager->getComponent(entity, ComponentType::TEXT));
         sf::Font font;
-        sf::Text *text = &texts.getText();
+        sf::Text *text = &texts->getText();
         text->setFont(font);
-        text->setString(texts.getSentence());
-        text->setCharacterSize(texts.getTextSize());
-        text->setPosition(position.getPosition_x(), position.getPosition_y());
+        text->setString(texts->getSentence());
+        text->setCharacterSize(texts->getTextSize());
+        text->setPosition(position->getPosition_x(), position->getPosition_y());
         text->setFillColor(sf::Color::White);
         _window->draw(*text);
     }
