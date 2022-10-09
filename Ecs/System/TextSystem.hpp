@@ -20,7 +20,6 @@ namespace ECS
         public:
             TextSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager);
             ~TextSystem() = default;
-            void preUpdate();
             void update();
             bool checkIsValidEntity(Entity entity);
             void setSfml(std::shared_ptr<InitSfml> sfml);

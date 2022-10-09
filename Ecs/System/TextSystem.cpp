@@ -8,19 +8,15 @@
 #include "TextSystem.hpp"
 
 /**
- * It sets the text of all entities with a text component to "text de test"
+ * It's a constructor for the TextSystem class
+ * 
+ * @param componentsManager The ComponentManager that the system will use to get
+ * components.
+ * @param entityManager The entity manager that the system will use to get
+ * entities.
  */
-void ECS::TextSystem::preUpdate()
+ECS::TextSystem::TextSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager) : System(componentsManager, entityManager)
 {
-    const auto &entities = _entityManager->getEntities();
-
-    for (const auto &entity : entities) {
-        if (!checkIsValidEntity(entity))
-            continue;
-        ECS::Text *text = dynamic_cast<ECS::Text*>(_componentManager->getComponent(entity, ComponentType::TEXT));
-        text->setSizeText(24);
-        text->setSentence("text de test");
-    }
 }
 
 /**
@@ -33,14 +29,12 @@ void ECS::TextSystem::update()
          if (!checkIsValidEntity(entity))
             continue;
         ECS::Position *position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
-        ECS::Text *texts = dynamic_cast<ECS::Text*>(_componentManager->getComponent(entity, ComponentType::TEXT));
-        sf::Font font;
-        sf::Text *text = &texts->getText();
-        text->setFont(font);
-        text->setString(texts->getSentence());
-        text->setCharacterSize(texts->getTextSize());
+        ECS::Text *text = dynamic_cast<ECS::Text*>(_componentManager->getComponent(entity, ComponentType::TEXT));
+        sf::Text *textTmp = &text->getText();
+        text->setFont(_sfml->getFont("origintech"));
+        text->setSentence(textTmp->getSentence());
+        text->getTextSize(textTmp->getTextSize());
         text->setPosition(position->getPosition_x(), position->getPosition_y());
-        text->setFillColor(sf::Color::White);
         _window->draw(*text);
     }
 }

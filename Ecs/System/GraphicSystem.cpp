@@ -8,65 +8,38 @@
 #include "GraphicSystem.hpp"
 
 /**
- * It gets all the entities, checks if they are valid, and then sets the texture and rotation of the
- * entity
+ * It's a constructor for the GraphicSystem class
+ * 
+ * @param componentsManager The ComponentManager that the system will use to get
+ * components from.
+ * @param entityManager The entity manager that the system will use to get
+ * entities.
  */
-void ECS::Graphic::preUpdate()
+ECS::GraphicSystem::GraphicSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager) : System(componentsManager, entityManager)
 {
-    _window->clear(sf::Color::Black);
-
-    const auto &entities = _entityManager->getEntities();
-
-    for (const auto &entity : entities) {
-        if (!checkIsValidEntity(entity))
-            continue;
-        ECS::Rotate *rotation = dynamic_cast<ECS::Rotate*>(_componentManager->getComponent(entity, ComponentType::ROTATION));
-        ECS::Sprite *sprite = dynamic_cast<ECS::Sprite*>(_componentManager->getComponent(entity, ComponentType::SPRITE));
-        std::shared_ptr<sf::Texture> sfmlTexture;
-
-        if (entity.getType() == EntityType::PLAYER) {
-            sfmlTexture = _sfml->getTexture("logo");
-            sprite->setTexture(*sfmlTexture);
-            // sprite->setRectSizeX(10);
-            // sprite->setRectSizeY(10);
-            // sprite->setRectPosX(0);
-            // sprite->setRectPosY(0);
-        }
-        if (entity.getType() == EntityType::ENEMY) {
-            sfmlTexture = _sfml->getTexture("bg-menu");
-            sprite->setTexture(*sfmlTexture);
-            // sprite->setRectSizeX(10);
-            // sprite->setRectSizeY(10);
-            // sprite->setRectPosX(0);
-            // sprite->setRectPosY(0);
-        }
-        rotation->setRotate(0);
-    }
 }
 
 /**
  * It takes all the entities that have a graphic component, and draws them on the screen
  */
-void ECS::Graphic::update()
+void ECS::GraphicSystem::update()
 {
     const auto &entities = _entityManager->getEntities();
+
     for (const auto &entity : entities) {
         if (!checkIsValidEntity(entity))
             continue;
-        ECS::Position *position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
         ECS::Rotate *rotation = dynamic_cast<ECS::Rotate*>(_componentManager->getComponent(entity, ComponentType::ROTATION));
+        ECS::Position *position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
         ECS::Sprite *sprite = dynamic_cast<ECS::Sprite*>(_componentManager->getComponent(entity, ComponentType::SPRITE));
 
+        // setIntRect clock
+        std::shared_ptr<sf::Texture> sfmlTexture = sprite.getTexture(type);
+        sprite->setTexture(*sfmlTexture);
+        sprite->setPosition(position->getPosition_x(), position->getPosition_y());
+        sprite->setScale(sprite.getScale());
         _window->draw(*sprite->getSprite());
     }
-}
-
-/**
- * It draws the sprite to the screen
- */
-void ECS::Graphic::postUpdate()
-{
-    _window->display();
 }
 
 /**
@@ -74,7 +47,7 @@ void ECS::Graphic::postUpdate()
  *
  * @param sfml The InitSfml class that is used to initialize the SFML library.
  */
-void ECS::Graphic::setSfml(std::shared_ptr<InitSfml> sfml)
+void ECS::GraphicSystem::setSfml(std::shared_ptr<InitSfml> sfml)
 {
     _sfml = sfml;
     _window = sfml->getWindow();
@@ -87,7 +60,7 @@ void ECS::Graphic::setSfml(std::shared_ptr<InitSfml> sfml)
  *
  * @return A boolean value.
  */
-bool ECS::Graphic::checkIsValidEntity(Entity entity)
+bool ECS::GraphicSystem::checkIsValidEntity(Entity entity)
 {
     auto &components = _componentManager->getComponentList(entity);
 

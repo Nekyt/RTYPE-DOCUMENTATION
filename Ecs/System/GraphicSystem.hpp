@@ -13,14 +13,12 @@
 
 namespace ECS
 {
-    class Graphic : public System{
+    class GraphicSystem : public System {
         public:
-            Graphic(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager);
-            ~Graphic() = default;
+            GraphicSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager);
+            ~GraphicSystem() = default;
 
-            void preUpdate();
             void update();
-            void postUpdate();
             void setSfml(std::shared_ptr<InitSfml> sfml);
             bool checkIsValidEntity(Entity entity);
 

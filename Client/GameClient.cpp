@@ -7,9 +7,13 @@
 
 #include "GameClient.hpp"
 
+/**
+ * It initializes the random number generator, creates a graphical interface, sets
+ * the state to Menu, sets the isInGame variable to false, sets the SFML interface,
+ * and loads the systems.
+ */
 GameClient::GameClient()
 {
-
     srand(time(NULL));
     _graphical = std::make_shared<InitSfml>();
     _state = Menu;
@@ -18,25 +22,35 @@ GameClient::GameClient()
     loadSystems();
 }
 
+/**
+ * It sets the textures and fonts for the game
+ */
 void GameClient::setSfml()
 {
     _graphical->setTexture("bg-menu", "Assets/menu/bg-menu.jpeg");
     _graphical->setTexture("logo", "Assets/menu/logo.png");
     _graphical->setTexture("bg-game-2", "Assets/game/bg-game-2.jpeg");
+    _graphical->setTexture("stars", "Assets/game/stars.png");
     _graphical->setTexture("heart", "Assets/game/heart.png");
     _graphical->setTexture("start", "Assets/menu/startButtons.png");
     _graphical->setFont("origintech", "Assets/font/origintech.ttf");
     // _graphical->setMusic("menu", "space_oddity-menu.ogg");
 }
 
+/**
+ * It adds all the systems to the ECS manager
+ */
 void GameClient::loadSystems()
 {
     _manager.addSystem<ECS::MoveSystem>();
     _manager.addSystem<ECS::CollisionSystem>();
-    //_manager.addSystem<ECS::TextSystem>();
-    //_manager.addSystem<ECS::Graphic>();
+    _manager.addSystem<ECS::TextSystem>();
+    _manager.addSystem<ECS::GraphicSystem>();
 }
 
+/**
+ * It's a loop that handles events and draws the game
+ */
 void GameClient::gameLoop()
 {
     while (_graphical->getWindow()->isOpen()) {
@@ -45,12 +59,16 @@ void GameClient::gameLoop()
             handleEvents(event);
         }
         _graphical->clear();
-        //paralax
         selectMode();
         _graphical->display();
     }
 }
 
+/**
+ * It handles the events
+ * 
+ * @param event The event to handle.
+ */
 void GameClient::handleEvents(const sf::Event &event)
 {
     Button eventKey = _events.getEventType(event);
@@ -61,10 +79,14 @@ void GameClient::handleEvents(const sf::Event &event)
         handleEventsMouse(event);
     else if (event.type == sf::Event::KeyPressed && eventKey != Button::None)
         handleEventsKey(eventKey);
-    else if (event.type == sf::Event::TextEntered && eventKey == Button::None)
-        handleEventsTextEntered(event);
 }
 
+/**
+ * It checks if the mouse is on a button, and if it is, it sets the _isInGame
+ * variable to true
+ * 
+ * @param event The event that was triggered.
+ */
 void GameClient::mouseMenu(const sf::Event &event)
 {
     const auto &entities = _manager.getEntities();
@@ -84,6 +106,11 @@ void GameClient::mouseMenu(const sf::Event &event)
     }
 }
 
+/**
+ * It handles mouse events based on the current game state
+ * 
+ * @param event The event that was triggered.
+ */
 void GameClient::handleEventsMouse(const sf::Event &event)
 {
     switch (_state) {
@@ -98,24 +125,14 @@ void GameClient::handleEventsMouse(const sf::Event &event)
     }
 }
 
-void GameClient::eventKeyMenu(Button eventKey)
-{
-    switch (eventKey) {
-    case Button::Enter:
-        /* code */
-        break;
-
-    default:
-        break;
-    }
-}
-
+/**
+ * > This function handles the events that are triggered by the keyboard
+ * 
+ * @param eventKey The key that was pressed.
+ */
 void GameClient::handleEventsKey(Button eventKey)
 {
     switch (_state) {
-        case GameState::Menu:
-            eventKeyMenu(eventKey);
-            break;
         case GameState::Game:
             //handle game
             break;
@@ -124,19 +141,9 @@ void GameClient::handleEventsKey(Button eventKey)
     }
 }
 
-void GameClient::handleEventsTextEntered(const sf::Event &event)
-{
-    std::string text = _events.getTextEntered(event);
-
-    switch (_state) {
-        case GameState::Game:
-            //handleEventsTextEntered game
-            break;
-        default:
-            break;
-    }
-}
-
+/**
+ * It calls the right function depending on the current state of the game
+ */
 void GameClient::selectMode()
 {
     switch (_state) {
@@ -200,6 +207,9 @@ void GameClient::loadMenu()
     _graphical->getWindow()->draw(textStart->getText());
 }
 
+/**
+ * It loads the menu
+ */
 void GameClient::manageMenu()
 {
     loadMenu();
@@ -207,7 +217,7 @@ void GameClient::manageMenu()
         _state = Game;
 }
 
-void GameClient::manageGame()
+void GameClient::loadGame()
 {
     ECS::Entity entityBg = _manager.createEntity(ECS::EntityType::GRAPHICS);
     _manager.addComponent(entityBg, ECS::ComponentType::SPRITE);
@@ -217,4 +227,12 @@ void GameClient::manageGame()
     spriteBg->setSprite(&spriteBgTmp);
     spriteBg->setScale(sf::Vector2f(1.9, 1.9));
     _graphical->getWindow()->draw(*spriteBg->getSprite());
+}
+
+/**
+ * It loads the game
+ */
+void GameClient::manageGame()
+{
+    loadGame();
 }

@@ -35,13 +35,12 @@ class GameClient {
         void handleEventsKey(Button eventKey);
         void handleEventsTextEntered(const sf::Event &event);
 
-        void eventKeyMenu(Button eventKey);
-
         void selectMode();
-
 
         void loadMenu();
         void manageMenu();
+
+        void loadGame();
         void manageGame();
 
     protected:
