@@ -34,10 +34,10 @@ void ECS::GraphicSystem::update()
         ECS::Sprite *sprite = dynamic_cast<ECS::Sprite*>(_componentManager->getComponent(entity, ComponentType::SPRITE));
 
         // setIntRect clock
-        std::shared_ptr<sf::Texture> sfmlTexture = sprite.getTexture(type);
-        sprite->setTexture(*sfmlTexture);
+        //std::shared_ptr<sf::Texture> sfmlTexture = sprite->getTexture();
+        //sprite->setTexture(*sfmlTexture);
         sprite->setPosition(position->getPosition_x(), position->getPosition_y());
-        sprite->setScale(sprite.getScale());
+        sprite->setScale(sprite->getScale());
         _window->draw(*sprite->getSprite());
     }
 }

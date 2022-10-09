@@ -41,4 +41,4 @@ void ECS::Size::setSize_x(const unsigned short x) noexcept {_x = x;}
  * 
  * @param y The y-coordinate of the size.
  */
-void ECS::Size::setSize_y(const unsigned short y) noexcept {_y = y;}/**
+void ECS::Size::setSize_y(const unsigned short y) noexcept {_y = y;}

@@ -226,7 +226,17 @@ void GameClient::loadGame()
     spriteBgTmp.setTexture(*_graphical->getTexture("bg-game-2"));
     spriteBg->setSprite(&spriteBgTmp);
     spriteBg->setScale(sf::Vector2f(1.9, 1.9));
+
+    ECS::Entity entityStars = _manager.createEntity(ECS::EntityType::GRAPHICS);
+    _manager.addComponent(entityStars, ECS::ComponentType::SPRITE);
+    ECS::Sprite *spriteStars = dynamic_cast<ECS::Sprite*>(_manager.getComponent(entityStars, ECS::ComponentType::SPRITE));
+    sf::Sprite spriteStarsTmp;
+    spriteStarsTmp.setTexture(*_graphical->getTexture("stars"));
+    spriteStars->setSprite(&spriteStarsTmp);
+    spriteStars->setScale(sf::Vector2f(1, 1));
+
     _graphical->getWindow()->draw(*spriteBg->getSprite());
+    _graphical->getWindow()->draw(*spriteStars->getSprite());
 }
 
 /**

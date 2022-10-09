@@ -30,12 +30,11 @@ void ECS::TextSystem::update()
             continue;
         ECS::Position *position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
         ECS::Text *text = dynamic_cast<ECS::Text*>(_componentManager->getComponent(entity, ComponentType::TEXT));
-        sf::Text *textTmp = &text->getText();
-        text->setFont(_sfml->getFont("origintech"));
-        text->setSentence(textTmp->getSentence());
-        text->getTextSize(textTmp->getTextSize());
+        text->setFont(*_sfml->getFont("origintech"));
+        text->setSentence(text->getSentence());
+        //text->setTextSize(text->getTextSize());
         text->setPosition(position->getPosition_x(), position->getPosition_y());
-        _window->draw(*text);
+        _window->draw(text->getText());
     }
 }
 
