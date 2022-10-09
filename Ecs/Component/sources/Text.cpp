@@ -36,3 +36,18 @@ void ECS::Text::setSentence(const std::string &sentence) noexcept
     _sentence = sentence;
     _text.setString(_sentence);
 }
+
+void ECS::Text::setPosition(int x, int y) noexcept
+{
+    _pos.x = x;
+    _pos.y = y;
+    _text.setPosition(_pos.x, _pos.y);
+}
+
+void ECS::Text::setPosition(sf::Vector2f pos) noexcept
+{
+    _pos = pos;
+    _text.setPosition(_pos.x, _pos.y);
+}
+
+sf::Vector2f ECS::Text::getPosition() const noexcept {return _pos;}

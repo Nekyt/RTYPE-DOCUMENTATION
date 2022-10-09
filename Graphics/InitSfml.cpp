@@ -86,19 +86,21 @@ std::map<std::string, std::shared_ptr<sf::Texture>> InitSfml::getAllTexture()
  * 
  * @param namePath The path to the font file.
  */
-void InitSfml::setFont(std::string namePath)
+void InitSfml::setFont(std::string idFont, std::string namePath)
 {
-    _font.loadFromFile(namePath);
+    sf::Font font;
+    font.loadFromFile(namePath);
+    _fontList.emplace(idFont, std::make_shared<sf::Font>(font));
 }
 
-/**
- * It returns the font
- * 
- * @return A copy of the font.
- */
-sf::Font InitSfml::getFont() const
+std::shared_ptr<sf::Font> InitSfml::getFont(std::string idFont) const
 {
-    return _font;
+    return _fontList.at(idFont);
+}
+
+std::map<std::string, std::shared_ptr<sf::Font>> InitSfml::getAllFont()
+{
+    return _fontList;
 }
 
 // void InitSfml::setMusic(std::string idMusic, std::string namePath)

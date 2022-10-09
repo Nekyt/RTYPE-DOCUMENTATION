@@ -15,7 +15,7 @@
 
 namespace ECS
 {
-    enum EntityType {PLAYER, ENEMY, PROJECTILES, OBSTACLES, GRAPHICS};
+    enum EntityType {PLAYER, ENEMY, PROJECTILES, OBSTACLES, GRAPHICS, BUTTONS};
 
     class Entity {
         public:

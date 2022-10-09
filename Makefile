@@ -38,7 +38,7 @@ OBJ	=	$(SRC:.cpp=.o)
 
 NAME =	r-type
 
-CXXFLAGS	=	-lsfml-window -lsfml-graphics -lsfml-system -Wall -Wextra -std=c++17
+CXXFLAGS	=	-lsfml-window -lsfml-graphics -lsfml-system -Wall -Wextra -std=c++17 -g
 
 all:	$(NAME)
 

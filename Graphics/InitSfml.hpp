@@ -25,8 +25,9 @@ class InitSfml {
         std::shared_ptr<sf::Texture> getTexture(std::string idTexture) const;
         std::map<std::string, std::shared_ptr<sf::Texture>> getAllTexture();
 
-        void setFont(std::string namePath);
-        sf::Font getFont() const;
+        void setFont(std::string idFont, std::string namePath);
+        std::shared_ptr<sf::Font> getFont(std::string idFont) const;
+        std::map<std::string, std::shared_ptr<sf::Font>> getAllFont();
 
         // void setMusic(std::string idMusic, std::string namePath);
         // std::shared_ptr<sf::Music> getMusic(std::string idMusic) const;
@@ -40,7 +41,7 @@ class InitSfml {
         sf::Event _event;
         std::shared_ptr<sf::RenderWindow> _window;
         std::map<std::string, std::shared_ptr<sf::Texture>> _textureList;
-        sf::Font _font;
+        std::map<std::string, std::shared_ptr<sf::Font>> _fontList;
         // std::map<std::string, std::shared_ptr<sf::Music>> _musicsList;
 };
 

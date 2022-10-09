@@ -30,7 +30,8 @@ class GameClient {
         void loadSystems();
         void gameLoop();
         void handleEvents(const sf::Event &event);
-        void handleEventsMouse();
+        void mouseMenu(const sf::Event &event);
+        void handleEventsMouse(const sf::Event &event);
         void handleEventsKey(Button eventKey);
         void handleEventsTextEntered(const sf::Event &event);
 
@@ -38,6 +39,8 @@ class GameClient {
 
         void selectMode();
 
+
+        void loadMenu();
         void manageMenu();
         void manageGame();
 
@@ -49,6 +52,7 @@ class GameClient {
         Events _events;
         std::shared_ptr<InitSfml> _graphical;
         sf::Sprite _sprite;
+        bool _isInGame;
 };
 
 #endif /* !GAMECLIENT_HPP_ */

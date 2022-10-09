@@ -33,11 +33,16 @@ namespace ECS {
             [[nodiscard]]sf::Text &getText() noexcept;
             [[nodiscard]]sf::Font getFont() const noexcept;
 
+            void setPosition(int x, int y) noexcept;
+            void setPosition(sf::Vector2f pos) noexcept;
+            [[nodiscard]] sf::Vector2f getPosition() const noexcept;
+
         private:
             sf::Font _font;
             std::string _sentence;
             int _size;
             sf::Text _text;
+            sf::Vector2f _pos;
     };
 
 };

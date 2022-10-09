@@ -27,18 +27,18 @@ void ECS::Graphic::preUpdate()
         if (entity.getType() == EntityType::PLAYER) {
             sfmlTexture = _sfml->getTexture("logo");
             sprite->setTexture(*sfmlTexture);
-            sprite->setRectSizeX(10);
-            sprite->setRectSizeY(10);
-            sprite->setRectPosX(0);
-            sprite->setRectPosY(0);
+            // sprite->setRectSizeX(10);
+            // sprite->setRectSizeY(10);
+            // sprite->setRectPosX(0);
+            // sprite->setRectPosY(0);
         }
         if (entity.getType() == EntityType::ENEMY) {
             sfmlTexture = _sfml->getTexture("bg-menu");
             sprite->setTexture(*sfmlTexture);
-            sprite->setRectSizeX(10);
-            sprite->setRectSizeY(10);
-            sprite->setRectPosX(0);
-            sprite->setRectPosY(0);
+            // sprite->setRectSizeX(10);
+            // sprite->setRectSizeY(10);
+            // sprite->setRectPosX(0);
+            // sprite->setRectPosY(0);
         }
         rotation->setRotate(0);
     }
