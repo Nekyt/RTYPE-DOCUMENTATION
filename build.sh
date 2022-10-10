@@ -1,4 +1,4 @@
 cd build/
-cmake ..
-cd ..
+cmake .. -DCMAKE_TOOLCHAIN_FILE=~/vcpkg/scripts/buildsystems/vcpkg.cmake
 make
+cd ..
