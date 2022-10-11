@@ -15,7 +15,7 @@ class NetworkServer {
     public:
         NetworkServer() = default;
         ~NetworkServer() = default;
-        void loop();
+        void loop(int);
 
     protected:
     private:

@@ -7,17 +7,19 @@
 
 #include "NetworkServer.hpp"
 
-void NetworkServer::loop()
+void NetworkServer::loop(int n)
 {
     int id = 0;
     int co = 1;
 
+    if (n < 2 || n > 4)
+        exit (84);
     if (_udp.bind(sf::Socket::AnyPort) != sf::Socket::Done) {
         printf("fail\n");
         exit (84);
     }
     std::cout << "lisening on port " << _udp.getLocalPort() << " ip " << sf::IpAddress::getLocalAddress() << std::endl;
-    while (id != 4) {
+    while (id != n) {
         if (_udp.receive(_packet, _ip, _port) != sf::Socket::Done) {
             printf("fail receive\n");
             exit (84);
