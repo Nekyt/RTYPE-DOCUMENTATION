@@ -30,13 +30,19 @@ void NetworkServer::loop(int n)
         _clients.push_back(std::make_pair(_ip, _port));
         id++;
         std::cout << "connextion register" << std::endl;
+        _packet.clear();
+        _packet << 0 << id;
+         if (_udp.send(_packet, _ip, _port) != sf::Socket::Done) {
+            printf("fail send\n");
+            exit (84);
+        }
+        _packet.clear();
     }
     for (int i = 0; i < _clients.size(); i++) {
         std::cout << "inform client on " << _clients[i].first << " " << _clients[i].second << " stop the connection" << std::endl;
-         _packet.clear();
+        _packet.clear();
         _packet << co;
         id--;
-        std::cout << _packet << std::endl;
         if (_udp.send(_packet, _clients[i].first, _clients[i].second) != sf::Socket::Done) {
             printf("fail send\n");
             exit (84);
