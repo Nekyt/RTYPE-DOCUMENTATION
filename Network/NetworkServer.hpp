@@ -15,8 +15,9 @@ class NetworkServer {
     public:
         NetworkServer() = default;
         ~NetworkServer() = default;
-        void loop(int);
-
+        void loop(void);
+        void engage(int);
+        void waitClient(int);
     protected:
     private:
         std::vector<std::pair<sf::IpAddress, unsigned short>> _clients;

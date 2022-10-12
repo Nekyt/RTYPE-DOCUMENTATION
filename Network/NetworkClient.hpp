@@ -18,13 +18,16 @@ class NetworkClient {
         void setIp(const char *);
         void setPort(unsigned short);
         void loop();
+        void engage();
 
     protected:
     private:
         sf::UdpSocket _udp;
+        sf::SocketSelector _selector;
         sf::IpAddress _ip;
         unsigned short _port;
         sf::Packet _packet;
+        int _co;
 };
 
 #endif /* !NETWORKCLIENT_HPP_ */

@@ -20,10 +20,10 @@ int main(int ac, char **av)
 {
     NetworkServer set;
     if (ac == 1)
-        set.loop(4);
+        set.engage(4);
     if (ac == 2) {
         if (onlyDigit(av[1]) == 0) {
-            set.loop(atoi(av[1]));
+            set.engage(atoi(av[1]));
         } else {
             return (84);
         }

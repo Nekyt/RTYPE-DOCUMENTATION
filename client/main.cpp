@@ -23,7 +23,7 @@ int main(int ac, char **av)
     NetworkClient set;
     set.setIp(av[1]);
     set.setPort(atoi(av[2]));
-    set.loop();
+    set.engage();
     return (0);
     //try {
     //    return program();
