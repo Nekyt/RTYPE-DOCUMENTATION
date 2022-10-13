@@ -19,9 +19,9 @@ public:
     void destroyEntity(ECS::Entity entity);
     std::vector<ECS::Entity>& getEntities();
 
-    void addComponent(ECS::Entity e, ECS::ComponentType c);
-    ECS::IComp* getComponent(ECS::Entity e, ECS::ComponentType c);
-    std::map<ECS::ComponentType, ECS::IComp*>& getComponentList(ECS::Entity entity);
+    void addComponent(ECS::Entity e, ECS::ComponentType c, std::shared_ptr<ECS::IComp> comp);
+    std::shared_ptr<ECS::IComp> getComponent(ECS::Entity e, ECS::ComponentType c);
+    std::map<ECS::ComponentType, std::shared_ptr<ECS::IComp>>& getComponentList(ECS::Entity entity);
     std::vector<ECS::Entity>& getEntityList(ECS::ComponentType type);
 
     template <typename System>

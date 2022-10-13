@@ -5,8 +5,8 @@
  *
  * @param speed The maximum speed of the entity.
  */
-ECS::Speed::Speed(int speed) noexcept
-    : _maxSpeed(speed)
+ECS::Speed::Speed(int maxSpeed) noexcept
+    : _maxSpeed(maxSpeed)
     , _speed(0)
 {
 }
@@ -34,6 +34,8 @@ int ECS::Speed::getSpeed() const noexcept { return _speed; }
  *
  * @return The max speed of the entity.
  */
+void ECS::Speed::setMaxSpeed(int speed) noexcept { _maxSpeed = speed; }
+
 /**
  * This function returns the maximum speed of the entity.
  *

@@ -30,9 +30,9 @@ void ECS::GraphicSystem::update()
     for (const auto& entity : entities) {
         if (!checkIsValidEntity(entity))
             continue;
-        ECS::Rotate* rotation = dynamic_cast<ECS::Rotate*>(_componentManager->getComponent(entity, ComponentType::ROTATION));
-        ECS::Position* position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
-        ECS::Sprite* sprite = dynamic_cast<ECS::Sprite*>(_componentManager->getComponent(entity, ComponentType::SPRITE));
+        std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
+        std::shared_ptr<ECS::Rotate> rotation = std::dynamic_pointer_cast<ECS::Rotate>(_componentManager->getComponent(entity, ComponentType::ROTATION));
+        std::shared_ptr<ECS::Sprite> sprite = std::dynamic_pointer_cast<ECS::Sprite>(_componentManager->getComponent(entity, ComponentType::SPRITE));
 
         // setIntRect clock
         // std::shared_ptr<sf::Texture> sfmlTexture = sprite->getTexture();

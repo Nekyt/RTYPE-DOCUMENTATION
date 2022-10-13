@@ -97,8 +97,8 @@ void GameClient::mouseMenu(const sf::Event& event)
         sf::Vector2i position = sf::Mouse::getPosition(*_graphical->getWindow());
         for (const auto& entity : entities) {
             if (entity.getType() == ECS::EntityType::BUTTONS) {
-                auto* positionEntity = dynamic_cast<ECS::Position*>(_manager.getComponent(entity, ECS::ComponentType::POSITION));
-                auto* hitboxEntity = dynamic_cast<ECS::Hitbox*>(_manager.getComponent(entity, ECS::ComponentType::HITBOX));
+                std::shared_ptr<ECS::Position> positionEntity = std::dynamic_pointer_cast<ECS::Position>(_manager.getComponent(entity, ECS::ComponentType::POSITION));
+                std::shared_ptr<ECS::Hitbox> hitboxEntity = std::dynamic_pointer_cast<ECS::Hitbox>(_manager.getComponent(entity, ECS::ComponentType::HITBOX));
                 if (position.x > positionEntity->getPosition_x() && position.x < positionEntity->getPosition_x() + hitboxEntity->getWidth() && position.y > positionEntity->getPosition_y() && position.y < positionEntity->getPosition_y() + hitboxEntity->getHeight())
                     _isInGame = true;
             }
@@ -161,45 +161,23 @@ void GameClient::selectMode()
 void GameClient::loadMenu()
 {
     ECS::Entity entityLogo = _manager.createEntity(ECS::EntityType::GRAPHICS);
-    _manager.addComponent(entityLogo, ECS::ComponentType::SPRITE);
-    ECS::IComp* compLogo = _manager.getComponent(entityLogo, ECS::ComponentType::SPRITE);
-    ECS::Sprite* spriteLogo = dynamic_cast<ECS::Sprite*>(compLogo);
-    sf::Sprite spriteLogoTmp;
-    spriteLogoTmp.setTexture(*_graphical->getTexture("logo"));
-    spriteLogo->setSprite(&spriteLogoTmp);
-    spriteLogo->setPosition(sf::Vector2f(610, 310));
+    _manager.addComponent(entityLogo, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("logo"), 1, 1, 0, 0, 0, 0, sf::Vector2f(610, 310)));
+    std::shared_ptr<ECS::Sprite> spriteLogo = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(entityLogo, ECS::ComponentType::SPRITE));
 
     ECS::Entity entityBg = _manager.createEntity(ECS::EntityType::GRAPHICS);
-    _manager.addComponent(entityBg, ECS::ComponentType::SPRITE);
-    ECS::Sprite* spriteBg = dynamic_cast<ECS::Sprite*>(_manager.getComponent(entityBg, ECS::ComponentType::SPRITE));
-    sf::Sprite spriteBgTmp;
-    spriteBgTmp.setTexture(*_graphical->getTexture("bg-menu"));
-    spriteBg->setSprite(&spriteBgTmp);
-    spriteBg->setScale(sf::Vector2f(1.9, 1.9));
+    _manager.addComponent(entityBg, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("bg-menu"), sf::Vector2f(1.9, 1.9)));
+    std::shared_ptr<ECS::Sprite> spriteBg = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(entityBg, ECS::ComponentType::SPRITE));
 
     ECS::Entity entityStart = _manager.createEntity(ECS::EntityType::BUTTONS);
-    _manager.addComponent(entityStart, ECS::ComponentType::SPRITE);
-    ECS::Sprite* spriteStart = dynamic_cast<ECS::Sprite*>(_manager.getComponent(entityStart, ECS::ComponentType::SPRITE));
-    sf::Sprite spriteStartTmp;
-    spriteStartTmp.setTexture(*_graphical->getTexture("start"));
-    spriteStart->setSprite(&spriteStartTmp);
-    spriteStart->setIntRect(sf::IntRect(0, 0, 1135, 345));
-    spriteStart->setPosition(sf::Vector2f(540, 800));
-    spriteStart->setScale(sf::Vector2f(0.7, 0.7));
-    _manager.addComponent(entityStart, ECS::ComponentType::TEXT);
-    ECS::Text* textStart = dynamic_cast<ECS::Text*>(_manager.getComponent(entityStart, ECS::ComponentType::TEXT));
-    textStart->setFont(*_graphical->getFont("origintech"));
-    textStart->setSentence("Ready");
-    textStart->setSizeText(70);
-    textStart->setPosition(sf::Vector2f(870, 880));
-    _manager.addComponent(entityStart, ECS::ComponentType::POSITION);
-    ECS::Position* PositionStart = dynamic_cast<ECS::Position*>(_manager.getComponent(entityStart, ECS::ComponentType::POSITION));
-    PositionStart->setPosition_x(540);
-    PositionStart->setPosition_y(800);
-    _manager.addComponent(entityStart, ECS::ComponentType::HITBOX);
-    ECS::Hitbox* hitboxStart = dynamic_cast<ECS::Hitbox*>(_manager.getComponent(entityStart, ECS::ComponentType::HITBOX));
-    hitboxStart->setHeight(345);
-    hitboxStart->setWidth(1135);
+    _manager.addComponent(entityStart, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("start"), sf::Vector2f(0.7, 0.7), sf::IntRect(0, 0, 1135, 345), sf::Vector2f(540, 800)));
+    std::shared_ptr<ECS::Sprite> spriteStart = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(entityStart, ECS::ComponentType::SPRITE));
+
+    _manager.addComponent(entityStart, ECS::ComponentType::TEXT, std::make_shared<ECS::Text>(*_graphical->getFont("origintech"), "Ready", 70, sf::Vector2f(870, 880)));
+    std::shared_ptr<ECS::Text> textStart = std::dynamic_pointer_cast<ECS::Text>(_manager.getComponent(entityStart, ECS::ComponentType::TEXT));
+    _manager.addComponent(entityStart, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(540, 800));
+    std::shared_ptr<ECS::Position> PositionStart = std::dynamic_pointer_cast<ECS::Position>(_manager.getComponent(entityStart, ECS::ComponentType::POSITION));
+    _manager.addComponent(entityStart, ECS::ComponentType::HITBOX, std::make_shared<ECS::Hitbox>(345, 1135));
+    std::shared_ptr<ECS::Hitbox> hitboxStart = std::dynamic_pointer_cast<ECS::Hitbox>(_manager.getComponent(entityStart, ECS::ComponentType::HITBOX));
 
     _graphical->getWindow()->draw(*spriteBg->getSprite());
     _graphical->getWindow()->draw(*spriteLogo->getSprite());
@@ -220,20 +198,12 @@ void GameClient::manageMenu()
 void GameClient::loadGame()
 {
     ECS::Entity entityBg = _manager.createEntity(ECS::EntityType::GRAPHICS);
-    _manager.addComponent(entityBg, ECS::ComponentType::SPRITE);
-    ECS::Sprite* spriteBg = dynamic_cast<ECS::Sprite*>(_manager.getComponent(entityBg, ECS::ComponentType::SPRITE));
-    sf::Sprite spriteBgTmp;
-    spriteBgTmp.setTexture(*_graphical->getTexture("bg-game-2"));
-    spriteBg->setSprite(&spriteBgTmp);
-    spriteBg->setScale(sf::Vector2f(1.9, 1.9));
+    _manager.addComponent(entityBg, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("bg-game-2"), sf::Vector2f(1.9, 1.9)));
+    std::shared_ptr<ECS::Sprite> spriteBg = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(entityBg, ECS::ComponentType::SPRITE));
 
     ECS::Entity entityStars = _manager.createEntity(ECS::EntityType::GRAPHICS);
-    _manager.addComponent(entityStars, ECS::ComponentType::SPRITE);
-    ECS::Sprite* spriteStars = dynamic_cast<ECS::Sprite*>(_manager.getComponent(entityStars, ECS::ComponentType::SPRITE));
-    sf::Sprite spriteStarsTmp;
-    spriteStarsTmp.setTexture(*_graphical->getTexture("stars"));
-    spriteStars->setSprite(&spriteStarsTmp);
-    spriteStars->setScale(sf::Vector2f(1, 1));
+    _manager.addComponent(entityStars, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("stars"), sf::Vector2f(1, 1)));
+    std::shared_ptr<ECS::Sprite> spriteStars = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(entityStars, ECS::ComponentType::SPRITE));
 
     _graphical->getWindow()->draw(*spriteBg->getSprite());
     _graphical->getWindow()->draw(*spriteStars->getSprite());

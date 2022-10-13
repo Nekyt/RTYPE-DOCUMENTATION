@@ -7,6 +7,18 @@
 
 #include "../include/Text.hpp"
 
+ECS::Text::Text(sf::Font& font, const std::string& sentence, int size, sf::Vector2f pos) noexcept
+    : _sentence(sentence)
+    , _size(size)
+    , _font(font)
+    , _pos(pos)
+{
+    _text.setFont(_font);
+    _text.setCharacterSize(_size);
+    _text.setString(_sentence);
+    _text.setPosition(_pos);
+}
+
 /**
  * It's a copy constructor
  *

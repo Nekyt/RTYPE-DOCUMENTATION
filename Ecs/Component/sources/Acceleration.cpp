@@ -3,9 +3,9 @@
 /**
  * This function is the default constructor for the Acceleration class
  */
-ECS::Acceleration::Acceleration() noexcept
-    : _x(0)
-    , _y(0)
+ECS::Acceleration::Acceleration(int x, int y) noexcept
+    : _x(x)
+    , _y(y)
 {
 }
 

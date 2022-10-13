@@ -17,7 +17,7 @@ namespace ECS {
 
 class Text : public IComp {
 public:
-    explicit Text() noexcept = default;
+    explicit Text(sf::Font& font, const std::string& sentence, int size, sf::Vector2f pos) noexcept;
     Text(const Text& text) noexcept;
     explicit Text(Text&&) noexcept = delete;
     ~Text() noexcept override = default;

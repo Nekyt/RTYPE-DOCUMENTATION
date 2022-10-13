@@ -7,10 +7,47 @@
 
 #include "../include/Sprite.hpp"
 
-/**
- * ECS::Sprite::Sprite() noexcept {}
- */
-ECS::Sprite::Sprite() noexcept { }
+ECS::Sprite::Sprite(const sf::Texture& texture, sf::Vector2f scale, sf::IntRect intRect, sf::Vector2f pos) noexcept
+    : _scale(scale)
+    , _intRect(intRect)
+    , _pos(pos)
+    , _sprite(new sf::Sprite())
+{
+    _sprite->setTexture(texture);
+    if (_scale.x > 0 && _scale.y > 0)
+        _sprite->setScale(_scale.x, _scale.y);
+    if (_intRect.width > 0, _intRect.height > 0)
+        _sprite->setTextureRect(_intRect);
+    _sprite->setPosition(_pos.x, _pos.y);
+}
+
+ECS::Sprite::Sprite(const sf::Texture& texture, int scaleX, int scaleY, sf::IntRect intRect, sf::Vector2f pos) noexcept
+    : _scale(scaleX, scaleY)
+    , _intRect(intRect)
+    , _pos(pos)
+    , _sprite(new sf::Sprite())
+{
+    _sprite->setTexture(texture);
+    if (_scale.x > 0 && _scale.y > 0)
+        _sprite->setScale(_scale.x, _scale.y);
+    if (_intRect.width > 0, _intRect.height > 0)
+        _sprite->setTextureRect(_intRect);
+    _sprite->setPosition(_pos.x, _pos.y);
+}
+
+ECS::Sprite::Sprite(const sf::Texture& texture, int scaleX, int scaleY, int left, int top, int width, int height, sf::Vector2f pos) noexcept
+    : _scale(scaleX, scaleY)
+    , _intRect(left, top, width, height)
+    , _pos(pos)
+    , _sprite(new sf::Sprite())
+{
+    _sprite->setTexture(texture);
+    if (_scale.x > 0 && _scale.y > 0)
+        _sprite->setScale(_scale.x, _scale.y);
+    if (_intRect.width > 0, _intRect.height > 0)
+        _sprite->setTextureRect(_intRect);
+    _sprite->setPosition(_pos.x, _pos.y);
+}
 
 /**
  * Copy constructor for the Sprite class.
@@ -20,6 +57,7 @@ ECS::Sprite::Sprite() noexcept { }
 ECS::Sprite::Sprite(const ECS::Sprite& sprite) noexcept
     : _intRect(sprite.getIntRect())
     , _scale(sprite.getScale())
+    , _pos(sprite.getPosition())
     , _sprite(sprite.getSprite())
 {
 }

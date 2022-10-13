@@ -7,7 +7,7 @@ namespace ECS {
 
 class Speed : public IComp {
 public:
-    explicit Speed(int speed) noexcept;
+    explicit Speed(int maxSpeed) noexcept;
     Speed(const Speed& speed) noexcept;
     explicit Speed(Speed&&) noexcept = delete;
     ~Speed() noexcept override = default;

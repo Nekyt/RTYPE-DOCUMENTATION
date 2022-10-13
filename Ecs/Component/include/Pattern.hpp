@@ -8,7 +8,7 @@ namespace ECS {
 class Pattern : public IComp {
 public:
     explicit Pattern() noexcept = default;
-    Pattern(const Pattern& bonus) noexcept = default;
+    Pattern(const Pattern& pattern) noexcept = default;
     explicit Pattern(Pattern&&) noexcept = delete;
     ~Pattern() noexcept override = default;
 

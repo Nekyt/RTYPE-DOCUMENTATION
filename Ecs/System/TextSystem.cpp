@@ -29,8 +29,8 @@ void ECS::TextSystem::update()
     for (const auto& entity : entities) {
         if (!checkIsValidEntity(entity))
             continue;
-        ECS::Position* position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
-        ECS::Text* text = dynamic_cast<ECS::Text*>(_componentManager->getComponent(entity, ComponentType::TEXT));
+        std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
+        std::shared_ptr<ECS::Text> text = std::dynamic_pointer_cast<ECS::Text>(_componentManager->getComponent(entity, ComponentType::TEXT));
         text->setFont(*_sfml->getFont("origintech"));
         text->setSentence(text->getSentence());
         text->setSizeText(text->getTextSize());

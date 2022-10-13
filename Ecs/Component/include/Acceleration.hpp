@@ -7,7 +7,7 @@
 namespace ECS {
 class Acceleration : public IComp {
 public:
-    explicit Acceleration() noexcept;
+    explicit Acceleration(int x, int y) noexcept;
     Acceleration(const Acceleration& acc) noexcept;
     explicit Acceleration(Acceleration&&) noexcept = delete;
 

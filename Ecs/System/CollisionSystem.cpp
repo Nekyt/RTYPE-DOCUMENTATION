@@ -31,9 +31,9 @@ void ECS::CollisionSystem::update()
     for (const auto& entity : entities) {
         if (!checkIsValidEntity(entity))
             continue;
-        auto* position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
-        auto* hitbox = dynamic_cast<ECS::Hitbox*>(_componentManager->getComponent(entity, ComponentType::HITBOX));
-        auto* health = dynamic_cast<ECS::Health*>(_componentManager->getComponent(entity, ComponentType::HEALTH));
+        std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
+        std::shared_ptr<ECS::Hitbox> hitbox = std::dynamic_pointer_cast<ECS::Hitbox>(_componentManager->getComponent(entity, ComponentType::HITBOX));
+        std::shared_ptr<ECS::Health> health = std::dynamic_pointer_cast<ECS::Health>(_componentManager->getComponent(entity, ComponentType::HEALTH));
         auto id = entity.getId();
         for (const auto& entity2 : entities) {
             if (!checkIsValidEntity(entity2))
@@ -41,9 +41,9 @@ void ECS::CollisionSystem::update()
             auto id2 = entity2.getId();
             if (id == id2)
                 continue;
-            auto* position2 = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity2, ComponentType::POSITION));
-            auto* hitbox2 = dynamic_cast<ECS::Hitbox*>(_componentManager->getComponent(entity2, ComponentType::HITBOX));
-            auto* health2 = dynamic_cast<ECS::Health*>(_componentManager->getComponent(entity2, ComponentType::HEALTH));
+            std::shared_ptr<ECS::Position> position2 = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
+            std::shared_ptr<ECS::Hitbox> hitbox2 = std::dynamic_pointer_cast<ECS::Hitbox>(_componentManager->getComponent(entity, ComponentType::HITBOX));
+            std::shared_ptr<ECS::Health> health2 = std::dynamic_pointer_cast<ECS::Health>(_componentManager->getComponent(entity, ComponentType::HEALTH));
             if (hitbox->isColliding(position, hitbox2, position2) == true) {
                 if ((entity.getType() == EntityType::PLAYER) && (entity2.getType() == EntityType::ENEMY))
                     health->removeHealth(25);

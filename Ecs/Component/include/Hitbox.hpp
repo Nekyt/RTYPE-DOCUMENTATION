@@ -3,6 +3,7 @@
 
 #include "IComp.hpp"
 #include "Position.hpp"
+#include <memory>
 
 namespace ECS {
 
@@ -16,7 +17,7 @@ public:
     Hitbox& operator=(const Hitbox&) const noexcept = delete;
     Hitbox& operator=(Hitbox&&) const noexcept = delete;
 
-    [[nodiscard]] bool isColliding(const ECS::Position* current, const ECS::Hitbox* compare, const ECS::Position* comp) const noexcept;
+    [[nodiscard]] bool isColliding(const std::shared_ptr<ECS::Position> current, const std::shared_ptr<ECS::Hitbox> compare, const std::shared_ptr<ECS::Position> comp) const noexcept;
     [[nodiscard]] unsigned short getWidth() const noexcept;
     [[nodiscard]] unsigned short getHeight() const noexcept;
     void setWidth(unsigned short width) noexcept;
