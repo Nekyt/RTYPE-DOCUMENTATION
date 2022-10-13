@@ -1,11 +1,9 @@
 <!-- AUTO-GENERATED-CONTENT:START (STARTER) -->
 <p align="center">
-  <a href="http://zeleph.fr/">
-    <img alt="stickos" src="https://drive.google.com/uc?id=1uxZUVfXys-5X-yk242oydfuDpmYuh9ra" width="250" />
-  </a>
+  <img alt="stickos" src="https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/games_15/virtual_console_wii_u_7/H2x1_WiiUVC_RType.jpg" />
 </p>
 <h2 align="center">
-  Zeleph tournaments
+  R-type
 </h2>
 
 ![Top Language](https://img.shields.io/badge/Langage-C%2B%2B-green)
