@@ -189,7 +189,7 @@ void GameClient::loadMenu()
     _manager.addComponent(entityStart, ECS::ComponentType::TEXT);
     ECS::Text *textStart = dynamic_cast<ECS::Text*>(_manager.getComponent(entityStart, ECS::ComponentType::TEXT));
     textStart->setFont(*_graphical->getFont("origintech"));
-    textStart->setSentence("Start");
+    textStart->setSentence("Ready");
     textStart->setSizeText(70);
     textStart->setPosition(sf::Vector2f(870, 880));
     _manager.addComponent(entityStart, ECS::ComponentType::POSITION);

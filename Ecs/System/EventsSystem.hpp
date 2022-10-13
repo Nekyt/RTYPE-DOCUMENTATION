@@ -1,0 +1,32 @@
+/*
+** EPITECH PROJECT, 2022
+** r-type
+** File description:
+** EventsSystem
+*/
+
+#ifndef EVENTSSYSTEM_HPP_
+#define EVENTSSYSTEM_HPP_
+
+#include "./System.hpp"
+
+namespace ECS
+{
+    class EventsSystem : public System {
+        public:
+            EventsSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager);
+            ~EventsSystem() = default;
+
+            void update();
+            bool checkIsValidEntity(Entity entity);
+
+        protected:
+            void setEvents(Entity entity, Button event);
+            void modifyAcceleration(Entity entity, std::vector<Button> event);
+            void clearEvents();
+        private:
+            std::unordered_map<Entity, std::vector<Button>> _currentEvents;
+    };
+} // namespace ECS
+
+#endif /* !EVENTSSYSTEM_HPP_ */

@@ -15,7 +15,8 @@
  * @param entityManager The entity manager that will be used to get the entities
  * that have the components that the system will use.
  */
-ECS::CollisionSystem::CollisionSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager) : System(componentsManager, entityManager)
+ECS::CollisionSystem::CollisionSystem(const std::shared_ptr<ComponentManager>& componentsManager, const std::shared_ptr<EntityManager>& entityManager)
+    : System(componentsManager, entityManager)
 {
 }
 
@@ -25,29 +26,28 @@ ECS::CollisionSystem::CollisionSystem(const std::shared_ptr<ComponentManager> &c
  */
 void ECS::CollisionSystem::update()
 {
-    const auto &entities = _entityManager->getEntities();
+    const auto& entities = _entityManager->getEntities();
 
-    for (const auto &entity : entities) {
+    for (const auto& entity : entities) {
         if (!checkIsValidEntity(entity))
             continue;
-        auto *position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
-        auto *hitbox = dynamic_cast<ECS::Hitbox*>(_componentManager->getComponent(entity, ComponentType::HITBOX));
-        auto *health = dynamic_cast<ECS::Health*>(_componentManager->getComponent(entity, ComponentType::HEALTH));
+        auto* position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
+        auto* hitbox = dynamic_cast<ECS::Hitbox*>(_componentManager->getComponent(entity, ComponentType::HITBOX));
+        auto* health = dynamic_cast<ECS::Health*>(_componentManager->getComponent(entity, ComponentType::HEALTH));
         auto id = entity.getId();
-        for (const auto &entity2 : entities) {
+        for (const auto& entity2 : entities) {
             if (!checkIsValidEntity(entity2))
                 continue;
             auto id2 = entity2.getId();
             if (id == id2)
                 continue;
-            auto *position2 = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity2, ComponentType::POSITION));
-            auto *hitbox2 = dynamic_cast<ECS::Hitbox*>(_componentManager->getComponent(entity2, ComponentType::HITBOX));
-            auto *health2 = dynamic_cast<ECS::Health*>(_componentManager->getComponent(entity2, ComponentType::HEALTH));
+            auto* position2 = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity2, ComponentType::POSITION));
+            auto* hitbox2 = dynamic_cast<ECS::Hitbox*>(_componentManager->getComponent(entity2, ComponentType::HITBOX));
+            auto* health2 = dynamic_cast<ECS::Health*>(_componentManager->getComponent(entity2, ComponentType::HEALTH));
             if (hitbox->isColliding(position, hitbox2, position2) == true) {
                 if ((entity.getType() == EntityType::PLAYER) && (entity2.getType() == EntityType::ENEMY))
                     health->removeHealth(25);
-                if ((entity.getType() == EntityType::PLAYER) && (entity2.getType() == EntityType::PROJECTILES) ||
-                    (entity.getType() == EntityType::ENEMY) && (entity2.getType() == EntityType::PROJECTILES)) {
+                if ((entity.getType() == EntityType::PLAYER) && (entity2.getType() == EntityType::PROJECTILES) || (entity.getType() == EntityType::ENEMY) && (entity2.getType() == EntityType::PROJECTILES)) {
                     health->removeHealth(25);
                     health2->removeHealth(health2->getHealth());
                 }
@@ -65,17 +65,14 @@ void ECS::CollisionSystem::update()
  */
 bool ECS::CollisionSystem::checkIsValidEntity(Entity entity)
 {
-    auto &components = _componentManager->getComponentList(entity);
+    auto& components = _componentManager->getComponentList(entity);
 
-    try
-    {
+    try {
         components.at(ComponentType::POSITION);
         components.at(ComponentType::HITBOX);
         components.at(ComponentType::HEALTH);
         return true;
-    }
-    catch(const std::exception& e)
-    {
+    } catch (const std::exception& e) {
         return false;
     }
 }

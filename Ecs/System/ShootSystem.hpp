@@ -18,7 +18,7 @@ namespace ECS
             ~ShootSystem() = default;
 
             void update();
-            bool checkIsValidEntity(const std::size_t id);
+            bool checkIsValidEntity(Entity entity);
 
         protected:
         private:

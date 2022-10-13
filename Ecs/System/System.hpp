@@ -11,6 +11,7 @@
 #include "../IncludeCpp.hpp"
 #include "../Entity/EntityManager.hpp"
 #include "../Component/ComponentManager.hpp"
+#include "../../Graphics/Events.hpp"
 
 namespace ECS
 {

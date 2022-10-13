@@ -32,7 +32,7 @@ void ECS::TextSystem::update()
         ECS::Text *text = dynamic_cast<ECS::Text*>(_componentManager->getComponent(entity, ComponentType::TEXT));
         text->setFont(*_sfml->getFont("origintech"));
         text->setSentence(text->getSentence());
-        text->setTextSize(text->getTextSize());
+        //text->setTextSize(text->getTextSize());
         text->setPosition(position->getPosition_x(), position->getPosition_y());
         _window->draw(text->getText());
     }
