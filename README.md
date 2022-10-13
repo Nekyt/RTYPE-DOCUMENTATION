@@ -2,13 +2,23 @@
 <p align="center">
   <img alt="stickos" src="https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/games_15/virtual_console_wii_u_7/H2x1_WiiUVC_RType.jpg" />
 </p>
-<h2 align="center">
-  R-type
-</h2>
 
 ![Top Language](https://img.shields.io/badge/Langage-C%2B%2B-green)
 ![code style](https://img.shields.io/badge/Format-WebKit-orange)
 ![Graphical](https://img.shields.io/badge/Graphical-SFML-blue)
+
+# Structure
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<!-- https://github.com/thlorenz/doctoc -->
+
+- [Structure](#structure)
+  - [R-Type overview](#r-type)
+    - [Requirements](#requirements)
+    - [Installing](#installing)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
 # R-Type
 
