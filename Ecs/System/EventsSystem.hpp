@@ -20,13 +20,13 @@ public:
     bool checkIsValidEntity(Entity entity);
 
 protected:
-    void setEvents(Entity entity, Button event);
-    void modifyAcceleration(Entity entity, std::vector<Button> event);
+    void setEvents(Entity &entity, Button &event);
+    void modifyAcceleration(Entity entity, Button event);
     void shoot(Entity entity);
     void clearEvents();
 
 private:
-    std::unordered_map<Entity, std::vector<Button>> _currentEvents;
+    std::unordered_map<std::size_t, std::vector<Button>> _currentEvents;
 };
 } // namespace ECS
 

@@ -21,45 +21,47 @@ void ECS::EventsSystem::update()
             continue;
         if (!checkIsValidEntity(entity))
             continue;
-        for (auto event : _currentEvents) {
-            if (event.second == Button::Space && event.first == entity)
-                shoot(entity);
-            else if (event.first == entity)
-                modifyAcceleration(entity, event);
+        for (auto &events : _currentEvents) {
+            for (auto &event : events.second) {
+                if (event == Button::Space && events.first == entity.getId())
+                    shoot(entity);
+                else if (events.first == entity.getId())
+                    modifyAcceleration(entity, event);
+            }
         }
     }
 }
 
-void ECS::EventsSystem::setEvents(Entity entity, Button event)
+void ECS::EventsSystem::setEvents(Entity &entity, Button &event)
 {
-    _currentEvents[entity] = event;
+    _currentEvents.at(entity.getId()).push_back(event);
 }
 
-void ECS::EventsSystem::modifyAcceleration(Entity entity, std::vector<Button> event)
+void ECS::EventsSystem::modifyAcceleration(Entity entity, Button event)
 {
     auto* speed = dynamic_cast<ECS::Speed*>(_componentManager->getComponent(entity, ComponentType::SPEED));
     auto* acceleration = dynamic_cast<ECS::Acceleration*>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
 
-    switch (event.second) {
+    switch (event) {
     case Button::Right:
         acceleration->setAcceleration_x(1);
         acceleration->setAcceleration_y(0);
-        speed->setMaxSpeed(12);
+        speed->setSpeed(12);
         break;
     case Button::Left:
         acceleration->setAcceleration_x(-1);
         acceleration->setAcceleration_y(0);
-        speed->setMaxSpeed(12);
+        speed->setSpeed(12);
         break;
     case Button::Down:
         acceleration->setAcceleration_x(0);
         acceleration->setAcceleration_y(1);
-        speed->setMaxSpeed(12);
+        speed->setSpeed(12);
         break;
     case Button::Up:
         acceleration->setAcceleration_x(0);
         acceleration->setAcceleration_y(-1);
-        speed->setMaxSpeed(12);
+        speed->setSpeed(12);
         break;
     default:
         break;
@@ -75,7 +77,7 @@ void ECS::EventsSystem::shoot(Entity entity)
     short posProjectile_y = position->getPosition_y();
 
     ECS::Entity entityProjectile = _entityManager->createEntity(ECS::EntityType::PROJECTILES);
-    _componentManager.addComponent(entityProjectile, ECS::ComponentType::POSITION);
+    _componentManager->addComponent(entityProjectile, ECS::ComponentType::POSITION);
     //_componentManager.addComponent(entityProjectile, ECS::ComponentType::BULLET); isFriend = true
     // reset la clock pour la fréquence de tire aussi non on va pas s'en sortir
 }
