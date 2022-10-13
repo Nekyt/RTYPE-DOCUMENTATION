@@ -1,6 +1,16 @@
-RTYPE by EPITECH STUDENTS.
+<!-- AUTO-GENERATED-CONTENT:START (STARTER) -->
+<p align="center">
+  <a href="http://zeleph.fr/">
+    <img alt="stickos" src="https://drive.google.com/uc?id=1uxZUVfXys-5X-yk242oydfuDpmYuh9ra" width="250" />
+  </a>
+</p>
+<h2 align="center">
+  Zeleph tournaments
+</h2>
 
-Launch the game and enjoy!
+![Top Language](https://img.shields.io/badge/Langage-C%2B%2B-green)
+![code style](https://img.shields.io/badge/Format-WebKit-orange)
+![Graphical](https://img.shields.io/badge/Graphical-SFML-blue)
 
 # R-Type
 
