@@ -18,9 +18,20 @@
 //    return 0;
 //}
 
+int onlyDigit(char *str)
+{
+    for (int i = 0; str[i] != '\0'; i++)
+        if (str[i] < '0' || str[i] > '9')
+            return (1);
+    return (0);
+}
+
 int main(int ac, char **av)
 {
     NetworkClient set;
+
+    if (onlyDigit(av[2]) == 1)
+        return (84);
     set.setIp(av[1]);
     set.setPort(atoi(av[2]));
     set.engage();
