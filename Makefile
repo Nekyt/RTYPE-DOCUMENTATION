@@ -27,7 +27,7 @@ SRC	=	Client/main.cpp \
 		Ecs/System/MoveSystem.cpp \
 		Ecs/System/GraphicSystem.cpp \
 		Ecs/System/TextSystem.cpp \
-		Ecs/System/ShootSystem.cpp \
+		Ecs/System/EventsSystem.cpp \
 		Ecs/System/SystemManager.cpp \
 		Ecs/System/System.cpp \
 		Ecs/Manager.cpp \
