@@ -1,0 +1,40 @@
+creation ennemy
+
+client << ennemy id << position x << position y << server
+
+creat joueur
+
+client << joueur id << position x << position y << alive << server
+
+joueur movement
+
+server << direction(1-4) << client
+
+joueur tir
+
+server << 5 << client
+client << tir id << position x << position y << server
+
+joueur connection
+
+server << 0 << client
+client << id joueur << 0 << server
+
+ennemy tir
+
+client << tir id << position x << position y << server
+
+all connect
+
+client << 3 << server
+
+all ready
+
+server << 1 << client
+client << 4 << server
+
+score individuel
+start game
+
+server << 5 << client
+client << 5 << server
