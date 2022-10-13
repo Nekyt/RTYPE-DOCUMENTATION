@@ -15,7 +15,7 @@
 
 - [Structure](#structure)
   - [R-Type overview](#r-type)
-    - [Requirements](#requirements)
+    - [Software architecture](#software-architecture)
     - [Installing](#installing)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
@@ -26,24 +26,25 @@ This project aims to recreate the [R-Type](https://fr.wikipedia.org/wiki/R-Type)
 
 Made by : Romanie DE MEYER - Théo MILLASSEAU - Kevin ZILLIOX - Nykyta KUDRYA - Sylvian BURN
 
-## Server
 
-- [ ] The server must be multi-threaded
-- [ ] The server must be able to handle more than one game at a time
-
-## Client
-
-> The client is the display terminal of the game.
-
-- [ ] The client must contain anything necessary to display the game and handle player input.
-- [X] The client must use the SFML.
-
-## Requirements
+##  SOFTWARE ARCHITECTURE
 
 ### Platforms
 
 - [ ] The project must be OS independent. (Linux, Windows)
 - [ ] The project must be built using a [CMake](https://github.com/EpitechPromo2025/B-CPP-500-STG-5-1-rtype-romanie.de-meyer/blob/main/CMakeLists.txt) and dependencies must be handled using [conan]().
+
+### Server
+
+- [ ] The server must be multi-threaded and not blocking.
+- [ ] The server must have authority on what happens in the end.
+
+### Client
+
+> The client is the display terminal of the game.
+
+- [ ] The client must contain anything necessary to display the game and handle player input.
+- [X] The client must use the SFML.
 
 ### Protocol
 
@@ -67,7 +68,6 @@ Made by : Romanie DE MEYER - Théo MILLASSEAU - Kevin ZILLIOX - Nykyta KUDRYA - 
 - [ ] Your engine must provides type-safety at compile-time.
 
 We choosed to use an [ECS architecture](https://en.wikipedia.org/wiki/Entity%E2%80%93component%E2%80%93system) for our engine.
-
 
 This is our architecture :
 
