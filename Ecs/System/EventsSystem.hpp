@@ -10,23 +10,23 @@
 
 #include "./System.hpp"
 
-namespace ECS
-{
-    class EventsSystem : public System {
-        public:
-            EventsSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager);
-            ~EventsSystem() = default;
+namespace ECS {
+class EventsSystem : public System {
+public:
+    EventsSystem(const std::shared_ptr<ComponentManager>& componentsManager, const std::shared_ptr<EntityManager>& entityManager);
+    ~EventsSystem() = default;
 
-            void update();
-            bool checkIsValidEntity(Entity entity);
+    void update();
+    bool checkIsValidEntity(Entity entity);
 
-        protected:
-            void setEvents(Entity entity, Button event);
-            void modifyAcceleration(Entity entity, std::vector<Button> event);
-            void clearEvents();
-        private:
-            std::unordered_map<Entity, std::vector<Button>> _currentEvents;
-    };
+protected:
+    void setEvents(Entity entity, Button event);
+    void modifyAcceleration(Entity entity, std::vector<Button> event);
+    void clearEvents();
+
+private:
+    std::unordered_map<Entity, std::vector<Button>> _currentEvents;
+};
 } // namespace ECS
 
 #endif /* !EVENTSSYSTEM_HPP_ */

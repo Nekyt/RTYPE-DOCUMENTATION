@@ -8,25 +8,24 @@
 #ifndef GRAPHICSYSTEM_HPP_
 #define GRAPHICSYSTEM_HPP_
 
-#include "./System.hpp"
 #include "../../Graphics/InitSfml.hpp"
+#include "./System.hpp"
 
-namespace ECS
-{
-    class GraphicSystem : public System {
-        public:
-            GraphicSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager);
-            ~GraphicSystem() = default;
+namespace ECS {
+class GraphicSystem : public System {
+public:
+    GraphicSystem(const std::shared_ptr<ComponentManager>& componentsManager, const std::shared_ptr<EntityManager>& entityManager);
+    ~GraphicSystem() = default;
 
-            void update();
-            void setSfml(std::shared_ptr<InitSfml> sfml);
-            bool checkIsValidEntity(Entity entity);
+    void update();
+    void setSfml(std::shared_ptr<InitSfml> sfml);
+    bool checkIsValidEntity(Entity entity);
 
-        protected:
-        private:
-            std::shared_ptr<InitSfml> _sfml;
-            std::shared_ptr<sf::RenderWindow> _window;
-    };
+protected:
+private:
+    std::shared_ptr<InitSfml> _sfml;
+    std::shared_ptr<sf::RenderWindow> _window;
+};
 }
 
 #endif /* !SYSTEM_HPP_ */

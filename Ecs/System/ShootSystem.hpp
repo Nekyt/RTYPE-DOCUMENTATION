@@ -10,19 +10,18 @@
 
 #include "./System.hpp"
 
-namespace ECS
-{
-    class ShootSystem : public System {
-        public:
-            ShootSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager);
-            ~ShootSystem() = default;
+namespace ECS {
+class ShootSystem : public System {
+public:
+    ShootSystem(const std::shared_ptr<ComponentManager>& componentsManager, const std::shared_ptr<EntityManager>& entityManager);
+    ~ShootSystem() = default;
 
-            void update();
-            bool checkIsValidEntity(Entity entity);
+    void update();
+    bool checkIsValidEntity(Entity entity);
 
-        protected:
-        private:
-    };
+protected:
+private:
+};
 } // namespace ECS
 
 #endif /* !SHOOTSYSTEM_HPP_ */

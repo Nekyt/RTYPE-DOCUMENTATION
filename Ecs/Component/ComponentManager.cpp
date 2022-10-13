@@ -32,7 +32,7 @@ void ECS::ComponentManager::addComponent(ECS::Entity e, ECS::ComponentType c)
  *
  * @return A reference to the component of type c of entity e.
  */
-ECS::IComp *ECS::ComponentManager::getComponent(ECS::Entity e, ECS::ComponentType c)
+ECS::IComp* ECS::ComponentManager::getComponent(ECS::Entity e, ECS::ComponentType c)
 {
     return _eentities[e][c];
 }
@@ -42,7 +42,7 @@ ECS::IComp *ECS::ComponentManager::getComponent(ECS::Entity e, ECS::ComponentTyp
  *
  * @return A map of component types and components.
  */
-std::map<ECS::ComponentType, ECS::IComp*> &ECS::ComponentManager::getComponentList(Entity entity)
+std::map<ECS::ComponentType, ECS::IComp*>& ECS::ComponentManager::getComponentList(Entity entity)
 {
     return _eentities.at(entity);
 }
@@ -53,7 +53,7 @@ std::map<ECS::ComponentType, ECS::IComp*> &ECS::ComponentManager::getComponentLi
  *
  * @return A vector of entities.
  */
-std::vector<ECS::Entity> &ECS::ComponentManager::getEntityList(ComponentType type)
+std::vector<ECS::Entity>& ECS::ComponentManager::getEntityList(ComponentType type)
 {
     return _centities.at(type);
 }
@@ -65,7 +65,7 @@ std::vector<ECS::Entity> &ECS::ComponentManager::getEntityList(ComponentType typ
  *
  * @return A component of the type specified in the parameter.
  */
-ECS::IComp *ECS::ComponentManager::createComponent(ECS::ComponentType c)
+ECS::IComp* ECS::ComponentManager::createComponent(ECS::ComponentType c)
 {
     if (c == ECS::ComponentType::ACCELERATION)
         return new ECS::Acceleration();
@@ -97,6 +97,6 @@ ECS::IComp *ECS::ComponentManager::createComponent(ECS::ComponentType c)
         return new ECS::Text();
     else if (c == ECS::ComponentType::SPRITE)
         return new ECS::Sprite();
-    else //if (c == ECS::ComponentType::WEAPON)
+    else // if (c == ECS::ComponentType::WEAPON)
         return new ECS::Weapon();
 }

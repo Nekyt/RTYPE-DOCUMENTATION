@@ -55,7 +55,7 @@ void GameClient::gameLoop()
 {
     while (_graphical->getWindow()->isOpen()) {
         while (_graphical->getWindow()->pollEvent(_graphical->getEvent())) {
-            const sf::Event &event = _graphical->getEvent();
+            const sf::Event& event = _graphical->getEvent();
             handleEvents(event);
         }
         _graphical->clear();
@@ -66,10 +66,10 @@ void GameClient::gameLoop()
 
 /**
  * It handles the events
- * 
+ *
  * @param event The event to handle.
  */
-void GameClient::handleEvents(const sf::Event &event)
+void GameClient::handleEvents(const sf::Event& event)
 {
     Button eventKey = _events.getEventType(event);
 
@@ -84,22 +84,21 @@ void GameClient::handleEvents(const sf::Event &event)
 /**
  * It checks if the mouse is on a button, and if it is, it sets the _isInGame
  * variable to true
- * 
+ *
  * @param event The event that was triggered.
  */
-void GameClient::mouseMenu(const sf::Event &event)
+void GameClient::mouseMenu(const sf::Event& event)
 {
-    const auto &entities = _manager.getEntities();
+    const auto& entities = _manager.getEntities();
     Mouse eventMouse = _events.getEventTypeMouse(event);
 
     if (eventMouse == Mouse::Left) {
         sf::Vector2i position = sf::Mouse::getPosition(*_graphical->getWindow());
-        for (const auto &entity : entities) {
+        for (const auto& entity : entities) {
             if (entity.getType() == ECS::EntityType::BUTTONS) {
-                auto *positionEntity = dynamic_cast<ECS::Position*>(_manager.getComponent(entity, ECS::ComponentType::POSITION));
-                auto *hitboxEntity = dynamic_cast<ECS::Hitbox*>(_manager.getComponent(entity, ECS::ComponentType::HITBOX));
-                if (position.x > positionEntity->getPosition_x() && position.x < positionEntity->getPosition_x() + hitboxEntity->getWidth() &&
-                    position.y > positionEntity->getPosition_y() && position.y < positionEntity->getPosition_y() + hitboxEntity->getHeight())
+                auto* positionEntity = dynamic_cast<ECS::Position*>(_manager.getComponent(entity, ECS::ComponentType::POSITION));
+                auto* hitboxEntity = dynamic_cast<ECS::Hitbox*>(_manager.getComponent(entity, ECS::ComponentType::HITBOX));
+                if (position.x > positionEntity->getPosition_x() && position.x < positionEntity->getPosition_x() + hitboxEntity->getWidth() && position.y > positionEntity->getPosition_y() && position.y < positionEntity->getPosition_y() + hitboxEntity->getHeight())
                     _isInGame = true;
             }
         }
@@ -108,36 +107,36 @@ void GameClient::mouseMenu(const sf::Event &event)
 
 /**
  * It handles mouse events based on the current game state
- * 
+ *
  * @param event The event that was triggered.
  */
-void GameClient::handleEventsMouse(const sf::Event &event)
+void GameClient::handleEventsMouse(const sf::Event& event)
 {
     switch (_state) {
-        case GameState::Menu:
-            mouseMenu(event);
-            break;
-        case GameState::Game:
-            //handle game
-            break;
-        default:
-            break;
+    case GameState::Menu:
+        mouseMenu(event);
+        break;
+    case GameState::Game:
+        // handle game
+        break;
+    default:
+        break;
     }
 }
 
 /**
  * > This function handles the events that are triggered by the keyboard
- * 
+ *
  * @param eventKey The key that was pressed.
  */
 void GameClient::handleEventsKey(Button eventKey)
 {
     switch (_state) {
-        case GameState::Game:
-            //handle game
-            break;
-        default:
-            break;
+    case GameState::Game:
+        // handle game
+        break;
+    default:
+        break;
     }
 }
 
@@ -147,14 +146,14 @@ void GameClient::handleEventsKey(Button eventKey)
 void GameClient::selectMode()
 {
     switch (_state) {
-        case GameState::Menu:
-            manageMenu();
-            break;
-        case GameState::Game:
-            manageGame();
-            break;
-        default:
-            break;
+    case GameState::Menu:
+        manageMenu();
+        break;
+    case GameState::Game:
+        manageGame();
+        break;
+    default:
+        break;
     }
 }
 
@@ -162,8 +161,8 @@ void GameClient::loadMenu()
 {
     ECS::Entity entityLogo = _manager.createEntity(ECS::EntityType::GRAPHICS);
     _manager.addComponent(entityLogo, ECS::ComponentType::SPRITE);
-    ECS::IComp *compLogo = _manager.getComponent(entityLogo, ECS::ComponentType::SPRITE);
-    ECS::Sprite *spriteLogo = dynamic_cast<ECS::Sprite*>(compLogo);
+    ECS::IComp* compLogo = _manager.getComponent(entityLogo, ECS::ComponentType::SPRITE);
+    ECS::Sprite* spriteLogo = dynamic_cast<ECS::Sprite*>(compLogo);
     sf::Sprite spriteLogoTmp;
     spriteLogoTmp.setTexture(*_graphical->getTexture("logo"));
     spriteLogo->setSprite(&spriteLogoTmp);
@@ -171,7 +170,7 @@ void GameClient::loadMenu()
 
     ECS::Entity entityBg = _manager.createEntity(ECS::EntityType::GRAPHICS);
     _manager.addComponent(entityBg, ECS::ComponentType::SPRITE);
-    ECS::Sprite *spriteBg = dynamic_cast<ECS::Sprite*>(_manager.getComponent(entityBg, ECS::ComponentType::SPRITE));
+    ECS::Sprite* spriteBg = dynamic_cast<ECS::Sprite*>(_manager.getComponent(entityBg, ECS::ComponentType::SPRITE));
     sf::Sprite spriteBgTmp;
     spriteBgTmp.setTexture(*_graphical->getTexture("bg-menu"));
     spriteBg->setSprite(&spriteBgTmp);
@@ -179,7 +178,7 @@ void GameClient::loadMenu()
 
     ECS::Entity entityStart = _manager.createEntity(ECS::EntityType::BUTTONS);
     _manager.addComponent(entityStart, ECS::ComponentType::SPRITE);
-    ECS::Sprite *spriteStart = dynamic_cast<ECS::Sprite*>(_manager.getComponent(entityStart, ECS::ComponentType::SPRITE));
+    ECS::Sprite* spriteStart = dynamic_cast<ECS::Sprite*>(_manager.getComponent(entityStart, ECS::ComponentType::SPRITE));
     sf::Sprite spriteStartTmp;
     spriteStartTmp.setTexture(*_graphical->getTexture("start"));
     spriteStart->setSprite(&spriteStartTmp);
@@ -187,17 +186,17 @@ void GameClient::loadMenu()
     spriteStart->setPosition(sf::Vector2f(540, 800));
     spriteStart->setScale(sf::Vector2f(0.7, 0.7));
     _manager.addComponent(entityStart, ECS::ComponentType::TEXT);
-    ECS::Text *textStart = dynamic_cast<ECS::Text*>(_manager.getComponent(entityStart, ECS::ComponentType::TEXT));
+    ECS::Text* textStart = dynamic_cast<ECS::Text*>(_manager.getComponent(entityStart, ECS::ComponentType::TEXT));
     textStart->setFont(*_graphical->getFont("origintech"));
     textStart->setSentence("Ready");
     textStart->setSizeText(70);
     textStart->setPosition(sf::Vector2f(870, 880));
     _manager.addComponent(entityStart, ECS::ComponentType::POSITION);
-    ECS::Position *PositionStart = dynamic_cast<ECS::Position*>(_manager.getComponent(entityStart, ECS::ComponentType::POSITION));
+    ECS::Position* PositionStart = dynamic_cast<ECS::Position*>(_manager.getComponent(entityStart, ECS::ComponentType::POSITION));
     PositionStart->setPosition_x(540);
     PositionStart->setPosition_y(800);
     _manager.addComponent(entityStart, ECS::ComponentType::HITBOX);
-    ECS::Hitbox *hitboxStart = dynamic_cast<ECS::Hitbox*>(_manager.getComponent(entityStart, ECS::ComponentType::HITBOX));
+    ECS::Hitbox* hitboxStart = dynamic_cast<ECS::Hitbox*>(_manager.getComponent(entityStart, ECS::ComponentType::HITBOX));
     hitboxStart->setHeight(345);
     hitboxStart->setWidth(1135);
 
@@ -221,7 +220,7 @@ void GameClient::loadGame()
 {
     ECS::Entity entityBg = _manager.createEntity(ECS::EntityType::GRAPHICS);
     _manager.addComponent(entityBg, ECS::ComponentType::SPRITE);
-    ECS::Sprite *spriteBg = dynamic_cast<ECS::Sprite*>(_manager.getComponent(entityBg, ECS::ComponentType::SPRITE));
+    ECS::Sprite* spriteBg = dynamic_cast<ECS::Sprite*>(_manager.getComponent(entityBg, ECS::ComponentType::SPRITE));
     sf::Sprite spriteBgTmp;
     spriteBgTmp.setTexture(*_graphical->getTexture("bg-game-2"));
     spriteBg->setSprite(&spriteBgTmp);
@@ -229,7 +228,7 @@ void GameClient::loadGame()
 
     ECS::Entity entityStars = _manager.createEntity(ECS::EntityType::GRAPHICS);
     _manager.addComponent(entityStars, ECS::ComponentType::SPRITE);
-    ECS::Sprite *spriteStars = dynamic_cast<ECS::Sprite*>(_manager.getComponent(entityStars, ECS::ComponentType::SPRITE));
+    ECS::Sprite* spriteStars = dynamic_cast<ECS::Sprite*>(_manager.getComponent(entityStars, ECS::ComponentType::SPRITE));
     sf::Sprite spriteStarsTmp;
     spriteStarsTmp.setTexture(*_graphical->getTexture("stars"));
     spriteStars->setSprite(&spriteStarsTmp);

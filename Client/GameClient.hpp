@@ -8,50 +8,49 @@
 #ifndef GAMECLIENT_HPP_
 #define GAMECLIENT_HPP_
 
-#include "../Graphics/InitSfml.hpp"
-#include "../Graphics/Events.hpp"
 #include "../Ecs/Manager.hpp"
+#include "../Graphics/Events.hpp"
+#include "../Graphics/InitSfml.hpp"
 
-enum GameState
-{
+enum GameState {
     Menu,
     Game,
     Options,
 };
 
 class GameClient {
-    public:
-        GameClient();
-        ~GameClient() = default;
+public:
+    GameClient();
+    ~GameClient() = default;
 
-        void setSfml();
+    void setSfml();
 
-        void loadComponents();
-        void loadSystems();
-        void gameLoop();
-        void handleEvents(const sf::Event &event);
-        void mouseMenu(const sf::Event &event);
-        void handleEventsMouse(const sf::Event &event);
-        void handleEventsKey(Button eventKey);
-        void handleEventsTextEntered(const sf::Event &event);
+    void loadComponents();
+    void loadSystems();
+    void gameLoop();
+    void handleEvents(const sf::Event& event);
+    void mouseMenu(const sf::Event& event);
+    void handleEventsMouse(const sf::Event& event);
+    void handleEventsKey(Button eventKey);
+    void handleEventsTextEntered(const sf::Event& event);
 
-        void selectMode();
+    void selectMode();
 
-        void loadMenu();
-        void manageMenu();
+    void loadMenu();
+    void manageMenu();
 
-        void loadGame();
-        void manageGame();
+    void loadGame();
+    void manageGame();
 
-    protected:
-    private:
-        GameState _state;
-        Manager _manager;
+protected:
+private:
+    GameState _state;
+    Manager _manager;
 
-        Events _events;
-        std::shared_ptr<InitSfml> _graphical;
-        sf::Sprite _sprite;
-        bool _isInGame;
+    Events _events;
+    std::shared_ptr<InitSfml> _graphical;
+    sf::Sprite _sprite;
+    bool _isInGame;
 };
 
 #endif /* !GAMECLIENT_HPP_ */
