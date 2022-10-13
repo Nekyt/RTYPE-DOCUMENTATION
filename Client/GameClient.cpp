@@ -38,14 +38,15 @@ void GameClient::setSfml()
 }
 
 /**
- * It adds all the systems to the ECS manager
+ * It loads the systems
  */
 void GameClient::loadSystems()
 {
+    auto &graphic = _manager.addSystem<ECS::GraphicSystem>();
+    graphic.setSfml(_graphical);
+    auto &text = _manager.addSystem<ECS::TextSystem>();
+    text.setSfml(_graphical);
     _manager.addSystem<ECS::MoveSystem>();
-    _manager.addSystem<ECS::CollisionSystem>();
-    _manager.addSystem<ECS::TextSystem>();
-    _manager.addSystem<ECS::GraphicSystem>();
 }
 
 /**

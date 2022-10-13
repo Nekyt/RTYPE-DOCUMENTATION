@@ -13,6 +13,7 @@ const std::map<sf::Keyboard::Key, Button> Events::eventsButton = {
     std::make_pair(sf::Keyboard::Right, Button::Right),
     std::make_pair(sf::Keyboard::Up, Button::Up),
     std::make_pair(sf::Keyboard::Down, Button::Down),
+    std::make_pair(sf::Keyboard::Space, Button::Space),
     std::make_pair(sf::Keyboard::Q, Button::Q),
     std::make_pair(sf::Keyboard::D, Button::D),
     std::make_pair(sf::Keyboard::Z, Button::Z),

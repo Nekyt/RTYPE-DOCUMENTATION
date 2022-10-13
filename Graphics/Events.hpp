@@ -17,6 +17,7 @@ enum class Button {
     Right,
     Up,
     Down,
+    Space,
     Q,
     Z,
     S,

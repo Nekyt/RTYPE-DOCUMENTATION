@@ -22,6 +22,7 @@ public:
 protected:
     void setEvents(Entity entity, Button event);
     void modifyAcceleration(Entity entity, std::vector<Button> event);
+    void shoot(Entity entity);
     void clearEvents();
 
 private:

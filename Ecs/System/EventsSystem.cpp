@@ -21,22 +21,12 @@ void ECS::EventsSystem::update()
             continue;
         if (!checkIsValidEntity(entity))
             continue;
-        for (auto event : _currentEvents)
-            if (event.first == entity)
+        for (auto event : _currentEvents) {
+            if (event.second == Button::Space && event.first == entity)
+                shoot(entity);
+            else if (event.first == entity)
                 modifyAcceleration(entity, event);
-    }
-}
-
-bool ECS::EventsSystem::checkIsValidEntity(Entity entity)
-{
-    auto& components = _componentManager->getComponentList(entity);
-
-    try {
-        components.at(ComponentType::SPEED);
-        components.at(ComponentType::ACCELERATION);
-        return true;
-    } catch (const std::exception& e) {
-        return false;
+        }
     }
 }
 
@@ -76,8 +66,36 @@ void ECS::EventsSystem::modifyAcceleration(Entity entity, std::vector<Button> ev
     }
 }
 
+void ECS::EventsSystem::shoot(Entity entity)
+{
+    auto* position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
+    // clock pour la fréquence de tire
+
+    short posProjectile_x = position->getPosition_x();
+    short posProjectile_y = position->getPosition_y();
+
+    ECS::Entity entityProjectile = _entityManager->createEntity(ECS::EntityType::PROJECTILES);
+    _componentManager.addComponent(entityProjectile, ECS::ComponentType::POSITION);
+    //_componentManager.addComponent(entityProjectile, ECS::ComponentType::BULLET); isFriend = true
+    // reset la clock pour la fréquence de tire aussi non on va pas s'en sortir
+}
+
 void ECS::EventsSystem::clearEvents()
 {
     for (auto& i : _currentEvents)
         i.second.clear();
+}
+
+bool ECS::EventsSystem::checkIsValidEntity(Entity entity)
+{
+    auto& components = _componentManager->getComponentList(entity);
+
+    try {
+        components.at(ComponentType::SPEED);
+        components.at(ComponentType::ACCELERATION);
+        components.at(ComponentType::POSITION);
+        return true;
+    } catch (const std::exception& e) {
+        return false;
+    }
 }
