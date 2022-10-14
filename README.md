@@ -16,7 +16,15 @@
 - [Structure](#structure)
   - [R-Type overview](#r-type)
     - [Software architecture](#software-architecture)
+      -[Platforms](#platforms)
+      -[Server](#server)
+      -[Client](#client)
+      -[Protocol](#protocol)
+      -[Libraries](#libraries)
+      -[Game Engine](#game-engine)
     - [Installing](#installing)
+    - [Controller](#controller)
+    - [UML](#uml)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -69,5 +77,34 @@ Made by : Romanie DE MEYER - Théo MILLASSEAU - Kevin ZILLIOX - Nykyta KUDRYA - 
 
 We choosed to use an [ECS architecture](https://en.wikipedia.org/wiki/Entity%E2%80%93component%E2%80%93system) for our engine.
 
-This is our architecture :
+## Installing
+
+**Linux:**
+
+```
+./build
+```
+
+**Windows:**
+
+```
+Launch with visual studio
+cmake
+```
+
+## Controller
+
+**Player**
+
+ Button        | Direction
+ --------------|-------------
+ Arrow Up      | Top
+ Arrow Down    | Down
+ Arrow Left    | Left
+ Arrow Right   | Right
+ Space         | Shoot
+
+## UML
+
+
 
