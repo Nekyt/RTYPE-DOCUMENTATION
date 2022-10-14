@@ -39,8 +39,8 @@ void ECS::EventsSystem::setEvents(Entity &entity, Button &event)
 
 void ECS::EventsSystem::modifyAcceleration(Entity entity, Button event)
 {
-    auto* speed = dynamic_cast<ECS::Speed*>(_componentManager->getComponent(entity, ComponentType::SPEED));
-    auto* acceleration = dynamic_cast<ECS::Acceleration*>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
+    std::shared_ptr<ECS::Speed> speed = dynamic_pointer_cast<ECS::Speed>(_componentManager->getComponent(entity, ComponentType::SPEED));
+    std::shared_ptr<ECS::Acceleration> acceleration = dynamic_pointer_cast<ECS::Acceleration>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
 
     switch (event) {
     case Button::Right:
@@ -70,14 +70,14 @@ void ECS::EventsSystem::modifyAcceleration(Entity entity, Button event)
 
 void ECS::EventsSystem::shoot(Entity entity)
 {
-    auto* position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
+    std::shared_ptr<ECS::Position> position = dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
     // clock pour la fréquence de tire
 
     short posProjectile_x = position->getPosition_x();
     short posProjectile_y = position->getPosition_y();
 
     ECS::Entity entityProjectile = _entityManager->createEntity(ECS::EntityType::PROJECTILES);
-    _componentManager->addComponent(entityProjectile, ECS::ComponentType::POSITION);
+    //_componentManager->addComponent(entityProjectile, ECS::ComponentType::POSITION);
     //_componentManager.addComponent(entityProjectile, ECS::ComponentType::BULLET); isFriend = true
     // reset la clock pour la fréquence de tire aussi non on va pas s'en sortir
 }

@@ -210,9 +210,16 @@ void GameClient::loadGame()
 }
 
 /**
- * It loads the game
+ * It loads the game, then updates the systems
  */
 void GameClient::manageGame()
 {
     loadGame();
+    // try {
+    //     _manager.getSystem<ECS::MoveSystem>().update();
+    //     _manager.getSystem<ECS::GraphicSystem>().update();
+    //     _manager.getSystem<ECS::TextSystem>().update();
+    // } catch(const std::exception& e) {
+    //     std::cerr << e.what() << std::endl;
+    // }
 }

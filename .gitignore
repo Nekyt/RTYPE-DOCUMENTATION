@@ -3,5 +3,5 @@
 .DS_Store
 Client/GameClientPart2.cpp
 Client/GameClientPart2.hpp
-build/*
+build/
 r-type
