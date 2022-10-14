@@ -1,76 +1,56 @@
-cmake_minimum_required (VERSION 3.17)
+cmake_minimum_required(VERSION 3.19)
+project(RTYPE LANGUAGES CXX)
 
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_SOURCE_DIR})
-set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
-  CACHE STRING "Vcpkg toolchain file")
-# set(DUDEV_PATH_INCLUDES "./opt/udev/include")
-project(rtype CXX)
+set(DEBUG_MODE TRUE)
+set(CMAKE_BUILD_TYPE DEBUG)
+
+set(CLIENT RTYPE_client)
+set(SERVER RTYPE_server)
 
 set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_SHARED_LIBRARY_PREFIX "")
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_INCLUDE_CURRENT_DIR TRUE)
 
-set(ClientSrc
-client/main.cpp)
+add_definitions("-fPIC -Wall -Wextra -Wno-empty-body -Wno-switch")
+if(CMAKE_BUILD_TYPE MATCHES DEV)
+    add_definitions("")
+endif()
 
-set(ServerSrc
-server/main.cpp)
+if(CMAKE_BUILD_TYPE MATCHES RELEASE)
+    add_definitions("-O3 -lto")
+endif()
 
-# include(FetchContent)
-# FetchContent_Declare(SFML                             # name of the content
-#     GIT_REPOSITORY https://github.com/SFML/SFML.git  # the repository
-#     GIT_TAG        2.6.x                             # the tag
-# )
-# FetchContent_MakeAvailable(SFML)
-# FetchContent_GetProperties(sfml)
-# if(NOT sfml_POPULATED)
-#     FetchContent_Populate(sfml)
-#     add_subdirectory(${sfml_SOURCE_DIR} ${sfml_BINARY_DIR})
-# endif()
-# add_subdirectory(SFML)
+if(DEBUG_MODE MATCHES TRUE)
+    add_definitions("-g -DDEBUG")
+endif()
 
-# set(SFML_STATIC_LIBRARIES TRUE)
-# find_package(SFML 2.5 COMPONENTS audio network graphics window system REQUIRED)
+# find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
+#include_directories(${SFML_INCLUDE_DIRS})
+#include_directories("/opt/homebrew/Cellar/sfml/2.5.1_1/include")
 
-add_executable(r-type_client ${ClientSrc})
-add_executable(r-type_server ${ServerSrc})
-# target_compile_options(r-type_client
-#                        PRIVATE
-#                        $<$<CXX_COMPILER_ID:MSVC>:/W3 /permissive- /TP>
-# 					   $<$<CXX_COMPILER_ID:GNU>:-Wall -Wextra>)
+include(build/conanbuildinfo.cmake)
+include(build/conan_paths.cmake)
+conan_basic_setup(KEEP_RPATHS)
 
-target_link_libraries(r-type_client PRIVATE
-sfml-audio
-sfml-system
-sfml-graphics
-sfml-network
-sfml-window)
+file(GLOB_RECURSE SRC_CLIENT ${PROJECT_SOURCE_DIR}/client/*)
+# file(GLOB_RECURSE SRC_SERVER server/*)
+# file(GLOB_RECURSE SRC_COMMON ${PROJECT_SOURCE_DIR}/shared/*)
 
-# set(CMAKE_MODULE_PATH
-#     ${CMAKE_SOURCE_DIR}/cmake_modules
-#     ${CMAKE_MODULE_PATH})
+# include(conan.cmake)
 
-#     include_directories(${SFML_INCLUDE_DIR})
+# conan_cmake_run(REQUIRES Catch2/2.6.0@catchorg/stable
+#                 BASIC_SETUP)
 
-# find_package(SFML 2.5 COMPONENTS system window graphics audio REQUIRED)
+add_executable(${CLIENT} ${SRC_CLIENT})
+# add_executable(${SERVER} ${SRC_SERVER})
 
-# set(ClientSrc
-# client/main.cpp)
+# set(SHARED_INCLUDE_FOLDER shared)
+# target_include_directories(${SERVER} PUBLIC SHARED_INCLUDE_FOLDER)
+target_include_directories(${CLIENT} PUBLIC SHARED_INCLUDE_FOLDER)
 
-# set(ServerSrc
-# server/main.cpp)
+#conan_target_link_libraries(${CLIENT} PRIVATE CONAN_PKG::SFML)
 
-# add_executable(r-type_client ${ClientSrc})
-# add_executable(r-type_server ${ServerSrc})
+target_link_libraries(${CLIENT} sfml-system sfml-window sfml-graphics sfml-network sfml-audio)
+# target_link_libraries(${CLIENT} CONAN_PKG::SFML)
 
-# target_compile_features(r-type_client
-#                         PRIVATE
-#                         cxx_std_17)
-
-# # Any additional include files would go here
-# #target_include_directories(r-type_client
-# #                           PUBLIC
-# #                           )
-
-# target_compile_definitions(r-type_client
-#                            PRIVATE
-#                            $<$<CONFIG:Debug>:DEBUG>)
+# target_link_libraries(${SERVER} sfml-system sfml-window sfml-graphics sfml-network sfml-audio)
