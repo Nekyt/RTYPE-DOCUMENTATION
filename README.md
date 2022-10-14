@@ -35,7 +35,7 @@ This project aims to recreate the [R-Type](https://fr.wikipedia.org/wiki/R-Type)
 Made by : Romanie DE MEYER - Théo MILLASSEAU - Kevin ZILLIOX - Nykyta KUDRYA - Sylvian BURN
 
 
-##  SOFTWARE ARCHITECTURE
+##  Software architecture
 
 ### Platforms
 
@@ -106,5 +106,6 @@ cmake
 
 ## UML
 
+[**ECS**]()
 
 
