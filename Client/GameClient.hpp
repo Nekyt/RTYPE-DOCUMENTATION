@@ -32,7 +32,8 @@ public:
     void mouseMenu(const sf::Event& event);
     void handleEventsMouse(const sf::Event& event);
     void handleEventsKey(Button eventKey);
-    void handleEventsTextEntered(const sf::Event& event);
+
+    void sendCommandsToServer();
 
     void selectMode();
 
@@ -44,11 +45,12 @@ public:
 
 protected:
 private:
+    std::shared_ptr<InitSfml> _graphical;
     GameState _state;
     Manager _manager;
-
     Events _events;
-    std::shared_ptr<InitSfml> _graphical;
+    std::list<Button> _gameCommandsList;
+
     sf::Sprite _sprite;
     bool _isInGame;
     bool _nbrPlayersInGameReached;

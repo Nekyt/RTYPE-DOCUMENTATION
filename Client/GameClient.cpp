@@ -103,7 +103,7 @@ void GameClient::mouseMenu(const sf::Event& event)
                 std::shared_ptr<ECS::Position> positionEntity = std::dynamic_pointer_cast<ECS::Position>(_manager.getComponent(entity, ECS::ComponentType::POSITION));
                 std::shared_ptr<ECS::Hitbox> hitboxEntity = std::dynamic_pointer_cast<ECS::Hitbox>(_manager.getComponent(entity, ECS::ComponentType::HITBOX));
                 if (position.x > positionEntity->getPosition_x() && position.x < positionEntity->getPosition_x() + hitboxEntity->getWidth() && position.y > positionEntity->getPosition_y() && position.y < positionEntity->getPosition_y() + hitboxEntity->getHeight())
-                    _isInGame = true;
+                    _isInGame = true; // send client click to ready
             }
         }
     }
@@ -120,9 +120,6 @@ void GameClient::handleEventsMouse(const sf::Event& event)
     case GameState::Menu:
         mouseMenu(event);
         break;
-    case GameState::Game:
-        // handle game
-        break;
     default:
         break;
     }
@@ -137,11 +134,17 @@ void GameClient::handleEventsKey(Button eventKey)
 {
     switch (_state) {
     case GameState::Game:
-        // handle game
+        _gameCommandsList.push_back(eventKey);
         break;
     default:
         break;
     }
+}
+
+void GameClient::sendCommandsToServer()
+{
+    //network send commands (_gameCommandsList)
+    _gameCommandsList.clear();
 }
 
 /**
@@ -229,6 +232,7 @@ void GameClient::manageGame()
         _manager.getSystem<ECS::MoveSystem>().update();
         _manager.getSystem<ECS::GraphicSystem>().update();
         _manager.getSystem<ECS::TextSystem>().update();
+        sendCommandsToServer();
     }
     catch(const std::exception& e)
     {
