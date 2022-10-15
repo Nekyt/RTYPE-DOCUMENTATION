@@ -27,10 +27,16 @@ if(DEBUG_MODE MATCHES TRUE)
     add_definitions("-g -DDEBUG")
 endif()
 
-find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
+#find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
 #include_directories(${SFML_INCLUDE_DIRS})
 #include_directories("/opt/homebrew/Cellar/sfml/2.5.1_1/include")
 
+include(FetchContent)
+FetchContent_Declare(sfml                             # name of the content
+    GIT_REPOSITORY https://github.com/SFML/SFML.git  # the repository
+    GIT_TAG        2.5.1                             # the tag
+)
+FetchContent_MakeAvailable(sfml)
 # CONAN_CALLS
 # include(build/conanbuildinfo.cmake)
 # include(build/conan_paths.cmake)
