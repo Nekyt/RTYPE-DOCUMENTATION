@@ -2767,3 +2767,7 @@ GENERATE_LEGEND        = YES
 # The default value is: YES.
 
 DOT_CLEANUP            = YES
+
+# SET README.md as main page in doxygen
+INPUT                  += README.md
+USE_MDFILE_AS_MAINPAGE = README.md
