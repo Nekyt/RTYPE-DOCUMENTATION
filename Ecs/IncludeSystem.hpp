@@ -12,5 +12,6 @@
 #include "./System/GraphicSystem.hpp"
 #include "./System/MoveSystem.hpp"
 #include "./System/TextSystem.hpp"
+#include "./System/EventsSystem.hpp"
 
 #endif /* !INCLUDESYSTEM_HPP_ */

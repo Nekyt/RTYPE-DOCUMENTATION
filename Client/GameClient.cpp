@@ -18,6 +18,7 @@ GameClient::GameClient()
     _graphical = std::make_shared<InitSfml>();
     _state = Menu;
     _isInGame = false;
+    _nbrPlayersInGameReached = false;
     setSfml();
     loadSystems();
 }
@@ -33,6 +34,8 @@ void GameClient::setSfml()
     _graphical->setTexture("stars", "Assets/game/stars.png");
     _graphical->setTexture("heart", "Assets/game/heart.png");
     _graphical->setTexture("start", "Assets/menu/startButtons.png");
+    _graphical->setTexture("player", "Assets/entities/r-typesheet1-0.png");
+   
     _graphical->setFont("origintech", "Assets/font/origintech.ttf");
     // _graphical->setMusic("menu", "space_oddity-menu.ogg");
 }
@@ -168,21 +171,27 @@ void GameClient::loadMenu()
     _manager.addComponent(entityBg, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("bg-menu"), sf::Vector2f(1.9, 1.9)));
     std::shared_ptr<ECS::Sprite> spriteBg = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(entityBg, ECS::ComponentType::SPRITE));
 
-    ECS::Entity entityStart = _manager.createEntity(ECS::EntityType::BUTTONS);
-    _manager.addComponent(entityStart, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("start"), sf::Vector2f(0.7, 0.7), sf::IntRect(0, 0, 1135, 345), sf::Vector2f(540, 800)));
-    std::shared_ptr<ECS::Sprite> spriteStart = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(entityStart, ECS::ComponentType::SPRITE));
-
-    _manager.addComponent(entityStart, ECS::ComponentType::TEXT, std::make_shared<ECS::Text>(*_graphical->getFont("origintech"), "Ready", 70, sf::Vector2f(870, 880)));
-    std::shared_ptr<ECS::Text> textStart = std::dynamic_pointer_cast<ECS::Text>(_manager.getComponent(entityStart, ECS::ComponentType::TEXT));
-    _manager.addComponent(entityStart, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(540, 800));
-    std::shared_ptr<ECS::Position> PositionStart = std::dynamic_pointer_cast<ECS::Position>(_manager.getComponent(entityStart, ECS::ComponentType::POSITION));
-    _manager.addComponent(entityStart, ECS::ComponentType::HITBOX, std::make_shared<ECS::Hitbox>(345, 1135));
-    std::shared_ptr<ECS::Hitbox> hitboxStart = std::dynamic_pointer_cast<ECS::Hitbox>(_manager.getComponent(entityStart, ECS::ComponentType::HITBOX));
-
     _graphical->getWindow()->draw(*spriteBg->getSprite());
     _graphical->getWindow()->draw(*spriteLogo->getSprite());
-    _graphical->getWindow()->draw(*spriteStart->getSprite());
-    _graphical->getWindow()->draw(textStart->getText());
+
+    if (_nbrPlayersInGameReached == false) {
+        ECS::Entity entityLoading = _manager.createEntity(ECS::EntityType::GRAPHICS);
+        _manager.addComponent(entityLoading, ECS::ComponentType::TEXT, std::make_shared<ECS::Text>(*_graphical->getFont("origintech"), "Loading ...", 70, sf::Vector2f(800, 800)));
+        std::shared_ptr<ECS::Text> textLoading = std::dynamic_pointer_cast<ECS::Text>(_manager.getComponent(entityLoading, ECS::ComponentType::TEXT));
+        _graphical->getWindow()->draw(textLoading->getText());
+    } else {
+        ECS::Entity entityStart = _manager.createEntity(ECS::EntityType::BUTTONS);
+        _manager.addComponent(entityStart, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("start"), sf::Vector2f(0.7, 0.7), sf::IntRect(0, 0, 1135, 345), sf::Vector2f(540, 800)));
+        std::shared_ptr<ECS::Sprite> spriteStart = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(entityStart, ECS::ComponentType::SPRITE));
+        _manager.addComponent(entityStart, ECS::ComponentType::TEXT, std::make_shared<ECS::Text>(*_graphical->getFont("origintech"), "Ready", 70, sf::Vector2f(870, 880)));
+        std::shared_ptr<ECS::Text> textStart = std::dynamic_pointer_cast<ECS::Text>(_manager.getComponent(entityStart, ECS::ComponentType::TEXT));
+        _manager.addComponent(entityStart, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(540, 800));
+        std::shared_ptr<ECS::Position> PositionStart = std::dynamic_pointer_cast<ECS::Position>(_manager.getComponent(entityStart, ECS::ComponentType::POSITION));
+        _manager.addComponent(entityStart, ECS::ComponentType::HITBOX, std::make_shared<ECS::Hitbox>(345, 1135));
+        std::shared_ptr<ECS::Hitbox> hitboxStart = std::dynamic_pointer_cast<ECS::Hitbox>(_manager.getComponent(entityStart, ECS::ComponentType::HITBOX));
+        _graphical->getWindow()->draw(*spriteStart->getSprite());
+        _graphical->getWindow()->draw(textStart->getText());
+    }
 }
 
 /**
@@ -215,4 +224,14 @@ void GameClient::loadGame()
 void GameClient::manageGame()
 {
     loadGame();
+    try
+    {
+        _manager.getSystem<ECS::MoveSystem>().update();
+        _manager.getSystem<ECS::GraphicSystem>().update();
+        _manager.getSystem<ECS::TextSystem>().update();
+    }
+    catch(const std::exception& e)
+    {
+        std::cerr << e.what() << '\n';
+    }
 }

@@ -51,6 +51,7 @@ private:
     std::shared_ptr<InitSfml> _graphical;
     sf::Sprite _sprite;
     bool _isInGame;
+    bool _nbrPlayersInGameReached;
 };
 
 #endif /* !GAMECLIENT_HPP_ */

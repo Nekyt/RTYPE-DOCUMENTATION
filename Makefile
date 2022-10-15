@@ -19,7 +19,6 @@ SRC	=	Client/main.cpp \
 		Ecs/Component/sources/Id.cpp \
 		Ecs/Component/sources/Position.cpp \
 		Ecs/Component/sources/Rotate.cpp \
-		Ecs/Component/sources/Size.cpp \
 		Ecs/Component/sources/Speed.cpp \
 		Ecs/Component/sources/Sprite.cpp \
 		Ecs/Component/sources/Text.cpp \
@@ -27,7 +26,6 @@ SRC	=	Client/main.cpp \
 		Ecs/System/MoveSystem.cpp \
 		Ecs/System/GraphicSystem.cpp \
 		Ecs/System/TextSystem.cpp \
-		Ecs/System/EventsSystem.cpp \
 		Ecs/System/SystemManager.cpp \
 		Ecs/System/System.cpp \
 		Ecs/Manager.cpp \

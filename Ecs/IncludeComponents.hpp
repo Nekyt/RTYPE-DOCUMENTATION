@@ -25,7 +25,6 @@
 #include "./Component/include/Pattern.hpp"
 #include "./Component/include/Position.hpp"
 #include "./Component/include/Rotate.hpp"
-#include "./Component/include/Size.hpp"
 #include "./Component/include/Sound.hpp"
 #include "./Component/include/Speed.hpp"
 // #include "./Component/include/Life.hpp"
