@@ -17,7 +17,7 @@ class GameServer {
         ~GameServer() = default;
 
         void handleNewClient(int nbrPlayer);
-        void handleNewEnenmy(int nbrPlayer);
+        void handleNewEnemy(int nbrPlayer);
         void AddNewCommands(int nbrPlayer, Button button);
         void updateAll();
 

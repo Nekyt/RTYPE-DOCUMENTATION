@@ -31,7 +31,24 @@ void GameServer::handleNewClient(int nbrPlayer)
     _manager.addComponent(player, ECS::ComponentType::DAMAGE, std::make_shared<ECS::Damage>(10);
     _manager.addComponent(player, ECS::ComponentType::HEALTH, std::make_shared<ECS::Health>(100);
     _manager.addComponent(player, ECS::ComponentType::HITBOX, std::make_shared<ECS::Hitbox>(10, 30);
+    _manager.addComponent(player, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(12);
     _mapPlayers[nbrPlayer] = player;
+}
+
+void GameServer::handleNewEnemy(int nbrPlayer)
+{
+    ECS::Entity enemy = _manager.createEntity(ECS::EntityType::ENEMY);
+
+    _manager.addComponent(enemy, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(100, 100);
+    std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_manager.getComponent(enemy, ECS::ComponentType::POSITION));
+    _manager.addComponent(enemy, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("enemy"), 2, 2, 0, 0, 0, 0, sf::Vector2f(position->getPosition_x(), position->getPosition_y())));
+    _manager.addComponent(enemy, ECS::ComponentType::ACCELERATION, std::make_shared<ECS::Acceleration>(0, 0);
+    _manager.addComponent(enemy, ECS::ComponentType::CONTROLABLE, std::make_shared<ECS::Controlable>(false);
+    _manager.addComponent(enemy, ECS::ComponentType::DAMAGE, std::make_shared<ECS::Damage>(10);
+    _manager.addComponent(enemy, ECS::ComponentType::HEALTH, std::make_shared<ECS::Health>(100);
+    _manager.addComponent(enemy, ECS::ComponentType::HITBOX, std::make_shared<ECS::Hitbox>(10, 30);
+    _manager.addComponent(enemy, ECS::ComponentType::PATTERN, std::make_shared<ECS::Pattern>(15, 15, 10, 10);
+    _mapPlayers[nbrPlayer] = enemy;
 }
 
 void GameServer::AddNewCommands(int nbrPlayer, Button button)
@@ -50,6 +67,6 @@ void GameServer::updateAll()
     }
     catch(const std::exception& e)
     {
-        std::cerr << e.what() << '\n';
+        std::cerr << e.what() << std::endl;
     }
 }
