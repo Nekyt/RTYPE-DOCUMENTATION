@@ -35,7 +35,7 @@ void GameClient::setSfml()
     _graphical->setTexture("heart", "Assets/game/heart.png");
     _graphical->setTexture("start", "Assets/menu/startButtons.png");
     _graphical->setTexture("player", "Assets/entities/r-typesheet1-0.png");
-   
+    _graphical->setTexture("enemy", "Assets/entities/r-typesheet1-1.png");
     _graphical->setFont("origintech", "Assets/font/origintech.ttf");
     // _graphical->setMusic("menu", "space_oddity-menu.ogg");
 }
