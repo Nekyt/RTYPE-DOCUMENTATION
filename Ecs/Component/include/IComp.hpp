@@ -1,13 +1,13 @@
 #ifndef _ICOMP
 #define _ICOMP
 
-//valgrind --tool=cachegrind ./exec
+// valgrind --tool=cachegrind ./exec
 
 namespace ECS {
-    class IComp {
-        public:
-            virtual ~IComp() noexcept = default;
-    };
+class IComp {
+public:
+    virtual ~IComp() noexcept = default;
+};
 };
 
 #endif

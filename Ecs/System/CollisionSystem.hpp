@@ -10,19 +10,18 @@
 
 #include "./System.hpp"
 
-namespace ECS
-{
-    class CollisionSystem : public System{
-        public:
-            CollisionSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager);
-            ~CollisionSystem() = default;
+namespace ECS {
+class CollisionSystem : public System {
+public:
+    CollisionSystem(const std::shared_ptr<ComponentManager>& componentsManager, const std::shared_ptr<EntityManager>& entityManager);
+    ~CollisionSystem() = default;
 
-            void update();
-            bool checkIsValidEntity(Entity entity);
+    void update();
+    bool checkIsValidEntity(Entity entity);
 
-        protected:
-        private:
-    };
+protected:
+private:
+};
 } // namespace ECS
 
 #endif /* !COLLISIONSYSTEM_HPP_ */

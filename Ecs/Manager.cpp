@@ -46,9 +46,14 @@ void Manager::destroyEntity(ECS::Entity entity)
  *
  * @return A vector of entities.
  */
-std::vector<ECS::Entity> &Manager::getEntities()
+std::vector<ECS::Entity>& Manager::getEntities()
 {
     return _entityManager->getEntities();
+}
+
+ECS::Entity Manager::getEntityByType(ECS::EntityType type)
+{
+    return _entityManager->getEntityByType(type);
 }
 
 /**
@@ -57,15 +62,15 @@ std::vector<ECS::Entity> &Manager::getEntities()
  * @param e The entity to add the component to
  * @param c The component type to add to the entity.
  */
-void Manager::addComponent(ECS::Entity e, ECS::ComponentType c)
+void Manager::addComponent(ECS::Entity e, ECS::ComponentType c, std::shared_ptr<ECS::IComp> comp)
 {
-    _componentManager->addComponent(e, c);
+    _componentManager->addComponent(e, c, comp);
 }
 
 /**
  * Get a component from the component manager.
  */
-ECS::IComp *Manager::getComponent(ECS::Entity e, ECS::ComponentType c)
+std::shared_ptr<ECS::IComp> Manager::getComponent(ECS::Entity e, ECS::ComponentType c)
 {
     return _componentManager->getComponent(e, c);
 }
@@ -73,7 +78,7 @@ ECS::IComp *Manager::getComponent(ECS::Entity e, ECS::ComponentType c)
 /**
  * It returns a map of all the components of a given entity.
  */
-std::map<ECS::ComponentType, ECS::IComp*> &Manager::getComponentList(ECS::Entity entity)
+std::map<ECS::ComponentType, std::shared_ptr<ECS::IComp>>& Manager::getComponentList(ECS::Entity entity)
 {
     return _componentManager->getComponentList(entity);
 }
@@ -81,7 +86,7 @@ std::map<ECS::ComponentType, ECS::IComp*> &Manager::getComponentList(ECS::Entity
 /**
  * Get a list of entities that have a specific component.
  */
-std::vector<ECS::Entity> &Manager::getEntityList(ECS::ComponentType type)
+std::vector<ECS::Entity>& Manager::getEntityList(ECS::ComponentType type)
 {
     return _componentManager->getEntityList(type);
 }

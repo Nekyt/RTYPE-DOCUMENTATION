@@ -8,11 +8,34 @@
 #include "../include/Text.hpp"
 
 /**
- * It's a copy constructor
+ * It initializes the text object
  * 
+ * @param font The font that the text will use.
+ * @param sentence The text you want to display
+ * @param size The size of the text.
+ * @param pos The position of the text
+ */
+ECS::Text::Text(sf::Font& font, const std::string& sentence, int size, sf::Vector2f pos) noexcept
+    : _sentence(sentence)
+    , _size(size)
+    , _font(font)
+    , _pos(pos)
+{
+    _text.setFont(_font);
+    _text.setCharacterSize(_size);
+    _text.setString(_sentence);
+    _text.setPosition(_pos);
+}
+
+/**
+ * It's a copy constructor
+ *
  * @param text The text to copy
  */
-ECS::Text::Text(const Text& text) noexcept : _sentence(text.getSentence()), _size(text.getTextSize()), _font(text.getFont())
+ECS::Text::Text(const Text& text) noexcept
+    : _sentence(text.getSentence())
+    , _size(text.getTextSize())
+    , _font(text.getFont())
 {
     _text.setFont(_font);
     _text.setCharacterSize(_size);
@@ -21,38 +44,38 @@ ECS::Text::Text(const Text& text) noexcept : _sentence(text.getSentence()), _siz
 
 /**
  * It returns the text object.
- * 
+ *
  * @return A reference to the text object.
  */
-sf::Text &ECS::Text::getText() noexcept {return _text;}
+sf::Text& ECS::Text::getText() noexcept { return _text; }
 
 /**
  * Returns the font of the text.
- * 
+ *
  * @return A reference to the font.
  */
-sf::Font ECS::Text::getFont() const noexcept {return _font;}
+sf::Font ECS::Text::getFont() const noexcept { return _font; }
 
 /**
  * It returns the sentence.
- * 
+ *
  * @return The sentence.
  */
-std::string ECS::Text::getSentence() const noexcept {return _sentence;}
+std::string ECS::Text::getSentence() const noexcept { return _sentence; }
 
 /**
  * It returns the size of the text.
- * 
+ *
  * @return The text size.
  */
-int ECS::Text::getTextSize() const noexcept {return _size;}
+int ECS::Text::getTextSize() const noexcept { return _size; }
 
 /**
  * It sets the font of the text object
- * 
+ *
  * @param font The font to use for the text.
  */
-void ECS::Text::setFont(sf::Font &font) noexcept
+void ECS::Text::setFont(sf::Font& font) noexcept
 {
     _font = font;
     _text.setFont(_font);
@@ -60,7 +83,7 @@ void ECS::Text::setFont(sf::Font &font) noexcept
 
 /**
  * It sets the size of the text
- * 
+ *
  * @param size The size of the text.
  */
 void ECS::Text::setSizeText(int size) noexcept
@@ -71,10 +94,10 @@ void ECS::Text::setSizeText(int size) noexcept
 
 /**
  * It sets the sentence of the text
- * 
+ *
  * @param sentence The string to be displayed.
  */
-void ECS::Text::setSentence(const std::string &sentence) noexcept
+void ECS::Text::setSentence(const std::string& sentence) noexcept
 {
     _sentence = sentence;
     _text.setString(_sentence);
@@ -82,7 +105,7 @@ void ECS::Text::setSentence(const std::string &sentence) noexcept
 
 /**
  * It sets the position of the text object
- * 
+ *
  * @param x The x position of the text.
  * @param y The y position of the text.
  */
@@ -95,7 +118,7 @@ void ECS::Text::setPosition(int x, int y) noexcept
 
 /**
  * It sets the position of the text object
- * 
+ *
  * @param pos The position of the text.
  */
 void ECS::Text::setPosition(sf::Vector2f pos) noexcept
@@ -106,7 +129,7 @@ void ECS::Text::setPosition(sf::Vector2f pos) noexcept
 
 /**
  * Returns the position of the text.
- * 
+ *
  * @return The position of the text.
  */
-sf::Vector2f ECS::Text::getPosition() const noexcept {return _pos;}
+sf::Vector2f ECS::Text::getPosition() const noexcept { return _pos; }
