@@ -17,6 +17,7 @@ public:
     ~EventsSystem() = default;
 
     void update();
+    void setSfml(std::shared_ptr<InitSfml> sfml);
     bool checkIsValidEntity(Entity entity);
 
 protected:
@@ -27,6 +28,7 @@ protected:
 
 private:
     std::unordered_map<std::size_t, std::vector<Button>> _currentEvents;
+    std::shared_ptr<InitSfml> _sfml;
 };
 } // namespace ECS
 

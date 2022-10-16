@@ -17,12 +17,15 @@ SRC	=	Client/main.cpp \
 		Ecs/Component/sources/Health.cpp \
 		Ecs/Component/sources/Hitbox.cpp \
 		Ecs/Component/sources/Id.cpp \
+		Ecs/Component/sources/Pattern.cpp \
 		Ecs/Component/sources/Position.cpp \
 		Ecs/Component/sources/Rotate.cpp \
 		Ecs/Component/sources/Speed.cpp \
 		Ecs/Component/sources/Sprite.cpp \
 		Ecs/Component/sources/Text.cpp \
 		Ecs/System/CollisionSystem.cpp \
+		Ecs/System/EnemyShootSystem.cpp \
+		Ecs/System/EventsSystem.cpp \
 		Ecs/System/MoveSystem.cpp \
 		Ecs/System/GraphicSystem.cpp \
 		Ecs/System/TextSystem.cpp \

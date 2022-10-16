@@ -29,7 +29,7 @@ public:
     template <class System>
     System& getSystem()
     {
-        return std::any_cast<System&>(_systems[std::type_index(typeid(System).name())]);
+        return std::any_cast<System&>(_systems.at(typeid(System)));
     }
 
 protected:

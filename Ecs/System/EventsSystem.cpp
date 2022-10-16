@@ -32,6 +32,16 @@ void ECS::EventsSystem::update()
     }
 }
 
+/**
+ * It sets the sfml pointer to the one passed in
+ *
+ * @param sfml The InitSfml class that is used to initialize the SFML library.
+ */
+void ECS::EventsSystem::setSfml(std::shared_ptr<InitSfml> sfml)
+{
+    _sfml = sfml;
+}
+
 void ECS::EventsSystem::setEvents(Entity &entity, Button &event)
 {
     _currentEvents.at(entity.getId()).push_back(event);
@@ -39,8 +49,8 @@ void ECS::EventsSystem::setEvents(Entity &entity, Button &event)
 
 void ECS::EventsSystem::modifyAcceleration(Entity entity, Button event)
 {
-    auto* speed = dynamic_cast<ECS::Speed*>(_componentManager->getComponent(entity, ComponentType::SPEED));
-    auto* acceleration = dynamic_cast<ECS::Acceleration*>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
+    std::shared_ptr<ECS::Speed> speed = std::dynamic_pointer_cast<ECS::Speed>(_componentManager->getComponent(entity, ComponentType::SPEED));
+    std::shared_ptr<ECS::Acceleration> acceleration = std::dynamic_pointer_cast<ECS::Acceleration>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
 
     switch (event) {
     case Button::Right:
@@ -70,14 +80,17 @@ void ECS::EventsSystem::modifyAcceleration(Entity entity, Button event)
 
 void ECS::EventsSystem::shoot(Entity entity)
 {
-    auto* position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
+    std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
     // clock pour la fréquence de tire
 
     short posProjectile_x = position->getPosition_x();
     short posProjectile_y = position->getPosition_y();
 
     ECS::Entity entityProjectile = _entityManager->createEntity(ECS::EntityType::PROJECTILES);
-    _componentManager->addComponent(entityProjectile, ECS::ComponentType::POSITION);
+    _componentManager->addComponent(entityProjectile, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(posProjectile_x, posProjectile_y));
+    _componentManager->addComponent(entityProjectile, ECS::ComponentType::HEALTH, std::make_shared<ECS::Health>(1));
+    _componentManager->addComponent(entityProjectile, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_sfml->getTexture("bulletEnemy"), sf::Vector2f(2, 2), sf::IntRect(0, 0, 1135, 345), sf::Vector2f(posProjectile_x, posProjectile_y)));
+    _componentManager->addComponent(entityProjectile, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(16));
     //_componentManager.addComponent(entityProjectile, ECS::ComponentType::BULLET); isFriend = true
     // reset la clock pour la fréquence de tire aussi non on va pas s'en sortir
 }
@@ -94,7 +107,8 @@ bool ECS::EventsSystem::checkIsValidEntity(Entity entity)
 
     try {
         components.at(ComponentType::SPEED);
-        components.at(ComponentType::ACCELERATION);
+        components.at(ComponentType::HEALTH);
+        components.at(ComponentType::SPRITE);
         components.at(ComponentType::POSITION);
         return true;
     } catch (const std::exception& e) {
