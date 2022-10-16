@@ -7,11 +7,23 @@
 
 #include "EnemyShootSystem.hpp"
 
+/**
+ * It's the constructor for the EnemyShootSystem class.
+ * 
+ * @param componentsManager The component manager that the system will use to
+ * access components.
+ * @param entityManager The entity manager that will be used to create entities.
+ */
 ECS::EnemyShootSystem::EnemyShootSystem(const std::shared_ptr<ComponentManager>& componentsManager, const std::shared_ptr<EntityManager>& entityManager)
     : System(componentsManager, entityManager)
 {
 }
 
+/**
+ * It creates a new entity of type PROJECTILE, adds a position, health, sprite and
+ * speed component to it, and then sets the position of the projectile to the
+ * position of the enemy
+ */
 void ECS::EnemyShootSystem::update()
 {
     const auto& entities = _entityManager->getEntities();
@@ -35,7 +47,6 @@ void ECS::EnemyShootSystem::update()
         //_componentManager.addComponent(entityProjectile, ECS::ComponentType::BULLET); isFriend = false
         // reset la clock pour la fréquence de tire aussi non on va pas s'en sortir
     }
-
 }
 
 /**
@@ -48,6 +59,14 @@ void ECS::EnemyShootSystem::setSfml(std::shared_ptr<InitSfml> sfml)
     _sfml = sfml;
 }
 
+/**
+ * If the entity has a speed, health, sprite, and position component, then it's a
+ * valid entity
+ * 
+ * @param entity The entity to check
+ * 
+ * @return A boolean value.
+ */
 bool ECS::EnemyShootSystem::checkIsValidEntity(Entity entity)
 {
     auto& components = _componentManager->getComponentList(entity);

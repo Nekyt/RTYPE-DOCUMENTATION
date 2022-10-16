@@ -48,12 +48,12 @@ void GameClient::setSfml()
  */
 void GameClient::loadSystems()
 {
-    auto &graphic = _manager.addSystem<ECS::GraphicSystem>();
+    auto& graphic = _manager.addSystem<ECS::GraphicSystem>();
     graphic.setSfml(_graphical);
     graphic.setClock(_clock);
-    auto &text = _manager.addSystem<ECS::TextSystem>();
+    auto& text = _manager.addSystem<ECS::TextSystem>();
     text.setSfml(_graphical);
-    auto &move = _manager.addSystem<ECS::MoveSystem>();
+    auto& move = _manager.addSystem<ECS::MoveSystem>();
     move.setClock(_clock);
 }
 
@@ -146,9 +146,12 @@ void GameClient::handleEventsKey(Button eventKey)
     }
 }
 
+/**
+ * Send commands to the server.
+ */
 void GameClient::sendCommandsToServer()
 {
-    //network send commands (_gameCommandsList)
+    // network send commands (_gameCommandsList)
     _gameCommandsList.clear();
 }
 
@@ -169,6 +172,7 @@ void GameClient::selectMode()
     }
 }
 
+/* It creates the entities and components needed to display the menu. */
 void GameClient::loadMenu()
 {
     ECS::Entity entityBg = _manager.createEntity(ECS::EntityType::MENU);
@@ -183,27 +187,30 @@ void GameClient::loadMenu()
     //     ECS::Entity entityLoading = _manager.createEntity(ECS::EntityType::MENU);
     //     _manager.addComponent(entityLoading, ECS::ComponentType::TEXT, std::make_shared<ECS::Text>(*_graphical->getFont("origintech"), "Loading ...", 70, sf::Vector2f(800, 800)));
     //     std::shared_ptr<ECS::Text> textLoading = std::dynamic_pointer_cast<ECS::Text>(_manager.getComponent(entityLoading, ECS::ComponentType::TEXT));
-    //     _graphical->getWindow()->draw(textLoading->getText());
+    //     _textMenu.push_back(textLoading);
     // } else {
-        ECS::Entity entityStart = _manager.createEntity(ECS::EntityType::BUTTONS);
-        _manager.addComponent(entityStart, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("start"), sf::Vector2f(0.7, 0.7), sf::IntRect(0, 0, 1135, 345), sf::Vector2f(540, 800)));
-        std::shared_ptr<ECS::Sprite> spriteStart = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(entityStart, ECS::ComponentType::SPRITE));
-        _spriteMenu.push_back(spriteStart);
-        _manager.addComponent(entityStart, ECS::ComponentType::TEXT, std::make_shared<ECS::Text>(*_graphical->getFont("origintech"), "Ready", 70, sf::Vector2f(870, 880)));
-        std::shared_ptr<ECS::Text> textStart = std::dynamic_pointer_cast<ECS::Text>(_manager.getComponent(entityStart, ECS::ComponentType::TEXT));
-        _manager.addComponent(entityStart, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(540, 800));
-        _textMenu.push_back(textStart);
-        std::shared_ptr<ECS::Position> PositionStart = std::dynamic_pointer_cast<ECS::Position>(_manager.getComponent(entityStart, ECS::ComponentType::POSITION));
-        _manager.addComponent(entityStart, ECS::ComponentType::HITBOX, std::make_shared<ECS::Hitbox>(345, 1135));
-        std::shared_ptr<ECS::Hitbox> hitboxStart = std::dynamic_pointer_cast<ECS::Hitbox>(_manager.getComponent(entityStart, ECS::ComponentType::HITBOX));
+    ECS::Entity entityStart = _manager.createEntity(ECS::EntityType::BUTTONS);
+    _manager.addComponent(entityStart, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("start"), sf::Vector2f(0.7, 0.7), sf::IntRect(0, 0, 1135, 345), sf::Vector2f(540, 800)));
+    std::shared_ptr<ECS::Sprite> spriteStart = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(entityStart, ECS::ComponentType::SPRITE));
+    _spriteMenu.push_back(spriteStart);
+    _manager.addComponent(entityStart, ECS::ComponentType::TEXT, std::make_shared<ECS::Text>(*_graphical->getFont("origintech"), "Ready", 70, sf::Vector2f(870, 880)));
+    std::shared_ptr<ECS::Text> textStart = std::dynamic_pointer_cast<ECS::Text>(_manager.getComponent(entityStart, ECS::ComponentType::TEXT));
+    _textMenu.push_back(textStart);
+    _manager.addComponent(entityStart, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(540, 800));
+    std::shared_ptr<ECS::Position> PositionStart = std::dynamic_pointer_cast<ECS::Position>(_manager.getComponent(entityStart, ECS::ComponentType::POSITION));
+    _manager.addComponent(entityStart, ECS::ComponentType::HITBOX, std::make_shared<ECS::Hitbox>(345, 1135));
+    std::shared_ptr<ECS::Hitbox> hitboxStart = std::dynamic_pointer_cast<ECS::Hitbox>(_manager.getComponent(entityStart, ECS::ComponentType::HITBOX));
     //}
 }
 
+/**
+ * It draws the menu
+ */
 void GameClient::manageMenu()
 {
-    for (auto &sprite : _spriteMenu)
+    for (auto& sprite : _spriteMenu)
         _graphical->getWindow()->draw(*sprite->getSprite());
-    for (auto &text : _textMenu)
+    for (auto& text : _textMenu)
         _graphical->getWindow()->draw(text->getText());
     if (_isInGame)
         _state = Game;
@@ -244,21 +251,17 @@ void GameClient::loadGame()
     _clock->addClockComponent(entityStars2.getId(), ECS::ComponentType::POSITION, 400);
 }
 
-
 /**
  * It updates the game
  */
 void GameClient::manageGame()
 {
-    try
-    {
+    try {
         _manager.getSystem<ECS::MoveSystem>().update();
         _manager.getSystem<ECS::GraphicSystem>().update();
         _manager.getSystem<ECS::TextSystem>().update();
         sendCommandsToServer();
-    }
-    catch(const std::exception& e)
-    {
+    } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
     }
 }

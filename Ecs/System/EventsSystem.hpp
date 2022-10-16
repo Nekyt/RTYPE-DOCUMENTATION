@@ -19,12 +19,12 @@ public:
     void update();
     void setSfml(std::shared_ptr<InitSfml> sfml);
     bool checkIsValidEntity(Entity entity);
+    void setEvents(Entity& entity, Button& event);
+    void clearEvents();
 
 protected:
-    void setEvents(Entity &entity, Button &event);
     void modifyAcceleration(Entity entity, Button event);
     void shoot(Entity entity);
-    void clearEvents();
 
 private:
     std::unordered_map<std::size_t, std::vector<Button>> _currentEvents;

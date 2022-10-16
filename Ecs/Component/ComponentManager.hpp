@@ -28,22 +28,22 @@ enum ComponentType { ACCELERATION,
     TEXT,
     SPRITE,
     WEAPON };
-    class ComponentManager {
-        public:
-            ComponentManager() = default;
-            ~ComponentManager() = default;
+class ComponentManager {
+public:
+    ComponentManager() = default;
+    ~ComponentManager() = default;
 
-            void addComponent(Entity e, ComponentType c, std::shared_ptr<IComp> comp);
-            std::shared_ptr<IComp> getComponent(Entity e, ComponentType c);
+    void addComponent(Entity e, ComponentType c, std::shared_ptr<IComp> comp);
+    std::shared_ptr<IComp> getComponent(Entity e, ComponentType c);
 
-            std::map<ComponentType, std::shared_ptr<IComp>>& getComponentList(Entity entity);
-            std::vector<Entity>& getEntityList(ComponentType type);
+    std::map<ComponentType, std::shared_ptr<IComp>>& getComponentList(Entity entity);
+    std::vector<Entity>& getEntityList(ComponentType type);
 
-        protected:
-        private:
-            std::map<Entity, std::map<ComponentType, std::shared_ptr<IComp>>> _eentities;
-            std::map<ComponentType, std::vector<Entity>> _centities;
-    };
+protected:
+private:
+    std::map<Entity, std::map<ComponentType, std::shared_ptr<IComp>>> _eentities;
+    std::map<ComponentType, std::vector<Entity>> _centities;
+};
 } // namespace ECS
 
 #endif /* !COMPONENTMANAGER_HPP_ */

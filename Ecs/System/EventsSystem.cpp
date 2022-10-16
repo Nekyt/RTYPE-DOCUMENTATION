@@ -7,11 +7,23 @@
 
 #include "EventsSystem.hpp"
 
+/**
+ * It's a constructor for the EventsSystem class
+ * 
+ * @param componentsManager The ComponentManager that will be used to get the
+ * components of the entities.
+ * @param entityManager The entity manager that will be used to create entities.
+ */
 ECS::EventsSystem::EventsSystem(const std::shared_ptr<ComponentManager>& componentsManager, const std::shared_ptr<EntityManager>& entityManager)
     : System(componentsManager, entityManager)
 {
 }
 
+/**
+ * It checks if the entity is a player, if it's valid, and if it is, it checks if
+ * the player has pressed the space key, and if so, it shoots a bullet. If the
+ * player has pressed any other key, it modifies the acceleration of the player
+ */
 void ECS::EventsSystem::update()
 {
     const auto& entities = _entityManager->getEntities();
@@ -21,8 +33,8 @@ void ECS::EventsSystem::update()
             continue;
         if (!checkIsValidEntity(entity))
             continue;
-        for (auto &events : _currentEvents) {
-            for (auto &event : events.second) {
+        for (auto& events : _currentEvents) {
+            for (auto& event : events.second) {
                 if (event == Button::Space && events.first == entity.getId())
                     shoot(entity);
                 else if (events.first == entity.getId())
@@ -42,11 +54,23 @@ void ECS::EventsSystem::setSfml(std::shared_ptr<InitSfml> sfml)
     _sfml = sfml;
 }
 
-void ECS::EventsSystem::setEvents(Entity &entity, Button &event)
+/**
+ * It adds a button event to the entity's event list
+ * 
+ * @param entity The entity that the event is being set for.
+ * @param event The event that is being set.
+ */
+void ECS::EventsSystem::setEvents(Entity& entity, Button& event)
 {
     _currentEvents.at(entity.getId()).push_back(event);
 }
 
+/**
+ * It modifies the acceleration of an entity based on the event that was triggered
+ * 
+ * @param entity The entity that will be modified.
+ * @param event The event that was triggered.
+ */
 void ECS::EventsSystem::modifyAcceleration(Entity entity, Button event)
 {
     std::shared_ptr<ECS::Speed> speed = std::dynamic_pointer_cast<ECS::Speed>(_componentManager->getComponent(entity, ComponentType::SPEED));
@@ -78,6 +102,12 @@ void ECS::EventsSystem::modifyAcceleration(Entity entity, Button event)
     }
 }
 
+/**
+ * It creates a new entity, adds a position, health, sprite, and speed component to
+ * it, and then sets the sprite's position to the player's position
+ * 
+ * @param entity the entity that is shooting
+ */
 void ECS::EventsSystem::shoot(Entity entity)
 {
     std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
@@ -95,12 +125,23 @@ void ECS::EventsSystem::shoot(Entity entity)
     // reset la clock pour la fréquence de tire aussi non on va pas s'en sortir
 }
 
+/**
+ * It clears all the events in the current events map.
+ */
 void ECS::EventsSystem::clearEvents()
 {
     for (auto& i : _currentEvents)
         i.second.clear();
 }
 
+/**
+ * If the entity has a speed, health, sprite, and position component, then it's
+ * valid
+ * 
+ * @param entity The entity to check
+ * 
+ * @return A boolean value.
+ */
 bool ECS::EventsSystem::checkIsValidEntity(Entity entity)
 {
     auto& components = _componentManager->getComponentList(entity);

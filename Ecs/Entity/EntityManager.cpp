@@ -47,7 +47,7 @@ std::vector<ECS::Entity>& ECS::EntityManager::getEntities()
 
 ECS::Entity ECS::EntityManager::getEntityByType(EntityType type)
 {
-    for (auto &entity : _entities)
+    for (auto& entity : _entities)
         if (entity.getType() == type)
             return entity;
 }
