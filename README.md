@@ -40,7 +40,7 @@ Made by : Romanie DE MEYER - Théo MILLASSEAU - Kevin ZILLIOX - Nykyta KUDRYA - 
 ### Platforms
 
 - [ ] The project must be OS independent. (Linux, Windows)
-- [ ] The project must be built using a [CMake](https://github.com/EpitechPromo2025/B-CPP-500-STG-5-1-rtype-romanie.de-meyer/blob/main/CMakeLists.txt) and dependencies must be handled using [conan]().
+- [ ] The project must be built using a [CMake](https://github.com/EpitechPromo2025/B-CPP-500-STG-5-1-rtype-romanie.de-meyer/blob/main/CMakeLists.txt).
 
 ### Server
 
@@ -79,10 +79,20 @@ We choosed to use an [ECS architecture](https://en.wikipedia.org/wiki/Entity%E2%
 
 ## Installing
 
+**Prerequisites:**
+
+You will need to install [vcpkg](https://vcpkg.io/en/getting-started.html) to build our game.
+To install vcpkg, you will need to clone the repository somewhere on your computer using this command:
+```git clone https://github.com/Microsoft/vcpkg.git```
+Then execute the following command:
+```./vcpkg/bootstrap-vcpkg.sh```
+Lastly, execute this last command inside the repository containing vcpkg:
+```./vcpkg integrate install```
+
 **Linux:**
 
 ```
-./build
+./build.sh
 ```
 
 **Windows:**
