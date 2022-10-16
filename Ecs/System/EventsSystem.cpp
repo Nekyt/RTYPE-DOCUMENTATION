@@ -71,7 +71,7 @@ void ECS::EventsSystem::modifyAcceleration(Entity entity, Button event)
 void ECS::EventsSystem::shoot(Entity entity)
 {
     std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
-    // clock pour la fréquence de tire
+,    // clock pour la fréquence de tire
 
     short posProjectile_x = position->getPosition_x();
     short posProjectile_y = position->getPosition_y();
