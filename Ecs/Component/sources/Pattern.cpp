@@ -1,5 +1,5 @@
 #include "../include/Pattern.hpp"
-#include <experimental/random>
+#include <random>
 #include <iostream>
 
 /**
@@ -93,9 +93,9 @@ std::pair<int, int> ECS::Pattern::getFirstPosition() noexcept
 {
     _moving = 0;
     if (_type == PatternType::MOVINGDIAMOND)
-        _keepPosition = std::make_pair(_sizeMap.first + 10, std::experimental::randint(0 + _sizeEntity.second + _sizeMap.second / 3, _sizeMap.second - (_sizeMap.second / 3)));
+        _keepPosition = std::make_pair(_sizeMap.first + 10, (rand() + _sizeEntity.second + _sizeMap.second / 3) % (_sizeMap.second - (_sizeMap.second / 3)));
     else
-        _keepPosition = std::make_pair(_sizeMap.first + 10, std::experimental::randint(0 + _sizeEntity.second, _sizeMap.second));
+        _keepPosition = std::make_pair(_sizeMap.first + 10, (rand() + _sizeEntity.second) % _sizeMap.second);
     return _keepPosition;
 }
 
