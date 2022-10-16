@@ -27,19 +27,29 @@ ECS::MoveSystem::MoveSystem(const std::shared_ptr<ComponentManager>& componentsM
 void ECS::MoveSystem::update()
 {
     const auto& entities = _entityManager->getEntities();
+    std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> enti = _clock->getEntitiesToUpdate();
 
-    for (const auto& entity : entities) {
-        if (!checkIsValidEntity(entity))
-            continue;
-        std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
-        std::shared_ptr<ECS::Speed> speed = std::dynamic_pointer_cast<ECS::Speed>(_componentManager->getComponent(entity, ComponentType::SPEED));
-        std::shared_ptr<ECS::Acceleration> acceleration = std::dynamic_pointer_cast<ECS::Acceleration>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
+    for (size_t i = 0; i < enti.size(); ++i) {
+        for (const auto& entity : entities) {
+            if (entity.getId() != enti[i].first)
+                continue;
+            if (!checkIsValidEntity(entity))
+                continue;
+            std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
+            std::shared_ptr<ECS::Speed> speed = std::dynamic_pointer_cast<ECS::Speed>(_componentManager->getComponent(entity, ComponentType::SPEED));
+            std::shared_ptr<ECS::Acceleration> acceleration = std::dynamic_pointer_cast<ECS::Acceleration>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
 
-        auto posX = position->getPosition_x();
-        auto posY = position->getPosition_x();
-        position->setPosition_x(posX += acceleration->getAcceleration_x() * speed->getSpeed());
-        position->setPosition_x(posY += acceleration->getAcceleration_y() * speed->getSpeed());
+            auto posX = position->getPosition_x();
+            auto posY = position->getPosition_y();
+            position->setPosition_x(posX += acceleration->getAcceleration_x() * speed->getMaxSpeed());
+            position->setPosition_y(posY += acceleration->getAcceleration_y() * speed->getMaxSpeed());
+        }
     }
+}
+
+void ECS::MoveSystem::setClock(std::shared_ptr<Clock> clock)
+{
+    _clock = clock;
 }
 
 /**

@@ -16,10 +16,12 @@ public:
     ~MoveSystem() = default;
 
     void update();
+    void setClock(std::shared_ptr<Clock> clock);
     bool checkIsValidEntity(Entity entity);
 
 protected:
 private:
+    std::shared_ptr<Clock> _clock;
 };
 } // namespace ECS
 

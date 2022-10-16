@@ -49,7 +49,11 @@ private:
     GameState _state;
     Manager _manager;
     Events _events;
+    std::shared_ptr<Clock> _clock;
     std::list<Button> _gameCommandsList;
+
+    std::vector<std::shared_ptr<ECS::Sprite>> _spriteMenu;
+    std::vector<std::shared_ptr<ECS::Text>> _textMenu;
 
     sf::Sprite _sprite;
     bool _isInGame;

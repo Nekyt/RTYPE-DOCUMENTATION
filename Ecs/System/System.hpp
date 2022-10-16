@@ -8,10 +8,11 @@
 #ifndef SYSTEM_HPP_
 #define SYSTEM_HPP_
 
+#include "../IncludeCpp.hpp"
 #include "../../Graphics/Events.hpp"
 #include "../Component/ComponentManager.hpp"
 #include "../Entity/EntityManager.hpp"
-#include "../IncludeCpp.hpp"
+#include "../Clock.hpp"
 
 namespace ECS {
     class System {

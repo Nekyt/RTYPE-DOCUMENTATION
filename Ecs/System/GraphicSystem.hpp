@@ -19,12 +19,14 @@ public:
 
     void update();
     void setSfml(std::shared_ptr<InitSfml> sfml);
+    void setClock(std::shared_ptr<Clock> clock);
     bool checkIsValidEntity(Entity entity);
 
 protected:
 private:
     std::shared_ptr<InitSfml> _sfml;
     std::shared_ptr<sf::RenderWindow> _window;
+    std::shared_ptr<Clock> _clock;
 };
 }
 

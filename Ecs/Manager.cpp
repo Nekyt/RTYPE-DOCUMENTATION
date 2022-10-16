@@ -51,6 +51,11 @@ std::vector<ECS::Entity>& Manager::getEntities()
     return _entityManager->getEntities();
 }
 
+ECS::Entity Manager::getEntityByType(ECS::EntityType type)
+{
+    return _entityManager->getEntityByType(type);
+}
+
 /**
  * Add a component to an entity.
  *
