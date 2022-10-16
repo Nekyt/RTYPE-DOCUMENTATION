@@ -1,4 +1,4 @@
-#include "../../Ecs/Component/ComponentManager.hpp"
+#include "./Component/ComponentManager.hpp"
 #include <map>
 #include <vector>
 #include <utility>

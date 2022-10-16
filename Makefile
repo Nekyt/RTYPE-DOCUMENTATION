@@ -32,7 +32,7 @@ SRC	=	Client/main.cpp \
 		Ecs/System/SystemManager.cpp \
 		Ecs/System/System.cpp \
 		Ecs/Manager.cpp \
-		Clock/sources/Clock.cpp \
+		Ecs/Clock.cpp \
 		Client/GameClient.cpp \
 
 

@@ -1,4 +1,4 @@
-#include "../include/Clock.hpp"
+#include "Clock.hpp"
 #include <algorithm>
 #include <iostream>
 #include <chrono>
