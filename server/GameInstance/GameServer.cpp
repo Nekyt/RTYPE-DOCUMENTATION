@@ -35,7 +35,7 @@ void GameServer::handleNewClient(int nbrPlayer)
     _mapPlayers[nbrPlayer] = player;
 }
 
-void GameServer::handleNewEnemy(int nbrPlayer)
+void GameServer::handleNewEnemy(int nbrEnemy)
 {
     ECS::Entity enemy = _manager.createEntity(ECS::EntityType::ENEMY);
 
@@ -48,13 +48,34 @@ void GameServer::handleNewEnemy(int nbrPlayer)
     _manager.addComponent(enemy, ECS::ComponentType::HEALTH, std::make_shared<ECS::Health>(100);
     _manager.addComponent(enemy, ECS::ComponentType::HITBOX, std::make_shared<ECS::Hitbox>(10, 30);
     _manager.addComponent(enemy, ECS::ComponentType::PATTERN, std::make_shared<ECS::Pattern>(15, 15, 10, 10);
-    _mapPlayers[nbrPlayer] = enemy;
+    _mapEnemys[nbrEnemy] = enemy;
 }
 
 void GameServer::AddNewCommands(int nbrPlayer, Button button)
 {
     ECS::Entity entityPlayer = _mapPlayers[nbrPlayer];
     _manager.getSystem<ECS::EventsSystem>().setEvents(entityPlayer, button);
+}
+
+void GameServer::createAllPlayer(int maxPlayers)
+{
+    for (int i = 0; i < maxPlayers; i++)
+        handleNewClient(i);
+}
+void GameServer::createAllEnemy(int maxEnemy)
+{
+    for (int i = 0; i < maxEnemy; i++)
+        handleNewEnemy(i);
+}
+
+std::map<int, ECS::Entity> GameServer::getPlayerList() const
+{
+    return _mapPlayers;
+}
+
+std::map<int, ECS::Entity> GameServer::getEnemyList() const
+{
+    return _mapEnemys;
 }
 
 void GameServer::updateAll()
