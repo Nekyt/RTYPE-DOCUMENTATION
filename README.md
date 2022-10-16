@@ -83,11 +83,23 @@ We choosed to use an [ECS architecture](https://en.wikipedia.org/wiki/Entity%E2%
 
 You will need to install [vcpkg](https://vcpkg.io/en/getting-started.html) to build our game.
 To install vcpkg, you will need to clone the repository somewhere on your computer using this command:
-```git clone https://github.com/Microsoft/vcpkg.git```
+```
+git clone https://github.com/Microsoft/vcpkg.git
+```
 Then execute the following command:
-```./vcpkg/bootstrap-vcpkg.sh```
+```
+./vcpkg/bootstrap-vcpkg.sh
+```
 Lastly, execute this last command inside the repository containing vcpkg:
-```./vcpkg integrate install```
+```
+./vcpkg integrate install
+```
+
+Once you've completed the previous steps, navigate to this repository and execute the following commands:
+```
+git submodule init
+git submodule update
+```
 
 **Linux:**
 
