@@ -57,9 +57,9 @@ file(GLOB_RECURSE SRC_GRAPHICS ${PROJECT_SOURCE_DIR}/Graphics/*)
 # add_executable(${SERVER} ${SRC_SERVER})
 
 # set(SHARED_INCLUDE_FOLDER shared)
-target_include_directories(${SERVER} PUBLIC SHARED_INCLUDE_FOLDER)
+# target_include_directories(${SERVER} PUBLIC SHARED_INCLUDE_FOLDER)
+add_executable(${CLIENT} ${SRC_CLIENT} ${SRC_ECS} ${SRC_GRAPHICS})
 target_include_directories(${CLIENT} PUBLIC SHARED_INCLUDE_FOLDER)
 
 target_link_libraries(${CLIENT} sfml-system sfml-window sfml-graphics sfml-network sfml-audio)
-target_link_libraries(${SERVER} sfml-system sfml-network)
-add_executable(${CLIENT} ${SRC_CLIENT} ${SRC_ECS} ${SRC_GRAPHICS})
+# target_link_libraries(${SERVER} sfml-system sfml-network)
