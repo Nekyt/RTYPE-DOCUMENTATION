@@ -17,6 +17,6 @@ class Clock {
     private:
         std::vector<size_t> _entities;
         std::map<size_t, std::vector<ECS::ComponentType>> _timersList;
-        std::map<size_t, std::map<ECS::ComponentType, std::time_t>> _previousIte;
+        std::map<size_t, std::map<ECS::ComponentType, std::clock_t>> _previousIte;
         std::map<size_t, std::map<ECS::ComponentType, int>> _timer;
 };
