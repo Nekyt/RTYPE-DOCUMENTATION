@@ -2,18 +2,18 @@
 #define _PATTERN
 
 #include "IComp.hpp"
-#include "Speed.hpp"
 #include "Position.hpp"
+#include "Speed.hpp"
 #include <memory>
 #include <vector>
 
 namespace ECS {
 enum PatternType {
-    STRAIGHT,       // MOVING IN A STRAIGHT LINE (default pattern)
-    ZIGZAG,         // MOVING UP AND DOWN AS WELL AS MOVING FORWARD
-    MOVINGDIAMOND,  // MOVING IN A DIAMOND SHAPE (Move more in -x than x to keep moving toward players)
-    UPANDDOWN       /* MOVING STRAIGHT TO THE TOP, THEN MOVING FORWARD FOR A BIT, STOP, MOVING STRAIGHT TO THE BOOTOM,
-                       THEN MOVING FORWARD FOR A BIT AND KEEP GOING LIKE THAT */
+    STRAIGHT, // MOVING IN A STRAIGHT LINE (default pattern)
+    ZIGZAG, // MOVING UP AND DOWN AS WELL AS MOVING FORWARD
+    MOVINGDIAMOND, // MOVING IN A DIAMOND SHAPE (Move more in -x than x to keep moving toward players)
+    UPANDDOWN /* MOVING STRAIGHT TO THE TOP, THEN MOVING FORWARD FOR A BIT, STOP, MOVING STRAIGHT TO THE BOOTOM,
+                 THEN MOVING FORWARD FOR A BIT AND KEEP GOING LIKE THAT */
 };
 
 class Pattern : public IComp {

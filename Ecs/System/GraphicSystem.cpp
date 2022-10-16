@@ -26,26 +26,20 @@ ECS::GraphicSystem::GraphicSystem(const std::shared_ptr<ComponentManager>& compo
 void ECS::GraphicSystem::update()
 {
     const auto& entities = _entityManager->getEntities();
-    //std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> enti = _clock->getEntitiesToUpdate();
 
-    //for (size_t i = 0; i < enti.size(); ++i) {
-        for (const auto& entity : entities) {
-            // if (entity.getId() != enti[i].first)
-            //     continue;
-            if (!checkIsValidEntity(entity))
-                continue;
-            std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
-            //std::shared_ptr<ECS::Rotate> rotation = std::dynamic_pointer_cast<ECS::Rotate>(_componentManager->getComponent(entity, ComponentType::ROTATION));
-            std::shared_ptr<ECS::Sprite> sprite = std::dynamic_pointer_cast<ECS::Sprite>(_componentManager->getComponent(entity, ComponentType::SPRITE));
+    for (const auto& entity : entities) {
+        if (!checkIsValidEntity(entity))
+            continue;
+        std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
+        std::shared_ptr<ECS::Sprite> sprite = std::dynamic_pointer_cast<ECS::Sprite>(_componentManager->getComponent(entity, ComponentType::SPRITE));
 
-            // setIntRect clock
-            // std::shared_ptr<sf::Texture> sfmlTexture = sprite->getTexture();
-            // sprite->setTexture(*sfmlTexture);
-            sprite->setPosition(position->getPosition_x(), position->getPosition_y());
-            sprite->setScale(sprite->getScale());
-            _window->draw(*sprite->getSprite());
-        }
-    //}
+        // setIntRect clock
+        // std::shared_ptr<sf::Texture> sfmlTexture = sprite->getTexture();
+        // sprite->setTexture(*sfmlTexture);
+        sprite->setPosition(position->getPosition_x(), position->getPosition_y());
+        sprite->setScale(sprite->getScale());
+        _window->draw(*sprite->getSprite());
+    }
 }
 
 /**
@@ -59,6 +53,11 @@ void ECS::GraphicSystem::setSfml(std::shared_ptr<InitSfml> sfml)
     _window = sfml->getWindow();
 }
 
+/**
+ * This function sets the clock for the GraphicSystem
+ * 
+ * @param clock The clock that will be used to calculate the delta time.
+ */
 void ECS::GraphicSystem::setClock(std::shared_ptr<Clock> clock)
 {
     _clock = clock;

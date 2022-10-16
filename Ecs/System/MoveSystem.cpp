@@ -20,9 +20,10 @@ ECS::MoveSystem::MoveSystem(const std::shared_ptr<ComponentManager>& componentsM
 {
 }
 
+
 /**
- * For each entity, if the entity has a position, speed, and acceleration
- * component, then update the position based on the speed and acceleration.
+ * It gets the entities to update from the clock, then it checks if the entity has
+ * the required components, and if it does, it updates the position of the entity
  */
 void ECS::MoveSystem::update()
 {
@@ -51,6 +52,12 @@ void ECS::MoveSystem::update()
     }
 }
 
+/**
+ * This function sets the clock for the MoveSystem.
+ * 
+ * @param clock A pointer to the clock that the system will use to determine how
+ * much time has passed since the last update.
+ */
 void ECS::MoveSystem::setClock(std::shared_ptr<Clock> clock)
 {
     _clock = clock;

@@ -7,6 +7,18 @@
 
 #include "../include/Sprite.hpp"
 
+/**
+ * `Sprite(const sf::Texture& texture, sf::Vector2f scale, sf::IntRect intRect,
+ * sf::Vector2f pos) noexcept`
+ * 
+ * This function takes in a texture, a scale, an intRect, and a position, and
+ * creates a sprite with those parameters
+ * 
+ * @param texture The texture to use for the sprite.
+ * @param scale The scale of the sprite.
+ * @param intRect The rectangle of the texture that you want to use.
+ * @param pos The position of the sprite.
+ */
 ECS::Sprite::Sprite(const sf::Texture& texture, sf::Vector2f scale, sf::IntRect intRect, sf::Vector2f pos) noexcept
     : _scale(scale)
     , _intRect(intRect)
@@ -21,6 +33,19 @@ ECS::Sprite::Sprite(const sf::Texture& texture, sf::Vector2f scale, sf::IntRect 
     _sprite->setPosition(_pos.x, _pos.y);
 }
 
+/**
+ * `Sprite(const sf::Texture& texture, int scaleX, int scaleY, sf::IntRect intRect,
+ * sf::Vector2f pos) noexcept`
+ * 
+ * This function takes in a texture, a scale, an intRect, and a position, and
+ * creates a sprite with those values
+ * 
+ * @param texture The texture to use for the sprite.
+ * @param scaleX The scale of the sprite on the X axis.
+ * @param scaleY The scale of the sprite on the Y axis.
+ * @param intRect The rectangle of the texture you want to use.
+ * @param pos The position of the sprite.
+ */
 ECS::Sprite::Sprite(const sf::Texture& texture, int scaleX, int scaleY, sf::IntRect intRect, sf::Vector2f pos) noexcept
     : _scale(scaleX, scaleY)
     , _intRect(intRect)
@@ -35,6 +60,22 @@ ECS::Sprite::Sprite(const sf::Texture& texture, int scaleX, int scaleY, sf::IntR
     _sprite->setPosition(_pos.x, _pos.y);
 }
 
+/**
+ * `Sprite(const sf::Texture& texture, int scaleX, int scaleY, int left, int top,
+ * int width, int height, sf::Vector2f pos) noexcept`
+ * 
+ * This function takes in a texture, a scale, a rectangle, and a position, and
+ * creates a sprite with those values
+ * 
+ * @param texture The texture to use for the sprite.
+ * @param scaleX The scale of the sprite on the X axis.
+ * @param scaleY The scale of the sprite on the Y axis.
+ * @param left The left position of the sprite in the texture.
+ * @param top the top of the sprite in the texture
+ * @param width The width of the sprite.
+ * @param height The height of the sprite.
+ * @param pos The position of the sprite.
+ */
 ECS::Sprite::Sprite(const sf::Texture& texture, int scaleX, int scaleY, int left, int top, int width, int height, sf::Vector2f pos) noexcept
     : _scale(scaleX, scaleY)
     , _intRect(left, top, width, height)

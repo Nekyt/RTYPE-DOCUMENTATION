@@ -12,17 +12,17 @@
 
 namespace ECS {
 class EnemyShootSystem : public System {
-    public:
-        EnemyShootSystem(const std::shared_ptr<ComponentManager>& componentsManager, const std::shared_ptr<EntityManager>& entityManager);
-        ~EnemyShootSystem() = default;
+public:
+    EnemyShootSystem(const std::shared_ptr<ComponentManager>& componentsManager, const std::shared_ptr<EntityManager>& entityManager);
+    ~EnemyShootSystem() = default;
 
-        void update();
-        void setSfml(std::shared_ptr<InitSfml> sfml);
-        bool checkIsValidEntity(Entity entity);
+    void update();
+    void setSfml(std::shared_ptr<InitSfml> sfml);
+    bool checkIsValidEntity(Entity entity);
 
-    protected:
-    private:
-        std::shared_ptr<InitSfml> _sfml;
+protected:
+private:
+    std::shared_ptr<InitSfml> _sfml;
 };
 } // namespace ECS
 

@@ -9,9 +9,9 @@
 #define INCLUDESYSTEM_HPP_
 
 #include "./System/CollisionSystem.hpp"
+#include "./System/EventsSystem.hpp"
 #include "./System/GraphicSystem.hpp"
 #include "./System/MoveSystem.hpp"
 #include "./System/TextSystem.hpp"
-#include "./System/EventsSystem.hpp"
 
 #endif /* !INCLUDESYSTEM_HPP_ */

@@ -7,6 +7,14 @@
 
 #include "../include/Text.hpp"
 
+/**
+ * It initializes the text object
+ * 
+ * @param font The font that the text will use.
+ * @param sentence The text you want to display
+ * @param size The size of the text.
+ * @param pos The position of the text
+ */
 ECS::Text::Text(sf::Font& font, const std::string& sentence, int size, sf::Vector2f pos) noexcept
     : _sentence(sentence)
     , _size(size)
