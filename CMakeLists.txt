@@ -24,7 +24,7 @@ if(CMAKE_BUILD_TYPE MATCHES RELEASE)
 endif()
 
 if(DEBUG_MODE MATCHES TRUE)
-    add_definitions("-g -DDEBUG")
+    add_definitions("-DDEBUG")
 endif()
 
 #include_directories(${SFML_INCLUDE_DIRS})
