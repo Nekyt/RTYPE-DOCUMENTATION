@@ -39,8 +39,8 @@ void ECS::EventsSystem::setEvents(Entity &entity, Button &event)
 
 void ECS::EventsSystem::modifyAcceleration(Entity entity, Button event)
 {
-    std::shared_ptr<ECS::Speed> speed = dynamic_pointer_cast<ECS::Speed>(_componentManager->getComponent(entity, ComponentType::SPEED));
-    std::shared_ptr<ECS::Acceleration> acceleration = dynamic_pointer_cast<ECS::Acceleration>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
+    std::shared_ptr<ECS::Speed> speed = std::dynamic_pointer_cast<ECS::Speed>(_componentManager->getComponent(entity, ComponentType::SPEED));
+    std::shared_ptr<ECS::Acceleration> acceleration = std::dynamic_pointer_cast<ECS::Acceleration>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
 
     switch (event) {
     case Button::Right:
@@ -70,7 +70,7 @@ void ECS::EventsSystem::modifyAcceleration(Entity entity, Button event)
 
 void ECS::EventsSystem::shoot(Entity entity)
 {
-    std::shared_ptr<ECS::Position> position = dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
+    std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
     // clock pour la fréquence de tire
 
     short posProjectile_x = position->getPosition_x();
