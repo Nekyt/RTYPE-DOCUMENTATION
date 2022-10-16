@@ -1,6 +1,7 @@
 .vscode
 *.o
 .DS_Store
-build/*
-build.sh
+Client/GameClientPart2.cpp
+Client/GameClientPart2.hpp
+build/
 r-type*

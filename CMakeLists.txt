@@ -45,17 +45,16 @@ endif()
 # include(build/conan_paths.cmake)
 # conan_basic_setup(KEEP_RPATHS)
 
-file(GLOB_RECURSE SRC_CLIENT ${PROJECT_SOURCE_DIR}/client/*)
-file(GLOB_RECURSE SRC_SERVER ${PROJECT_SOURCE_DIR}/server/*)
-# file(GLOB_RECURSE SRC_COMMON ${PROJECT_SOURCE_DIR}/shared/*)
+# file(GLOB_RECURSE SRC_CLIENT ${PROJECT_SOURCE_DIR}/client/*)
+# file(GLOB_RECURSE SRC_SERVER ${PROJECT_SOURCE_DIR}/server/*)
+file(GLOB_RECURSE SRC_CLIENT ${PROJECT_SOURCE_DIR}/Client/*)
+file(GLOB_RECURSE SRC_ECS ${PROJECT_SOURCE_DIR}/Ecs/*)
+file(GLOB_RECURSE SRC_GRAPHICS ${PROJECT_SOURCE_DIR}/Graphics/*)
+# file(GLOB_RECURSE SRC_ECS ${PROJECT_SOURCE_DIR}/shared/*)
 
-# include(conan.cmake)
 
-# conan_cmake_run(REQUIRES Catch2/2.6.0@catchorg/stable
-#                 BASIC_SETUP)
-
-add_executable(${CLIENT} ${SRC_CLIENT})
-add_executable(${SERVER} ${SRC_SERVER})
+# add_executable(${CLIENT} ${SRC_CLIENT})
+# add_executable(${SERVER} ${SRC_SERVER})
 
 # set(SHARED_INCLUDE_FOLDER shared)
 target_include_directories(${SERVER} PUBLIC SHARED_INCLUDE_FOLDER)
@@ -63,3 +62,4 @@ target_include_directories(${CLIENT} PUBLIC SHARED_INCLUDE_FOLDER)
 
 target_link_libraries(${CLIENT} sfml-system sfml-window sfml-graphics sfml-network sfml-audio)
 target_link_libraries(${SERVER} sfml-system sfml-network)
+add_executable(${CLIENT} ${SRC_CLIENT} ${SRC_ECS} ${SRC_GRAPHICS})
