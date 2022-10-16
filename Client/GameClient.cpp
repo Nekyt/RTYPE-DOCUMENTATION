@@ -215,27 +215,33 @@ void GameClient::manageMenu()
  */
 void GameClient::loadGame()
 {
-    ECS::Entity entityBg = _manager.createEntity(ECS::EntityType::GRAPHICS);
+    ECS::Entity entityBg = _manager.createEntity(ECS::EntityType::PARALLAX);
     _manager.addComponent(entityBg, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(0, 0));
-    _manager.addComponent(entityBg, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(5));
+    _manager.addComponent(entityBg, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(3));
     _manager.addComponent(entityBg, ECS::ComponentType::ACCELERATION, std::make_shared<ECS::Acceleration>(-1, 0));
     _manager.addComponent(entityBg, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("bg-game-2"), sf::Vector2f(1.9, 1.9)));
     _clock->addClockComponent(entityBg.getId(), ECS::ComponentType::POSITION, 400);
 
-    ECS::Entity entityBg2 = _manager.createEntity(ECS::EntityType::GRAPHICS);
+    ECS::Entity entityBg2 = _manager.createEntity(ECS::EntityType::PARALLAX);
     _manager.addComponent(entityBg2, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(1920, 0));
-    _manager.addComponent(entityBg2, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(5));
+    _manager.addComponent(entityBg2, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(3));
     _manager.addComponent(entityBg2, ECS::ComponentType::ACCELERATION, std::make_shared<ECS::Acceleration>(-1, 0));
     _manager.addComponent(entityBg2, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("bg-game-2"), sf::Vector2f(1.9, 1.9), sf::IntRect(0, 0, 0, 0), sf::Vector2f(1920, 0)));
     _clock->addClockComponent(entityBg2.getId(), ECS::ComponentType::POSITION, 400);
 
-    ECS::Entity entityStars = _manager.createEntity(ECS::EntityType::GRAPHICS);
+    ECS::Entity entityStars = _manager.createEntity(ECS::EntityType::PARALLAX);
     _manager.addComponent(entityStars, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(0, 0));
-    _manager.addComponent(entityStars, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(7));
+    _manager.addComponent(entityStars, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(5));
     _manager.addComponent(entityStars, ECS::ComponentType::ACCELERATION, std::make_shared<ECS::Acceleration>(-1, 0));
-    _manager.addComponent(entityStars, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("stars"), sf::Vector2f(1, 1)));
-    std::shared_ptr<ECS::Sprite> spriteStars = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(entityStars, ECS::ComponentType::SPRITE));
+    _manager.addComponent(entityStars, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("stars"), sf::Vector2f(0.6, 0.6)));
     _clock->addClockComponent(entityStars.getId(), ECS::ComponentType::POSITION, 400);
+
+    ECS::Entity entityStars2 = _manager.createEntity(ECS::EntityType::PARALLAX);
+    _manager.addComponent(entityStars2, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(1920, 0));
+    _manager.addComponent(entityStars2, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(5));
+    _manager.addComponent(entityStars2, ECS::ComponentType::ACCELERATION, std::make_shared<ECS::Acceleration>(-1, 0));
+    _manager.addComponent(entityStars2, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("stars"), sf::Vector2f(0.6, 0.6), sf::IntRect(0, 0, 0, 0), sf::Vector2f(1920, 0)));
+    _clock->addClockComponent(entityStars2.getId(), ECS::ComponentType::POSITION, 400);
 }
 
 

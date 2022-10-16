@@ -41,8 +41,12 @@ void ECS::MoveSystem::update()
 
             auto posX = position->getPosition_x();
             auto posY = position->getPosition_y();
-            position->setPosition_x(posX += acceleration->getAcceleration_x() * speed->getMaxSpeed());
-            position->setPosition_y(posY += acceleration->getAcceleration_y() * speed->getMaxSpeed());
+            if ((posX += acceleration->getAcceleration_x() * speed->getMaxSpeed()) < -1920)
+                position->setPosition_x(1920);
+            else {
+                position->setPosition_x(posX += acceleration->getAcceleration_x() * speed->getMaxSpeed());
+                position->setPosition_y(posY += acceleration->getAcceleration_y() * speed->getMaxSpeed());
+            }
         }
     }
 }
