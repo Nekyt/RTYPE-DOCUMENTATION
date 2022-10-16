@@ -46,7 +46,7 @@ endif()
 # conan_basic_setup(KEEP_RPATHS)
 
 file(GLOB_RECURSE SRC_CLIENT ${PROJECT_SOURCE_DIR}/client/*)
-file(GLOB_RECURSE SRC_SERVER server/*)
+file(GLOB_RECURSE SRC_SERVER ${PROJECT_SOURCE_DIR}/server/*)
 # file(GLOB_RECURSE SRC_COMMON ${PROJECT_SOURCE_DIR}/shared/*)
 
 # include(conan.cmake)
