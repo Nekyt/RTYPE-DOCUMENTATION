@@ -1,31 +1,29 @@
 /*
 ** EPITECH PROJECT, 2022
-** rtype
+** r-type
 ** File description:
 ** main
 */
 
-#include <iostream>
-// #include <SFML/Window.hpp>
-#include <SFML/Graphics.hpp>
+#include "./GameClient.hpp"
+
+int program()
+{
+    GameClient client;
+
+    client.gameLoop();
+    return 0;
+}
 
 int main()
 {
-    std::cout << "This is the client main." << std::endl;
-    sf::RenderWindow window(sf::VideoMode(200, 200), "SFML works!");
-    sf::CircleShape shape(100.f);
-    shape.setFillColor(sf::Color::Green);
-
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
-
-        window.clear();
-        window.draw(shape);
-        window.display();
+    try {
+        return program();
+    } catch (std::exception& e) {
+        std::cerr << "Error (stdexcept): " << e.what() << '\n';
+        return 84;
+    } catch (...) {
+        std::cerr << "Error: Unknown exception !!!!!!\n";
+        return 84;
     }
-    return 0;
 }
