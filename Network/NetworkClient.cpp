@@ -118,7 +118,7 @@ void Network::Client::sendReady()
     sf::Packet packet;
 
     packet << Network::Networking::READY << static_cast<int>(_roomId);
-    if (_udp.send(packet, _ip, _port) == sf::Socket::Done) {
+    if (_udp.send(packet, _ip, _port) != sf::Socket::Done) {
         std::cerr << "ERROR : Fail to send a request" << std::endl;
         exit (84);
     }
