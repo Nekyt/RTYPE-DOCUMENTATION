@@ -9,25 +9,34 @@
 #define NETWORKCLIENT_HPP_
 
 #include <iostream>
+#include <list>
 #include <SFML/Network.hpp>
+#include "../Graphics/Events.hpp"
 
-class NetworkClient {
+namespace Network {
+class Client {
     public:
-        NetworkClient() = default;
-        ~NetworkClient() = default;
-        void setIp(const char *);
-        void setPort(unsigned short);
-        void loop();
-        void engage();
+        Client(const char* ip, unsigned short port);
+        ~Client() = default;
+
+        void roomCreation(int players);
+        std::vector<int> roomAskingList();
+        int joinRoom(std::vector<int> rooms);
+        sf::Packet retrievePacket();
+        void sendReady();
+        void sendPlayerUpdate(std::list<Button> buttons);
+
 
     protected:
     private:
+        std::vector<int> packetToVectorInt(sf::Packet packet, int size);
+
         sf::UdpSocket _udp;
         sf::SocketSelector _selector;
         sf::IpAddress _ip;
+        int _roomId;
         unsigned short _port;
-        sf::Packet _packet;
-        int _co;
+};
 };
 
 #endif /* !NETWORKCLIENT_HPP_ */

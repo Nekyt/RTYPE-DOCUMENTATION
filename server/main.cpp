@@ -6,6 +6,7 @@
 */
 
 #include <iostream>
+#include "Server.hpp"
 #include "../Network/NetworkServer.hpp"
 
 int onlyDigit(char *str)
@@ -18,8 +19,9 @@ int onlyDigit(char *str)
 
 int main(int ac, char **av)
 {
-    NetworkServer set;
-    if (ac == 1)
+    Server::Server serv;
+    serv.serverLoop();
+    /*if (ac == 1)
         set.engage(4);
     if (ac == 2) {
         if (onlyDigit(av[1]) == 0) {
@@ -28,5 +30,5 @@ int main(int ac, char **av)
             return (84);
         }
     }
-    return (0);
+    return (0);*/
 }

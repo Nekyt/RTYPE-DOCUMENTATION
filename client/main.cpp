@@ -9,6 +9,7 @@
 #include <SFML/Network.hpp>
 #include "../Network/NetworkClient.hpp"
 #include <iostream>
+#include "../Network/Enum.hpp"
 
 //int program()
 //{
@@ -28,21 +29,31 @@ int onlyDigit(char *str)
 
 int main(int ac, char **av)
 {
-    NetworkClient set;
+    std::vector<int> tab;
+    sf::Packet packet;
+    int type;
+    int playerId;
 
-    if (onlyDigit(av[2]) == 1)
+    if (ac < 3 || onlyDigit(av[2]) == 1)
         return (84);
-    set.setIp(av[1]);
-    set.setPort(atoi(av[2]));
-    set.engage();
-    return (0);
-    //try {
-    //    return program();
-    //} catch(std::exception& e) {
-    //    std::cerr << "Error (stdexcept): " << e.what() << '\n';
-    //    return 84;
-    //} catch (...) {
-    //    std::cerr << "Error: Unknown exception !!!!!!\n";
-    //    return 84;
-    //}
+
+    Network::Client set(av[1], atoi(av[2]));
+    set.roomCreation(3);
+    tab = set.roomAskingList();
+    std::cout << "Rooms List : " << std::endl;
+    for (size_t i = 0; i < tab.size(); ++i)
+        std::cout << tab[i] << std::endl;
+    set.joinRoom(tab);
+    packet = set.retrievePacket();
+    packet >> type;
+    if (type == Network::Networking::ERROR) {
+        exit (84);
+    }
+    packet >> playerId;
+    std::cout << "Player ID : " << playerId << std::endl;
+    packet.clear();
+    packet = set.retrievePacket();
+    packet.clear();
+    set.sendReady();
+
 }

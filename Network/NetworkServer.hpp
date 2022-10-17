@@ -10,21 +10,35 @@
 
 #include <iostream>
 #include <SFML/Network.hpp>
+#include "../Ecs/Entity/Entity.hpp"
+#include "../Ecs/IncludeComponents.hpp"
+#include "Enum.hpp"
 
-class NetworkServer {
+namespace Network {
+class Server {
     public:
-        NetworkServer() = default;
-        ~NetworkServer() = default;
-        void loop(void);
-        void engage(int);
-        void waitClient(int);
-    protected:
+        Server() = default;
+        ~Server();
+
+        void createConnection();
+
+//      MAIN THREAD -> CREATION OF ROOM + SENDING ROOM LIST
+
+        std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> retrievePacket();
+        int createRoom(int playerNb);
+        void sendRoomList(std::pair<sf::IpAddress, unsigned short>, std::vector<int> list);
+        void sendPlayerId(std::pair<sf::IpAddress, unsigned short>, int id);
+        void sendError(std::pair<sf::IpAddress, unsigned short>, std::string errorMsg);
+        void sendEnum(std::pair<sf::IpAddress, unsigned short> client, Network::Networking type);
+        void sendGameUpdate(std::pair<sf::IpAddress, unsigned short> client, std::vector<std::pair<ECS::Entity, ECS::Position>>);
+        void sendPlayerDeathOrDisconnect(std::pair<sf::IpAddress, unsigned short> client, int id, Network::Networking type);
+
     private:
-        std::vector<std::pair<sf::IpAddress, unsigned short>> _clients;
         sf::UdpSocket _udp;
         sf::IpAddress _ip;
         unsigned short _port;
-        sf::Packet _packet;
+};
+
 };
 
 #endif /* !NETWORKSERVER_HPP_ */
