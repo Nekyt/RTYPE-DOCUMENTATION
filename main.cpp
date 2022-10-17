@@ -10,4 +10,5 @@ int main()
     say.say_team();
     say.say_update();
     say.say_goodbye();
+    say.say_goodbye();
 }
