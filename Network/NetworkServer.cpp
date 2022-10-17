@@ -11,6 +11,9 @@
 #include <cstring>
 #include "PacketOperatorSurcharge.hpp"
 
+/**
+ * It's the destructor for the Server class
+ */
 Network::Server::~Server()
 {
     std::cout << std::endl;
@@ -19,6 +22,9 @@ Network::Server::~Server()
     std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << std::endl;
 }
 
+/**
+ * It creates a connection between the server and the client.
+ */
 void Network::Server::createConnection()
 {
     if (_udp.bind(sf::Socket::AnyPort) != sf::Socket::Done) {
@@ -33,6 +39,11 @@ void Network::Server::createConnection()
     std::cout << "    Port  : " << _udp.getLocalPort() << std::endl << std::endl;
 }
 
+/**
+ * It receives a packet from the client, and returns a pair of pair of IpAddress and unsogned short, and a pair of Networking and sf::Packet
+ * 
+ * @return A pair of pair of IpAddress and unsigned short, and a pair of Networking and sf::Packet
+ */
 std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> Network::Server::retrievePacket()
 {
     std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> message;
@@ -55,6 +66,12 @@ std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networkin
     return message;
 }
 
+/**
+ * It sends the player id to the client
+ * 
+ * @param client The client to send the packet to.
+ * @param id The id of the player
+ */
 void Network::Server::sendPlayerId(std::pair<sf::IpAddress, unsigned short> client, int id)
 {
     sf::Packet packet;
@@ -67,6 +84,12 @@ void Network::Server::sendPlayerId(std::pair<sf::IpAddress, unsigned short> clie
     std::cout << std::endl << "LOG : Sending Player ID to Client" << std::endl;
 }
 
+/**
+ * It sends the room list to the client
+ * 
+ * @param client The client's IP address and port.
+ * @param roomId The id of the room you want to send to the client.
+ */
 void Network::Server::sendRoomList(std::pair<sf::IpAddress, unsigned short> client, std::vector<int> roomId)
 {
     sf::Packet packet;
@@ -79,6 +102,12 @@ void Network::Server::sendRoomList(std::pair<sf::IpAddress, unsigned short> clie
     std::cout << std::endl << "LOG : Sending Room List to Client" << std::endl;
 }
 
+/**
+ * It sends an error message to a client
+ * 
+ * @param client The client to send the error to.
+ * @param errorMsg The error message to send to the client.
+ */
 void Network::Server::sendError(std::pair<sf::IpAddress, unsigned short> client, std::string errorMsg)
 {
     sf::Packet packet;
@@ -91,6 +120,12 @@ void Network::Server::sendError(std::pair<sf::IpAddress, unsigned short> client,
     std::cout << std::endl << "LOG : Sending Error Code to Client" << std::endl;
 }
 
+/**
+ * It sends an enum to the client
+ * 
+ * @param client The client to send the packet to.
+ * @param type The type of packet you want to send.
+ */
 void Network::Server::sendEnum(std::pair<sf::IpAddress, unsigned short> client, Network::Networking type)
 {
     sf::Packet packet;
@@ -104,6 +139,12 @@ void Network::Server::sendEnum(std::pair<sf::IpAddress, unsigned short> client, 
 }
 
 
+/**
+ * It sends the game update to the client
+ * 
+ * @param client The client to send the packet to.
+ * @param ent A vector of pairs of Entity and Position.
+ */
 void Network::Server::sendGameUpdate(std::pair<sf::IpAddress, unsigned short> client, std::vector<std::pair<ECS::Entity, ECS::Position>> ent)
 {
     sf::Packet packet;
@@ -116,6 +157,13 @@ void Network::Server::sendGameUpdate(std::pair<sf::IpAddress, unsigned short> cl
     std::cout << std::endl << "LOG : Sending Entities Positions to Client" << std::endl;
 }
 
+/**
+ * It sends a packet to a client to tell him that a player has died or disconnected.
+ * 
+ * @param client The client to send the packet to.
+ * @param id The id of the player that died or disconnected.
+ * @param type The type of packet we're sending.
+ */
 void Network::Server::sendPlayerDeathOrDisconnect(std::pair<sf::IpAddress, unsigned short> client, int id, Network::Networking type)
 {
     sf::Packet packet;
