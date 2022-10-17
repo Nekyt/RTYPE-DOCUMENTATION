@@ -11,6 +11,12 @@
 #include <cstring>
 #include "PacketOperatorSurcharge.hpp"
 
+/**
+ * It creates a client socket and binds it to a random port
+ * 
+ * @param ip the ip of the server
+ * @param port the port to bind the socket to
+ */
 Network::Client::Client(const char* ip, unsigned short port)
     : _ip(ip)
     , _port(port)
@@ -23,6 +29,11 @@ Network::Client::Client(const char* ip, unsigned short port)
     printf("lisening on port %d\n", _udp.getLocalPort());
 }
 
+/**
+ * It receives a packet from the server and returns it
+ * 
+ * @return A packet
+ */
 sf::Packet Network::Client::retrievePacket()
 {
     sf::Packet packet;
@@ -34,6 +45,12 @@ sf::Packet Network::Client::retrievePacket()
     return packet;
 }
 
+/**
+ * It sends a packet to the server to create a room with the number of players specified in the
+ * parameter
+ * 
+ * @param players The number of players in the room.
+ */
 void Network::Client::roomCreation(int players)
 {
     sf::Packet packet;
@@ -45,6 +62,11 @@ void Network::Client::roomCreation(int players)
     }
 }
 
+/**
+ * It sends a request to the server to get the list of rooms, and then it receives the list of rooms
+ * 
+ * @return A vector of int.
+ */
 std::vector<int> Network::Client::roomAskingList()
 {
     sf::Packet packet;
@@ -65,6 +87,14 @@ std::vector<int> Network::Client::roomAskingList()
     return vec;
 }
 
+/**
+ * It sends a request to the server to join a room, and if it fails, it creates a new room and tries to
+ * join it
+ * 
+ * @param rooms a vector of int, which contains the rooms' id.
+ * 
+ * @return The playerID
+ */
 int Network::Client::joinRoom(std::vector<int> rooms)
 {
     sf::Packet packet;
@@ -99,6 +129,11 @@ int Network::Client::joinRoom(std::vector<int> rooms)
     return playerID;
 }
 
+/**
+ * It sends a packet containing the size of the list of buttons and the list of buttons itself
+ * 
+ * @param buttons a list of buttons that the player pressed
+ */
 void Network::Client::sendPlayerUpdate(std::list<Button> buttons)
 {
     char buff[sizeof(std::list<Button>[buttons.size()])];
@@ -113,6 +148,9 @@ void Network::Client::sendPlayerUpdate(std::list<Button> buttons)
 
 }
 
+/**
+ * It sends a packet to the server to tell him that the client is ready to play
+ */
 void Network::Client::sendReady()
 {
     sf::Packet packet;
