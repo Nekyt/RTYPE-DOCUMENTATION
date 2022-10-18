@@ -3,8 +3,6 @@ project(RTYPE LANGUAGES CXX)
 
 set(DEBUG_MODE TRUE)
 set(CMAKE_BUILD_TYPE DEBUG)
-set(CMAKE_TOOLCHAIN_FILE "${CMAKE_CURRENT_SOURCE_DIR}/vcpkg/scripts/buildsystems/vcpkg.cmake"
-  CACHE STRING "Vcpkg toolchain file")
 
 set(CLIENT r-type_client)
 set(SERVER r-type_server)
@@ -30,16 +28,8 @@ endif()
 #include_directories(${SFML_INCLUDE_DIRS})
 #include_directories("/opt/homebrew/Cellar/sfml/2.5.1_1/include")
 
-if (WIN32)
-    find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
-else()
-    include(FetchContent)
-    FetchContent_Declare(sfml                             # name of the content
-        GIT_REPOSITORY https://github.com/SFML/SFML.git  # the repository
-        GIT_TAG        2.5.1                             # the tag
-    )
-    FetchContent_MakeAvailable(sfml)
-endif()
+find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
+
 # CONAN_CALLS
 # include(build/conanbuildinfo.cmake)
 # include(build/conan_paths.cmake)
