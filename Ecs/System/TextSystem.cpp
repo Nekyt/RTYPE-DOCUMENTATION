@@ -9,13 +9,14 @@
 
 /**
  * It's a constructor for the TextSystem class
- * 
+ *
  * @param componentsManager The ComponentManager that the system will use to get
  * components.
  * @param entityManager The entity manager that the system will use to get
  * entities.
  */
-ECS::TextSystem::TextSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager) : System(componentsManager, entityManager)
+ECS::TextSystem::TextSystem(const std::shared_ptr<ComponentManager>& componentsManager, const std::shared_ptr<EntityManager>& entityManager)
+    : System(componentsManager, entityManager)
 {
 }
 
@@ -24,15 +25,15 @@ ECS::TextSystem::TextSystem(const std::shared_ptr<ComponentManager> &componentsM
  */
 void ECS::TextSystem::update()
 {
-    const auto &entities = _entityManager->getEntities();
-    for (const auto &entity : entities) {
-         if (!checkIsValidEntity(entity))
+    const auto& entities = _entityManager->getEntities();
+    for (const auto& entity : entities) {
+        if (!checkIsValidEntity(entity))
             continue;
-        ECS::Position *position = dynamic_cast<ECS::Position*>(_componentManager->getComponent(entity, ComponentType::POSITION));
-        ECS::Text *text = dynamic_cast<ECS::Text*>(_componentManager->getComponent(entity, ComponentType::TEXT));
+        std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
+        std::shared_ptr<ECS::Text> text = std::dynamic_pointer_cast<ECS::Text>(_componentManager->getComponent(entity, ComponentType::TEXT));
         text->setFont(*_sfml->getFont("origintech"));
         text->setSentence(text->getSentence());
-        //text->setTextSize(text->getTextSize());
+        text->setSizeText(text->getTextSize());
         text->setPosition(position->getPosition_x(), position->getPosition_y());
         _window->draw(text->getText());
     }
@@ -58,15 +59,12 @@ void ECS::TextSystem::setSfml(std::shared_ptr<InitSfml> sfml)
  */
 bool ECS::TextSystem::checkIsValidEntity(Entity entity)
 {
-    auto &components = _componentManager->getComponentList(entity);
+    auto& components = _componentManager->getComponentList(entity);
 
-    try
-    {
+    try {
         components.at(ComponentType::POSITION);
         components.at(ComponentType::TEXT);
-    }
-    catch(const std::exception& e)
-    {
+    } catch (const std::exception& e) {
         return false;
     }
 }

@@ -13,16 +13,16 @@
  * @param e The entity to add the component to.
  * @param c The component type
  */
-void ECS::ComponentManager::addComponent(ECS::Entity e, ECS::ComponentType c)
+void ECS::ComponentManager::addComponent(ECS::Entity e, ECS::ComponentType c, std::shared_ptr<IComp> comp)
 {
-    std::map<ComponentType, IComp*> compo;
+    std::map<ComponentType, std::shared_ptr<IComp>> compo;
 
     if (_eentities.find(e) == _eentities.end()) {
-        compo.insert(std::pair<ComponentType, IComp*>(c, createComponent(c)));
-        _eentities.insert(std::pair<Entity, std::map<ComponentType, IComp*>>(e, compo));
+        compo.insert(std::pair<ComponentType, std::shared_ptr<IComp>>(c, comp));
+        _eentities.insert(std::pair<Entity, std::map<ComponentType, std::shared_ptr<IComp>>>(e, compo));
         _centities[c].push_back(e);
     } else {
-        _eentities[e].insert(std::pair<ComponentType, IComp*>(c, createComponent(c)));
+        _eentities[e].insert(std::pair<ComponentType, std::shared_ptr<IComp>>(c, comp));
         _centities[c].push_back(e);
     }
 }
@@ -32,7 +32,7 @@ void ECS::ComponentManager::addComponent(ECS::Entity e, ECS::ComponentType c)
  *
  * @return A reference to the component of type c of entity e.
  */
-ECS::IComp *ECS::ComponentManager::getComponent(ECS::Entity e, ECS::ComponentType c)
+std::shared_ptr<ECS::IComp> ECS::ComponentManager::getComponent(ECS::Entity e, ECS::ComponentType c)
 {
     return _eentities[e][c];
 }
@@ -42,7 +42,7 @@ ECS::IComp *ECS::ComponentManager::getComponent(ECS::Entity e, ECS::ComponentTyp
  *
  * @return A map of component types and components.
  */
-std::map<ECS::ComponentType, ECS::IComp*> &ECS::ComponentManager::getComponentList(Entity entity)
+std::map<ECS::ComponentType, std::shared_ptr<ECS::IComp>>& ECS::ComponentManager::getComponentList(Entity entity)
 {
     return _eentities.at(entity);
 }
@@ -53,50 +53,7 @@ std::map<ECS::ComponentType, ECS::IComp*> &ECS::ComponentManager::getComponentLi
  *
  * @return A vector of entities.
  */
-std::vector<ECS::Entity> &ECS::ComponentManager::getEntityList(ComponentType type)
+std::vector<ECS::Entity>& ECS::ComponentManager::getEntityList(ComponentType type)
 {
     return _centities.at(type);
-}
-
-/**
- * It creates a component of the type passed in parameter
- *
- * @param c The type of component to create.
- *
- * @return A component of the type specified in the parameter.
- */
-ECS::IComp *ECS::ComponentManager::createComponent(ECS::ComponentType c)
-{
-    if (c == ECS::ComponentType::ACCELERATION)
-        return new ECS::Acceleration();
-    else if (c == ECS::ComponentType::BONUS)
-        return new ECS::Bonus();
-    else if (c == ECS::ComponentType::CONTROLABLE)
-        return new ECS::Controlable(true);
-    else if (c == ECS::ComponentType::PATTERN)
-        return new ECS::Pattern();
-    else if (c == ECS::ComponentType::SPEED)
-        return new ECS::Speed(0);
-    else if (c == ECS::ComponentType::POSITION)
-        return new ECS::Position(0, 0);
-    else if (c == ECS::ComponentType::DAMAGE)
-        return new ECS::Damage(0);
-    else if (c == ECS::ComponentType::ROTATION)
-        return new ECS::Rotate(0);
-    else if (c == ECS::ComponentType::SOUND)
-        return new ECS::Sound();
-    else if (c == ECS::ComponentType::HEALTH)
-        return new ECS::Health(0);
-    else if (c == ECS::ComponentType::HITBOX)
-        return new ECS::Hitbox(0, 0);
-    else if (c == ECS::ComponentType::SIZE)
-        return new ECS::Size(0, 0);
-    else if (c == ECS::ComponentType::IDE)
-        return new ECS::ID(0);
-    else if (c == ECS::ComponentType::TEXT)
-        return new ECS::Text();
-    else if (c == ECS::ComponentType::SPRITE)
-        return new ECS::Sprite();
-    else //if (c == ECS::ComponentType::WEAPON)
-        return new ECS::Weapon();
 }

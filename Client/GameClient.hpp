@@ -8,50 +8,56 @@
 #ifndef GAMECLIENT_HPP_
 #define GAMECLIENT_HPP_
 
-#include "../Graphics/InitSfml.hpp"
-#include "../Graphics/Events.hpp"
 #include "../Ecs/Manager.hpp"
+#include "../Graphics/Events.hpp"
+#include "../Graphics/InitSfml.hpp"
 
-enum GameState
-{
+enum GameState {
     Menu,
     Game,
     Options,
 };
 
 class GameClient {
-    public:
-        GameClient();
-        ~GameClient() = default;
+public:
+    GameClient();
+    ~GameClient() = default;
 
-        void setSfml();
+    void setSfml();
 
-        void loadComponents();
-        void loadSystems();
-        void gameLoop();
-        void handleEvents(const sf::Event &event);
-        void mouseMenu(const sf::Event &event);
-        void handleEventsMouse(const sf::Event &event);
-        void handleEventsKey(Button eventKey);
-        void handleEventsTextEntered(const sf::Event &event);
+    void loadComponents();
+    void loadSystems();
+    void gameLoop();
+    void handleEvents(const sf::Event& event);
+    void mouseMenu(const sf::Event& event);
+    void handleEventsMouse(const sf::Event& event);
+    void handleEventsKey(Button eventKey);
 
-        void selectMode();
+    void sendCommandsToServer();
 
-        void loadMenu();
-        void manageMenu();
+    void selectMode();
 
-        void loadGame();
-        void manageGame();
+    void loadMenu();
+    void manageMenu();
 
-    protected:
-    private:
-        GameState _state;
-        Manager _manager;
+    void loadGame();
+    void manageGame();
 
-        Events _events;
-        std::shared_ptr<InitSfml> _graphical;
-        sf::Sprite _sprite;
-        bool _isInGame;
+protected:
+private:
+    std::shared_ptr<InitSfml> _graphical;
+    GameState _state;
+    Manager _manager;
+    Events _events;
+    std::shared_ptr<Clock> _clock;
+    std::list<Button> _gameCommandsList;
+
+    std::vector<std::shared_ptr<ECS::Sprite>> _spriteMenu;
+    std::vector<std::shared_ptr<ECS::Text>> _textMenu;
+
+    sf::Sprite _sprite;
+    bool _isInGame;
+    bool _nbrPlayersInGameReached;
 };
 
 #endif /* !GAMECLIENT_HPP_ */

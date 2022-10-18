@@ -9,19 +9,20 @@
 #define MOVESYSTEM_HPP_
 
 #include "./System.hpp"
-namespace ECS
-{
-    class MoveSystem : public System {
-        public:
-            MoveSystem(const std::shared_ptr<ComponentManager> &componentsManager, const std::shared_ptr<EntityManager> &entityManager);
-            ~MoveSystem() = default;
+namespace ECS {
+class MoveSystem : public System {
+public:
+    MoveSystem(const std::shared_ptr<ComponentManager>& componentsManager, const std::shared_ptr<EntityManager>& entityManager);
+    ~MoveSystem() = default;
 
-            void update();
-            bool checkIsValidEntity(Entity entity);
+    void update();
+    void setClock(std::shared_ptr<Clock> clock);
+    bool checkIsValidEntity(Entity entity);
 
-        protected:
-        private:
-    };
+protected:
+private:
+    std::shared_ptr<Clock> _clock;
+};
 } // namespace ECS
 
 #endif /* !MOVESYSTEM_HPP_ */

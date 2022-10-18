@@ -19,7 +19,7 @@ int main()
 {
     try {
         return program();
-    } catch(std::exception& e) {
+    } catch (std::exception& e) {
         std::cerr << "Error (stdexcept): " << e.what() << '\n';
         return 84;
     } catch (...) {
