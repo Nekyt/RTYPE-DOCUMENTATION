@@ -30,16 +30,18 @@ endif()
 #include_directories(${SFML_INCLUDE_DIRS})
 #include_directories("/opt/homebrew/Cellar/sfml/2.5.1_1/include")
 
-if (WIN32)
-    find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
-else()
-    include(FetchContent)
-    FetchContent_Declare(sfml                             # name of the content
-        GIT_REPOSITORY https://github.com/SFML/SFML.git  # the repository
-        GIT_TAG        2.5.1                             # the tag
-    )
-    FetchContent_MakeAvailable(sfml)
-endif()
+find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
+
+# if (WIN32)
+#     find_package(SFML 2.5 COMPONENTS system window graphics network audio REQUIRED)
+# else()
+#     include(FetchContent)
+#     FetchContent_Declare(sfml                             # name of the content
+#         GIT_REPOSITORY https://github.com/SFML/SFML.git  # the repository
+#         GIT_TAG        2.5.1                             # the tag
+#     )
+#     FetchContent_MakeAvailable(sfml)
+# endif()
 # CONAN_CALLS
 # include(build/conanbuildinfo.cmake)
 # include(build/conan_paths.cmake)
