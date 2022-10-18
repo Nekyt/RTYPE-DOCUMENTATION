@@ -93,8 +93,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aa3cfa158515ff8d2db062ecb77bb60ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a61e1634731bc4831d96a9c1f2196c998"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGameClient.html#a61e1634731bc4831d96a9c1f2196c998">handleEventsKey</a> (<a class="el" href="Events_8hpp.html#a03bfec859eac87be20f8952c1eb89de0">Button</a> eventKey)</td></tr>
 <tr class="separator:a61e1634731bc4831d96a9c1f2196c998"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab25eb22387c9f680e8d3923386cddbe8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGameClient.html#ab25eb22387c9f680e8d3923386cddbe8">handleEventsTextEntered</a> (const sf::Event &amp;event)</td></tr>
-<tr class="separator:ab25eb22387c9f680e8d3923386cddbe8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa96176296ef8cf99f966f2b81c855fb3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGameClient.html#aa96176296ef8cf99f966f2b81c855fb3">sendCommandsToServer</a> ()</td></tr>
+<tr class="separator:aa96176296ef8cf99f966f2b81c855fb3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae35f6cca00dd33efea318d6fd0dcfa7e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGameClient.html#ae35f6cca00dd33efea318d6fd0dcfa7e">selectMode</a> ()</td></tr>
 <tr class="separator:ae35f6cca00dd33efea318d6fd0dcfa7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a0de8de079fb2d2244092d94870f413d7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classGameClient.html#a0de8de079fb2d2244092d94870f413d7">loadMenu</a> ()</td></tr>
@@ -246,24 +246,6 @@ Public Member Functions</h2></td></tr>
 
 </div>
 </div>
-<a id="ab25eb22387c9f680e8d3923386cddbe8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab25eb22387c9f680e8d3923386cddbe8">&#9670;&nbsp;</a></span>handleEventsTextEntered()</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void GameClient::handleEventsTextEntered </td>
-          <td>(</td>
-          <td class="paramtype">const sf::Event &amp;&#160;</td>
-          <td class="paramname"><em>event</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-</div>
-</div>
 <a id="ab906a8b85ed1a6a4df6e37fcc52c991b"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ab906a8b85ed1a6a4df6e37fcc52c991b">&#9670;&nbsp;</a></span>loadComponents()</h2>
 
@@ -295,6 +277,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
+<p>It creates two entities, one for the background and one for the stars, and adds the components needed to make them move </p>
 
 </div>
 </div>
@@ -329,7 +312,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>It adds all the systems to the <a class="el" href="namespaceECS.html">ECS</a> manager </p>
+<p>It loads the systems </p>
 
 </div>
 </div>
@@ -347,7 +330,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>It loads the game </p>
+<p>It updates the game </p>
 
 </div>
 </div>
@@ -365,7 +348,7 @@ Public Member Functions</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<p>It loads the menu </p>
+<p>It draws the menu </p>
 
 </div>
 </div>
@@ -409,6 +392,24 @@ Public Member Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 <p>It calls the right function depending on the current state of the game </p>
+
+</div>
+</div>
+<a id="aa96176296ef8cf99f966f2b81c855fb3"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa96176296ef8cf99f966f2b81c855fb3">&#9670;&nbsp;</a></span>sendCommandsToServer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">void GameClient::sendCommandsToServer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+<p>Send commands to the server. </p>
 
 </div>
 </div>

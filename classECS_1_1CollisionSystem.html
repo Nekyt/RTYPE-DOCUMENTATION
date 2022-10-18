@@ -99,8 +99,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a04f6fcb1cc5f0437e3787a4d9f491eb1 inherit pub_methods_classECS_1_1System"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd51a08c6aef6e37248bd28e4465cd1d inherit pub_methods_classECS_1_1System"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classECS_1_1System.html#afd51a08c6aef6e37248bd28e4465cd1d">~System</a> ()=default</td></tr>
 <tr class="separator:afd51a08c6aef6e37248bd28e4465cd1d inherit pub_methods_classECS_1_1System"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e257b434e9ec4a9ca166c8c7034c634 inherit pub_methods_classECS_1_1System"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classECS_1_1System.html#a4e257b434e9ec4a9ca166c8c7034c634">Update</a> ()</td></tr>
-<tr class="separator:a4e257b434e9ec4a9ca166c8c7034c634 inherit pub_methods_classECS_1_1System"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="inherited"></a>
 Additional Inherited Members</h2></td></tr>
@@ -178,6 +176,9 @@ Additional Inherited Members</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">bool ECS::CollisionSystem::checkIsValidEntity </td>
@@ -187,6 +188,11 @@ Additional Inherited Members</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>If the entity has a position, hitbox, and health component, then it's valid</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -197,6 +203,8 @@ Additional Inherited Members</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A boolean value. </dd></dl>
 
+<p>Implements <a class="el" href="classECS_1_1System.html#aef8f56a83c05d70dc5d2225becf69cb7">ECS::System</a>.</p>
+
 </div>
 </div>
 <a id="a56730feea43adf32c0dbe89c7c951f1c"></a>
@@ -204,6 +212,9 @@ Additional Inherited Members</h2></td></tr>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">void ECS::CollisionSystem::update </td>
@@ -212,8 +223,15 @@ Additional Inherited Members</h2></td></tr>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
 <p>If the entity is valid, check if it's colliding with another entity, and if it is, remove health from the entity </p>
+
+<p>Implements <a class="el" href="classECS_1_1System.html#ae0c8e183012729898243c7db74e33326">ECS::System</a>.</p>
 
 </div>
 </div>

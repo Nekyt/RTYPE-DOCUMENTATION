@@ -83,12 +83,14 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a8e531c4eacd99e4222ece65b033d0eb6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a31fab2531875f93c39f11873cebf20ce"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classECS_1_1Entity.html">ECS::Entity</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManager.html#a31fab2531875f93c39f11873cebf20ce">getEntities</a> ()</td></tr>
 <tr class="separator:a31fab2531875f93c39f11873cebf20ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a569c1ec20668acbd03b357eba17e621c"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManager.html#a569c1ec20668acbd03b357eba17e621c">addComponent</a> (<a class="el" href="classECS_1_1Entity.html">ECS::Entity</a> e, <a class="el" href="namespaceECS.html#a50d483c058cdbb6697ca667db008c9bd">ECS::ComponentType</a> c)</td></tr>
-<tr class="separator:a569c1ec20668acbd03b357eba17e621c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a01e5e45f8ccead219ee56210e89b19c4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classECS_1_1IComp.html">ECS::IComp</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManager.html#a01e5e45f8ccead219ee56210e89b19c4">getComponent</a> (<a class="el" href="classECS_1_1Entity.html">ECS::Entity</a> e, <a class="el" href="namespaceECS.html#a50d483c058cdbb6697ca667db008c9bd">ECS::ComponentType</a> c)</td></tr>
-<tr class="separator:a01e5e45f8ccead219ee56210e89b19c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7125e165651e46d8deb74e8a6da63021"><td class="memItemLeft" align="right" valign="top">std::map&lt; <a class="el" href="namespaceECS.html#a50d483c058cdbb6697ca667db008c9bd">ECS::ComponentType</a>, <a class="el" href="classECS_1_1IComp.html">ECS::IComp</a> * &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManager.html#a7125e165651e46d8deb74e8a6da63021">getComponentList</a> (<a class="el" href="classECS_1_1Entity.html">ECS::Entity</a> entity)</td></tr>
-<tr class="separator:a7125e165651e46d8deb74e8a6da63021"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aefa36ef850fce5a159bcc33e2265ebf4"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classECS_1_1Entity.html">ECS::Entity</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManager.html#aefa36ef850fce5a159bcc33e2265ebf4">getEntityByType</a> (<a class="el" href="namespaceECS.html#a5b5c41a6d4b8c12fe5e85be1953c9209">ECS::EntityType</a> type)</td></tr>
+<tr class="separator:aefa36ef850fce5a159bcc33e2265ebf4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3dee151aad41a41d9d5b0080765c142f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManager.html#a3dee151aad41a41d9d5b0080765c142f">addComponent</a> (<a class="el" href="classECS_1_1Entity.html">ECS::Entity</a> e, <a class="el" href="namespaceECS.html#a50d483c058cdbb6697ca667db008c9bd">ECS::ComponentType</a> c, std::shared_ptr&lt; <a class="el" href="classECS_1_1IComp.html">ECS::IComp</a> &gt; comp)</td></tr>
+<tr class="separator:a3dee151aad41a41d9d5b0080765c142f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0ee62ca83d40b18f853e75ecfc13aa7"><td class="memItemLeft" align="right" valign="top">std::shared_ptr&lt; <a class="el" href="classECS_1_1IComp.html">ECS::IComp</a> &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManager.html#af0ee62ca83d40b18f853e75ecfc13aa7">getComponent</a> (<a class="el" href="classECS_1_1Entity.html">ECS::Entity</a> e, <a class="el" href="namespaceECS.html#a50d483c058cdbb6697ca667db008c9bd">ECS::ComponentType</a> c)</td></tr>
+<tr class="separator:af0ee62ca83d40b18f853e75ecfc13aa7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a8c0e2161c284815edc06ee5c2f97ca"><td class="memItemLeft" align="right" valign="top">std::map&lt; <a class="el" href="namespaceECS.html#a50d483c058cdbb6697ca667db008c9bd">ECS::ComponentType</a>, std::shared_ptr&lt; <a class="el" href="classECS_1_1IComp.html">ECS::IComp</a> &gt; &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManager.html#a9a8c0e2161c284815edc06ee5c2f97ca">getComponentList</a> (<a class="el" href="classECS_1_1Entity.html">ECS::Entity</a> entity)</td></tr>
+<tr class="separator:a9a8c0e2161c284815edc06ee5c2f97ca"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3d6228f3a5354b579033cb170f4ba85f"><td class="memItemLeft" align="right" valign="top">std::vector&lt; <a class="el" href="classECS_1_1Entity.html">ECS::Entity</a> &gt; &amp;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classManager.html#a3d6228f3a5354b579033cb170f4ba85f">getEntityList</a> (<a class="el" href="namespaceECS.html#a50d483c058cdbb6697ca667db008c9bd">ECS::ComponentType</a> type)</td></tr>
 <tr class="separator:a3d6228f3a5354b579033cb170f4ba85f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a35cfdd39cfb01b415ffa4263bb62c4d8"><td class="memTemplParams" colspan="2">template&lt;typename System &gt; </td></tr>
@@ -143,8 +145,8 @@ Public Member Functions</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a569c1ec20668acbd03b357eba17e621c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a569c1ec20668acbd03b357eba17e621c">&#9670;&nbsp;</a></span>addComponent()</h2>
+<a id="a3dee151aad41a41d9d5b0080765c142f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a3dee151aad41a41d9d5b0080765c142f">&#9670;&nbsp;</a></span>addComponent()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -159,7 +161,13 @@ Public Member Functions</h2></td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="namespaceECS.html#a50d483c058cdbb6697ca667db008c9bd">ECS::ComponentType</a>&#160;</td>
-          <td class="paramname"><em>c</em>&#160;</td>
+          <td class="paramname"><em>c</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::shared_ptr&lt; <a class="el" href="classECS_1_1IComp.html">ECS::IComp</a> &gt;&#160;</td>
+          <td class="paramname"><em>comp</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -257,14 +265,14 @@ template&lt;typename System &gt; </div>
 
 </div>
 </div>
-<a id="a01e5e45f8ccead219ee56210e89b19c4"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a01e5e45f8ccead219ee56210e89b19c4">&#9670;&nbsp;</a></span>getComponent()</h2>
+<a id="af0ee62ca83d40b18f853e75ecfc13aa7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0ee62ca83d40b18f853e75ecfc13aa7">&#9670;&nbsp;</a></span>getComponent()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname"><a class="el" href="classECS_1_1IComp.html">ECS::IComp</a> * Manager::getComponent </td>
+          <td class="memname">std::shared_ptr&lt; <a class="el" href="classECS_1_1IComp.html">ECS::IComp</a> &gt; Manager::getComponent </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classECS_1_1Entity.html">ECS::Entity</a>&#160;</td>
           <td class="paramname"><em>e</em>, </td>
@@ -286,14 +294,14 @@ template&lt;typename System &gt; </div>
 
 </div>
 </div>
-<a id="a7125e165651e46d8deb74e8a6da63021"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a7125e165651e46d8deb74e8a6da63021">&#9670;&nbsp;</a></span>getComponentList()</h2>
+<a id="a9a8c0e2161c284815edc06ee5c2f97ca"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a8c0e2161c284815edc06ee5c2f97ca">&#9670;&nbsp;</a></span>getComponentList()</h2>
 
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">std::map&lt; <a class="el" href="namespaceECS.html#a50d483c058cdbb6697ca667db008c9bd">ECS::ComponentType</a>, <a class="el" href="classECS_1_1IComp.html">ECS::IComp</a> * &gt; &amp; Manager::getComponentList </td>
+          <td class="memname">std::map&lt; <a class="el" href="namespaceECS.html#a50d483c058cdbb6697ca667db008c9bd">ECS::ComponentType</a>, std::shared_ptr&lt; <a class="el" href="classECS_1_1IComp.html">ECS::IComp</a> &gt; &gt; &amp; Manager::getComponentList </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classECS_1_1Entity.html">ECS::Entity</a>&#160;</td>
           <td class="paramname"><em>entity</em></td><td>)</td>
@@ -321,6 +329,24 @@ template&lt;typename System &gt; </div>
 </div><div class="memdoc">
 <p>It returns a reference to the vector of entities</p>
 <dl class="section return"><dt>Returns</dt><dd>A vector of entities. </dd></dl>
+
+</div>
+</div>
+<a id="aefa36ef850fce5a159bcc33e2265ebf4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aefa36ef850fce5a159bcc33e2265ebf4">&#9670;&nbsp;</a></span>getEntityByType()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classECS_1_1Entity.html">ECS::Entity</a> Manager::getEntityByType </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="namespaceECS.html#a5b5c41a6d4b8c12fe5e85be1953c9209">ECS::EntityType</a>&#160;</td>
+          <td class="paramname"><em>type</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
 
 </div>
 </div>

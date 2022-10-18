@@ -70,7 +70,7 @@ $(function() {
 <a href="#pro-attribs">Protected Attributes</a> &#124;
 <a href="classECS_1_1System-members.html">List of all members</a>  </div>
   <div class="headertitle">
-<div class="title">ECS::System Class Reference</div>  </div>
+<div class="title">ECS::System Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div>  </div>
 </div><!--header-->
 <div class="contents">
 
@@ -81,11 +81,12 @@ Inheritance diagram for ECS::System:</div>
  <div class="center">
   <img src="classECS_1_1System.png" usemap="#ECS::System_map" alt=""/>
   <map id="ECS::System_map" name="ECS::System_map">
-<area href="classECS_1_1CollisionSystem.html" alt="ECS::CollisionSystem" shape="rect" coords="0,56,131,80"/>
-<area href="classECS_1_1GraphicSystem.html" alt="ECS::GraphicSystem" shape="rect" coords="141,56,272,80"/>
-<area href="classECS_1_1MoveSystem.html" alt="ECS::MoveSystem" shape="rect" coords="282,56,413,80"/>
-<area href="classECS_1_1ShootSystem.html" alt="ECS::ShootSystem" shape="rect" coords="423,56,554,80"/>
-<area href="classECS_1_1TextSystem.html" alt="ECS::TextSystem" shape="rect" coords="564,56,695,80"/>
+<area href="classECS_1_1CollisionSystem.html" alt="ECS::CollisionSystem" shape="rect" coords="0,56,153,80"/>
+<area href="classECS_1_1EnemyShootSystem.html" alt="ECS::EnemyShootSystem" shape="rect" coords="163,56,316,80"/>
+<area href="classECS_1_1EventsSystem.html" alt="ECS::EventsSystem" shape="rect" coords="326,56,479,80"/>
+<area href="classECS_1_1GraphicSystem.html" alt="ECS::GraphicSystem" shape="rect" coords="489,56,642,80"/>
+<area href="classECS_1_1MoveSystem.html" alt="ECS::MoveSystem" shape="rect" coords="652,56,805,80"/>
+<area href="classECS_1_1TextSystem.html" alt="ECS::TextSystem" shape="rect" coords="815,56,968,80"/>
   </map>
 </div></div>
 <table class="memberdecls">
@@ -95,8 +96,10 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a04f6fcb1cc5f0437e3787a4d9f491eb1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afd51a08c6aef6e37248bd28e4465cd1d"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classECS_1_1System.html#afd51a08c6aef6e37248bd28e4465cd1d">~System</a> ()=default</td></tr>
 <tr class="separator:afd51a08c6aef6e37248bd28e4465cd1d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4e257b434e9ec4a9ca166c8c7034c634"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classECS_1_1System.html#a4e257b434e9ec4a9ca166c8c7034c634">Update</a> ()</td></tr>
-<tr class="separator:a4e257b434e9ec4a9ca166c8c7034c634"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae0c8e183012729898243c7db74e33326"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classECS_1_1System.html#ae0c8e183012729898243c7db74e33326">update</a> ()=0</td></tr>
+<tr class="separator:ae0c8e183012729898243c7db74e33326"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef8f56a83c05d70dc5d2225becf69cb7"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classECS_1_1System.html#aef8f56a83c05d70dc5d2225becf69cb7">checkIsValidEntity</a> (<a class="el" href="classECS_1_1Entity.html">Entity</a> entity)=0</td></tr>
+<tr class="separator:aef8f56a83c05d70dc5d2225becf69cb7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
 Protected Attributes</h2></td></tr>
@@ -168,20 +171,58 @@ Protected Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a4e257b434e9ec4a9ca166c8c7034c634"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4e257b434e9ec4a9ca166c8c7034c634">&#9670;&nbsp;</a></span>Update()</h2>
+<a id="aef8f56a83c05d70dc5d2225becf69cb7"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aef8f56a83c05d70dc5d2225becf69cb7">&#9670;&nbsp;</a></span>checkIsValidEntity()</h2>
 
 <div class="memitem">
 <div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void ECS::System::Update </td>
+          <td class="memname">virtual bool ECS::System::checkIsValidEntity </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="classECS_1_1Entity.html">Entity</a>&#160;</td>
+          <td class="paramname"><em>entity</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classECS_1_1GraphicSystem.html#afd89830e0a8d28aad5072a1393a81da9">ECS::GraphicSystem</a>, <a class="el" href="classECS_1_1TextSystem.html#a9a3c83f1438dc29445dd9d67ee05577b">ECS::TextSystem</a>, <a class="el" href="classECS_1_1EnemyShootSystem.html#a35a5cb8406f7fc796dab57257d457ead">ECS::EnemyShootSystem</a>, <a class="el" href="classECS_1_1EventsSystem.html#a95b91452d644e03e6dbb2156055b61c3">ECS::EventsSystem</a>, <a class="el" href="classECS_1_1CollisionSystem.html#a9903e3a59c6aaad34e6754698b1fe352">ECS::CollisionSystem</a>, and <a class="el" href="classECS_1_1MoveSystem.html#a7b98112844b0dfd25584065670f3177d">ECS::MoveSystem</a>.</p>
+
+</div>
+</div>
+<a id="ae0c8e183012729898243c7db74e33326"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae0c8e183012729898243c7db74e33326">&#9670;&nbsp;</a></span>update()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual void ECS::System::update </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
         </tr>
       </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
 </div><div class="memdoc">
+
+<p>Implemented in <a class="el" href="classECS_1_1TextSystem.html#a757f1601c020cd9441497f1137338142">ECS::TextSystem</a>, <a class="el" href="classECS_1_1GraphicSystem.html#a19d6d42c8ac4b110c70b97bb51f88a5f">ECS::GraphicSystem</a>, <a class="el" href="classECS_1_1CollisionSystem.html#a56730feea43adf32c0dbe89c7c951f1c">ECS::CollisionSystem</a>, <a class="el" href="classECS_1_1EnemyShootSystem.html#acc0b4668f280f546079af4738f070818">ECS::EnemyShootSystem</a>, <a class="el" href="classECS_1_1EventsSystem.html#abf5ea45fa923cf16f1ea2f39345b6a34">ECS::EventsSystem</a>, and <a class="el" href="classECS_1_1MoveSystem.html#a4abc469742530744373186dcf912a218">ECS::MoveSystem</a>.</p>
 
 </div>
 </div>

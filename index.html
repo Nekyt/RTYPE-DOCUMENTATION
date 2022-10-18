@@ -60,12 +60,207 @@ $(function() {
 </iframe>
 </div>
 
-<div class="header">
+<div class="PageDoc"><div class="header">
   <div class="headertitle">
 <div class="title">My Project Documentation</div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p align="center"></p>
+<p><img src="https://fs-prod-cdn.nintendo-europe.com/media/images/10_share_images/games_15/virtual_console_wii_u_7/H2x1_WiiUVC_RType.jpg" alt="stickos" class="inline"/> </p>
+<p><img src="https://img.shields.io/badge/Langage-C%2B%2B-green" alt="Top Language" class="inline"/> <img src="https://img.shields.io/badge/Format-WebKit-orange" alt="code style" class="inline"/> <img src="https://img.shields.io/badge/Graphical-SFML-blue" alt="Graphical" class="inline"/></p>
+<h1><a class="anchor" id="autotoc_md4"></a>
+Structure</h1>
+<ul>
+<li><a href="#structure">Structure</a><ul>
+<li><a href="#r-type">R-Type overview</a><ul>
+<li><a href="#software-architecture">Software architecture</a><ul>
+<li><a href="#platforms">Platforms</a></li>
+<li><a href="#server">Server</a></li>
+<li><a href="#client">Client</a></li>
+<li><a href="#protocol">Protocol</a></li>
+<li><a href="#libraries">Libraries</a></li>
+<li><a href="#game-engine">Game Engine</a></li>
+</ul>
+</li>
+<li><a href="#installing">Installing</a></li>
+<li><a href="#controller">Controller</a></li>
+<li><a href="#uml">UML</a></li>
+</ul>
+</li>
+<li><a href="#tutorials">Tutorials</a></li>
+</ul>
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md5"></a>
+R-Type</h1>
+<p>This project aims to recreate the <a href="https://fr.wikipedia.org/wiki/R-Type">R-Type</a> game and add a multiplayer mode to it. We had to implement a multi-threaded server using <a href="https://www.boost.org/doc/libs/1_66_0/doc/html/boost_asio.html">Boost::asio</a> and a graphical client in <a href="https://www.sfml-dev.org/">SFML</a>.</p>
+<p>Made by : Romanie DE MEYER - Théo MILLASSEAU - Kevin ZILLIOX - Nykyta KUDRYA - Sylvian BURN</p>
+<h2><a class="anchor" id="autotoc_md6"></a>
+Software architecture</h2>
+<h3><a class="anchor" id="autotoc_md7"></a>
+Platforms</h3>
+<ul>
+<li>[ ] The project must be OS independent. (Linux, Windows)</li>
+<li>[X] The project must be built using a <a href="https://github.com/EpitechPromo2025/B-CPP-500-STG-5-1-rtype-romanie.de-meyer/blob/main/CMakeLists.txt">CMake</a>.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md8"></a>
+Server</h3>
+<ul>
+<li>[X] The server must be multi-threaded and not blocking.</li>
+<li>[X] The server must have authority on what happens in the end.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md9"></a>
+Client</h3>
+<blockquote class="doxtable">
+<p>The client is the display terminal of the game. </p>
+</blockquote>
+<ul>
+<li>[X] The client must contain anything necessary to display the game and handle player input.</li>
+<li>[X] The client must use the SFML.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md10"></a>
+Protocol</h3>
+<ul>
+<li>[ ] You must <b>design</b> a binary protocol for client/server communications.</li>
+<li>[X] You must use <em>UDP</em> for communications between the server and the clients in game.</li>
+<li>[ ] A second connection using <em>TCP</em> can be used for the rest.</li>
+<li>[ ] You must document your protocol and the documentation must be an RFC as discribed in <a href="https://www.ietf.org/rfc/rfc2223.txt">RFC 2223</a>.</li>
+<li>[ ] Your RFC must be formatted like an official RFC.</li>
+<li>[ ] You must write the RFC in ASCII format.</li>
+<li>[ ] You must respect standard RFC keywords as described in <a href="https://www.ietf.org/rfc/rfc2119.txt">RFC 2119</a>.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md11"></a>
+Libraries</h3>
+<ul>
+<li>[X] You must use the SFML on the client side and any rendering must be done using the SFML.</li>
+<li>[ ] You are allowed to use <b>Boost::ASIO</b> for your server.</li>
+</ul>
+<h3><a class="anchor" id="autotoc_md12"></a>
+Game Engine</h3>
+<blockquote class="doxtable">
+<p>The game engine is the core foundation of any video game: it determines how you represent an object in-game, how the coordinate system works, and how the various systems of your game (graphics, physics, network... ) communicate. </p>
+</blockquote>
+<ul>
+<li>[ ] Your engine must provides type-safety at compile-time.</li>
+</ul>
+<p>We choosed to use an <a href="https://en.wikipedia.org/wiki/Entity%E2%80%93component%E2%80%93system">ECS architecture</a> for our engine.</p>
+<h2><a class="anchor" id="autotoc_md13"></a>
+Installing</h2>
+<p><b>Prerequisites:</b></p>
+<p>Clone our repository with <code>git clone --recurse-submodule <a href="https://github.com/EpitechPromo2025/B-CPP-500-STG-5-1-rtype-romanie.de-meyer.git">https://github.com/EpitechPromo2025/B-CPP-500-STG-5-1-rtype-romanie.de-meyer.git</a></code>. You will need to install <a href="https://vcpkg.io/en/getting-started.html">vcpkg</a> to build our game. To install vcpkg, you will need to clone the repository somewhere on your computer using this command: </p><div class="fragment"><div class="line">Then execute the following command:</div>
+<div class="line">```./vcpkg/bootstrap-vcpkg.s</div>
+</div><!-- fragment --><p>Lastly, execute this last command inside the repository containing vcpkg: </p><div class="fragment"><div class="line"> {/vcpkg}</div>
+<div class="line"> </div>
+<div class="line">**Linux:**</div>
+</div><!-- fragment --><p>./build.sh </p><div class="fragment"><div class="line">**Windows:**</div>
+</div><!-- fragment --><p>Launch with visual studio 2022 On the top bar of visual studio 2022, click on "Project" then on "Configure cache" Then on the top bar, click on "Build" then on "Build all" ( if this isn't available close and re-open VS then you should be able to build ) You will now find our binaries in the file explorer. </p><div class="fragment"><div class="line">## Controller</div>
+<div class="line"> </div>
+<div class="line">**Player**</div>
+<div class="line"> </div>
+<div class="line"> Button        | Direction</div>
+<div class="line"> --------------|-------------</div>
+<div class="line"> Arrow Up      | Top</div>
+<div class="line"> Arrow Down    | Down</div>
+<div class="line"> Arrow Left    | Left</div>
+<div class="line"> Arrow Right   | Right</div>
+<div class="line"> Space         | Shoot</div>
+<div class="line"> </div>
+<div class="line">## UML</div>
+<div class="line"> </div>
+<div class="line">[**ECS**](https://github.com/EpitechPromo2025/B-CPP-500-STG-5-1-rtype-romanie.de-meyer/blob/main/Documentation/DiagrammeECS.pdf)\</div>
+<div class="line">[**Network**](https://github.com/EpitechPromo2025/B-CPP-500-STG-5-1-rtype-romanie.de-meyer/blob/main/Documentation/Network_diagram_R-Type.pdf)</div>
+<div class="line"> </div>
+<div class="line"># Tutorials</div>
+<div class="line"> </div>
+<div class="line">This is a short tutorial to make additions to the different parts of the ECS.</div>
+<div class="line"> </div>
+<div class="line">### Entity</div>
+<div class="line"> </div>
+<div class="line">If you want to add an entity, you just add a type in this enum.</div>
+<div class="line">In the class Entity.</div>
+<div class="line"> </div>
+<div class="line">```cpp</div>
+<div class="line">enum EntityType</div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md14"></a>
+Component</h3>
+<p>For add a component, you just create a class this class she have to inherited of the IComp class. Inside you add the functions of you want.</p>
+<p>In the component directory, like that.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#ifndef _POSITION</span></div>
+<div class="line"><span class="preprocessor">#define _POSITION</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="IComp_8hpp.html">IComp.hpp</a>&quot;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">namespace </span><a class="code" href="namespaceECS.html">ECS</a> {</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">class </span>Position : <span class="keyword">public</span> IComp {</div>
+<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">    <span class="keyword">explicit</span> <a class="code" href="classECS_1_1Position.html#a70dae8be2caacfb6ebdf35cfadfe60d2">Position</a>(<span class="keywordtype">short</span> x, <span class="keywordtype">short</span> y) noexcept;</div>
+<div class="line">    <a class="code" href="classECS_1_1Position.html#a70dae8be2caacfb6ebdf35cfadfe60d2">Position</a>(<span class="keyword">const</span> <a class="code" href="classECS_1_1Position.html#a70dae8be2caacfb6ebdf35cfadfe60d2">Position</a>&amp; pos) noexcept;</div>
+<div class="line">    <span class="keyword">explicit</span> <a class="code" href="classECS_1_1Position.html#a70dae8be2caacfb6ebdf35cfadfe60d2">Position</a>(<a class="code" href="classECS_1_1Position.html#a70dae8be2caacfb6ebdf35cfadfe60d2">Position</a>&amp;&amp;) noexcept = delete;</div>
+<div class="line">    ~<a class="code" href="classECS_1_1Position.html#a70dae8be2caacfb6ebdf35cfadfe60d2">Position</a>() noexcept override = default;</div>
+<div class="line"> </div>
+<div class="line">    <a class="code" href="classECS_1_1Position.html#a70dae8be2caacfb6ebdf35cfadfe60d2">Position</a>&amp; operator=(const <a class="code" href="classECS_1_1Position.html#a70dae8be2caacfb6ebdf35cfadfe60d2">Position</a>&amp;) const noexcept = delete;</div>
+<div class="line">    <a class="code" href="classECS_1_1Position.html#a70dae8be2caacfb6ebdf35cfadfe60d2">Position</a>&amp; operator=(<a class="code" href="classECS_1_1Position.html#a70dae8be2caacfb6ebdf35cfadfe60d2">Position</a>&amp;&amp;) const noexcept = delete;</div>
+<div class="line"> </div>
+<div class="line">    [[nodiscard]] <span class="keywordtype">short</span> <a class="code" href="classECS_1_1Position.html#ae36065518b1ef97cedbff83ec03e725e">getPosition_x</a>() const noexcept;</div>
+<div class="line">    [[nodiscard]] <span class="keywordtype">short</span> <a class="code" href="classECS_1_1Position.html#a8752996f62e170e44160aeb7427e8361">getPosition_y</a>() const noexcept;</div>
+<div class="line">    <span class="keywordtype">void</span> <a class="code" href="classECS_1_1Position.html#aead857da965d1947d3421fb35dfd2edd">setPosition_x</a>(<span class="keywordtype">short</span> x) noexcept;</div>
+<div class="line">    <span class="keywordtype">void</span> <a class="code" href="classECS_1_1Position.html#acbd467b363b24ca5e14b9fa0eba96f78">setPosition_y</a>(<span class="keywordtype">short</span> y) noexcept;</div>
+<div class="line"> </div>
+<div class="line">private:</div>
+<div class="line">    <span class="keywordtype">short</span> _x;</div>
+<div class="line">    <span class="keywordtype">short</span> _y;</div>
+<div class="line">};</div>
+<div class="line">};</div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#endif</span></div>
+</div><!-- fragment --><h3><a class="anchor" id="autotoc_md15"></a>
+System</h3>
+<p>For add a system, you just create a class this class she have to inherited of the System abstract class. Inside you add this 2 functions obligatorily.\ <code>update</code> for update the components in your system and <code>checkIsValidEntity</code> for check if the entity have the component you want.</p>
+<div class="fragment"><div class="line"><span class="preprocessor">#ifndef GRAPHICSYSTEM_HPP_</span></div>
+<div class="line"><span class="preprocessor">#define GRAPHICSYSTEM_HPP_</span></div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#include &quot;../../Graphics/InitSfml.hpp&quot;</span></div>
+<div class="line"><span class="preprocessor">#include &quot;<a class="code" href="System_8hpp.html">./System.hpp</a>&quot;</span></div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">namespace </span><a class="code" href="namespaceECS.html">ECS</a> {</div>
+<div class="line"><span class="keyword">class </span>GraphicSystem : <span class="keyword">public</span> System {</div>
+<div class="line"><span class="keyword">public</span>:</div>
+<div class="line">    <a class="code" href="classECS_1_1GraphicSystem.html#ab098de41242b2a0cc561fa86cec2e16f">GraphicSystem</a>(<span class="keyword">const</span> std::shared_ptr&lt;ComponentManager&gt;&amp; componentsManager, <span class="keyword">const</span> std::shared_ptr&lt;EntityManager&gt;&amp; entityManager);</div>
+<div class="line">    <a class="code" href="classECS_1_1GraphicSystem.html#aa02b5fc47d0a5cf6a4c2d9cd44a429c1">~GraphicSystem</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"> </div>
+<div class="line">    <span class="keywordtype">void</span> <a class="code" href="classECS_1_1GraphicSystem.html#a19d6d42c8ac4b110c70b97bb51f88a5f">update</a>();</div>
+<div class="line">    <span class="keywordtype">void</span> <a class="code" href="classECS_1_1GraphicSystem.html#ae90c407cf131a4a1ffd3a1be5477f879">setSfml</a>(std::shared_ptr&lt;InitSfml&gt; sfml);</div>
+<div class="line">    <span class="keywordtype">void</span> <a class="code" href="classECS_1_1GraphicSystem.html#a543a6e3d1609b66959f6ad30bfe7d76e">setClock</a>(std::shared_ptr&lt;Clock&gt; clock);</div>
+<div class="line">    <span class="keywordtype">bool</span> <a class="code" href="classECS_1_1GraphicSystem.html#afd89830e0a8d28aad5072a1393a81da9">checkIsValidEntity</a>(Entity entity);</div>
+<div class="line"> </div>
+<div class="line"><span class="keyword">protected</span>:</div>
+<div class="line"><span class="keyword">private</span>:</div>
+<div class="line">    std::shared_ptr&lt;InitSfml&gt; _sfml;</div>
+<div class="line">    std::shared_ptr&lt;sf::RenderWindow&gt; _window;</div>
+<div class="line">    std::shared_ptr&lt;Clock&gt; _clock;</div>
+<div class="line">};</div>
+<div class="line">}</div>
+<div class="line"> </div>
+<div class="line"><span class="preprocessor">#endif </span><span class="comment">/* !SYSTEM_HPP_ */</span><span class="preprocessor"></span></div>
+</div><!-- fragment --><p>If you have to add the graphical part you add <code>setSfml</code> and if you have to add the clock you add the <code>setClock</code>.\ You can add other function if you need.</p>
+<p>Have fun ! </p>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
+<div class="ttc" id="aclassECS_1_1GraphicSystem_html_aa02b5fc47d0a5cf6a4c2d9cd44a429c1"><div class="ttname"><a href="classECS_1_1GraphicSystem.html#aa02b5fc47d0a5cf6a4c2d9cd44a429c1">ECS::GraphicSystem::~GraphicSystem</a></div><div class="ttdeci">~GraphicSystem()=default</div></div>
+<div class="ttc" id="aSystem_8hpp_html"><div class="ttname"><a href="System_8hpp.html">System.hpp</a></div></div>
+<div class="ttc" id="aclassECS_1_1GraphicSystem_html_ae90c407cf131a4a1ffd3a1be5477f879"><div class="ttname"><a href="classECS_1_1GraphicSystem.html#ae90c407cf131a4a1ffd3a1be5477f879">ECS::GraphicSystem::setSfml</a></div><div class="ttdeci">void setSfml(std::shared_ptr&lt; InitSfml &gt; sfml)</div><div class="ttdef"><b>Definition:</b> GraphicSystem.cpp:50</div></div>
+<div class="ttc" id="aclassECS_1_1GraphicSystem_html_afd89830e0a8d28aad5072a1393a81da9"><div class="ttname"><a href="classECS_1_1GraphicSystem.html#afd89830e0a8d28aad5072a1393a81da9">ECS::GraphicSystem::checkIsValidEntity</a></div><div class="ttdeci">bool checkIsValidEntity(Entity entity)</div><div class="ttdef"><b>Definition:</b> GraphicSystem.cpp:73</div></div>
+<div class="ttc" id="aclassECS_1_1GraphicSystem_html_a543a6e3d1609b66959f6ad30bfe7d76e"><div class="ttname"><a href="classECS_1_1GraphicSystem.html#a543a6e3d1609b66959f6ad30bfe7d76e">ECS::GraphicSystem::setClock</a></div><div class="ttdeci">void setClock(std::shared_ptr&lt; Clock &gt; clock)</div><div class="ttdef"><b>Definition:</b> GraphicSystem.cpp:61</div></div>
+<div class="ttc" id="aIComp_8hpp_html"><div class="ttname"><a href="IComp_8hpp.html">IComp.hpp</a></div></div>
+<div class="ttc" id="aclassECS_1_1Position_html_a8752996f62e170e44160aeb7427e8361"><div class="ttname"><a href="classECS_1_1Position.html#a8752996f62e170e44160aeb7427e8361">ECS::Position::getPosition_y</a></div><div class="ttdeci">short getPosition_y() const noexcept</div><div class="ttdef"><b>Definition:</b> Position.cpp:39</div></div>
+<div class="ttc" id="aclassECS_1_1GraphicSystem_html_a19d6d42c8ac4b110c70b97bb51f88a5f"><div class="ttname"><a href="classECS_1_1GraphicSystem.html#a19d6d42c8ac4b110c70b97bb51f88a5f">ECS::GraphicSystem::update</a></div><div class="ttdeci">void update()</div><div class="ttdef"><b>Definition:</b> GraphicSystem.cpp:26</div></div>
+<div class="ttc" id="aclassECS_1_1Position_html_ae36065518b1ef97cedbff83ec03e725e"><div class="ttname"><a href="classECS_1_1Position.html#ae36065518b1ef97cedbff83ec03e725e">ECS::Position::getPosition_x</a></div><div class="ttdeci">short getPosition_x() const noexcept</div><div class="ttdef"><b>Definition:</b> Position.cpp:32</div></div>
+<div class="ttc" id="aclassECS_1_1GraphicSystem_html_ab098de41242b2a0cc561fa86cec2e16f"><div class="ttname"><a href="classECS_1_1GraphicSystem.html#ab098de41242b2a0cc561fa86cec2e16f">ECS::GraphicSystem::GraphicSystem</a></div><div class="ttdeci">GraphicSystem(const std::shared_ptr&lt; ComponentManager &gt; &amp;componentsManager, const std::shared_ptr&lt; EntityManager &gt; &amp;entityManager)</div><div class="ttdef"><b>Definition:</b> GraphicSystem.cpp:18</div></div>
+<div class="ttc" id="aclassECS_1_1Position_html_a70dae8be2caacfb6ebdf35cfadfe60d2"><div class="ttname"><a href="classECS_1_1Position.html#a70dae8be2caacfb6ebdf35cfadfe60d2">ECS::Position::Position</a></div><div class="ttdeci">Position(short x, short y) noexcept</div><div class="ttdef"><b>Definition:</b> Position.cpp:10</div></div>
+<div class="ttc" id="aclassECS_1_1Position_html_acbd467b363b24ca5e14b9fa0eba96f78"><div class="ttname"><a href="classECS_1_1Position.html#acbd467b363b24ca5e14b9fa0eba96f78">ECS::Position::setPosition_y</a></div><div class="ttdeci">void setPosition_y(short y) noexcept</div><div class="ttdef"><b>Definition:</b> Position.cpp:53</div></div>
+<div class="ttc" id="anamespaceECS_html"><div class="ttname"><a href="namespaceECS.html">ECS</a></div><div class="ttdef"><b>Definition:</b> ComponentManager.hpp:14</div></div>
+<div class="ttc" id="aclassECS_1_1Position_html_aead857da965d1947d3421fb35dfd2edd"><div class="ttname"><a href="classECS_1_1Position.html#aead857da965d1947d3421fb35dfd2edd">ECS::Position::setPosition_x</a></div><div class="ttdeci">void setPosition_x(short x) noexcept</div><div class="ttdef"><b>Definition:</b> Position.cpp:46</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
 Generated by &#160;<a href="http://www.doxygen.org/index.html">

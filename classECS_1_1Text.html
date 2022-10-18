@@ -86,8 +86,8 @@ Inheritance diagram for ECS::Text:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:ab9f461c9dcdeb170169a014a25bdc4e3"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classECS_1_1Text.html#ab9f461c9dcdeb170169a014a25bdc4e3">Text</a> () noexcept=default</td></tr>
-<tr class="separator:ab9f461c9dcdeb170169a014a25bdc4e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a36fa6b961a6504f3be302eac1713f39f"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classECS_1_1Text.html#a36fa6b961a6504f3be302eac1713f39f">Text</a> (sf::Font &amp;font, const std::string &amp;sentence, int size, sf::Vector2f pos) noexcept</td></tr>
+<tr class="separator:a36fa6b961a6504f3be302eac1713f39f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a47ba3d35875b5240e65e20d74338ce00"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classECS_1_1Text.html#a47ba3d35875b5240e65e20d74338ce00">Text</a> (const <a class="el" href="classECS_1_1Text.html">Text</a> &amp;text) noexcept</td></tr>
 <tr class="separator:a47ba3d35875b5240e65e20d74338ce00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abe703e08a219f7162d5a4b75c687f7b9"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classECS_1_1Text.html#abe703e08a219f7162d5a4b75c687f7b9">Text</a> (<a class="el" href="classECS_1_1Text.html">Text</a> &amp;&amp;) noexcept=delete</td></tr>
@@ -123,8 +123,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:aeef047917156f8c2c454186c2bf1acf3 inherit pub_methods_classECS_1_1IComp"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
-<a id="ab9f461c9dcdeb170169a014a25bdc4e3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab9f461c9dcdeb170169a014a25bdc4e3">&#9670;&nbsp;</a></span>Text() <span class="overload">[1/3]</span></h2>
+<a id="a36fa6b961a6504f3be302eac1713f39f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a36fa6b961a6504f3be302eac1713f39f">&#9670;&nbsp;</a></span>Text() <span class="overload">[1/3]</span></h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -135,16 +135,49 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">ECS::Text::Text </td>
           <td>(</td>
-          <td class="paramname"></td><td>)</td>
+          <td class="paramtype">sf::Font &amp;&#160;</td>
+          <td class="paramname"><em>font</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype">const std::string &amp;&#160;</td>
+          <td class="paramname"><em>sentence</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">sf::Vector2f&#160;</td>
+          <td class="paramname"><em>pos</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">explicit</span><span class="mlabel">default</span><span class="mlabel">noexcept</span></span>  </td>
+<span class="mlabels"><span class="mlabel">explicit</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
+<p>It initializes the text object</p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">font</td><td>The font that the text will use. </td></tr>
+    <tr><td class="paramname">sentence</td><td>The text you want to display </td></tr>
+    <tr><td class="paramname">size</td><td>The size of the text. </td></tr>
+    <tr><td class="paramname">pos</td><td>The position of the text </td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>

@@ -67,14 +67,28 @@ $(function() {
 <li>selectMode()
 : <a class="el" href="classGameClient.html#ae35f6cca00dd33efea318d6fd0dcfa7e">GameClient</a>
 </li>
+<li>sendCommandsToServer()
+: <a class="el" href="classGameClient.html#aa96176296ef8cf99f966f2b81c855fb3">GameClient</a>
+</li>
 <li>setAcceleration_x()
 : <a class="el" href="classECS_1_1Acceleration.html#aaa4439c7ff235726956a4da994952c39">ECS::Acceleration</a>
 </li>
 <li>setAcceleration_y()
 : <a class="el" href="classECS_1_1Acceleration.html#a14c338b0e4d668ff70187985fbf2dbf9">ECS::Acceleration</a>
 </li>
+<li>setBullet()
+: <a class="el" href="classECS_1_1Bullet.html#a8dd539fc1f9603d63c8c6af1a4486aaf">ECS::Bullet</a>
+</li>
+<li>setClock()
+: <a class="el" href="classECS_1_1EnemyShootSystem.html#ad92f738ecf2550c33e8c2bf85b3d50cd">ECS::EnemyShootSystem</a>
+, <a class="el" href="classECS_1_1GraphicSystem.html#a543a6e3d1609b66959f6ad30bfe7d76e">ECS::GraphicSystem</a>
+, <a class="el" href="classECS_1_1MoveSystem.html#a33248af38f84aedd41c7c69bf6487ad8">ECS::MoveSystem</a>
+</li>
 <li>setDamage()
 : <a class="el" href="classECS_1_1Damage.html#a07200cdbdbadd6e34544e6ba4e4f5035">ECS::Damage</a>
+</li>
+<li>setEvents()
+: <a class="el" href="classECS_1_1EventsSystem.html#a61e52c605cee7982610e8e9b7a8b081c">ECS::EventsSystem</a>
 </li>
 <li>setFont()
 : <a class="el" href="classECS_1_1Text.html#a2acf9d7a614cdd53158744bc35480679">ECS::Text</a>
@@ -97,13 +111,13 @@ $(function() {
 </li>
 <li>setPosition()
 : <a class="el" href="classECS_1_1Sprite.html#ad81313aeba4f9e57c43f50d86acbadd3">ECS::Sprite</a>
-, <a class="el" href="classECS_1_1Text.html#afb97419f66f7fe495e69719738a744a5">ECS::Text</a>
+, <a class="el" href="classECS_1_1Text.html#a1b98fe42dc2e9d9d4ba54de4c51d89ab">ECS::Text</a>
 </li>
 <li>setPosition_x()
-: <a class="el" href="classECS_1_1Position.html#a9578d22e7ba320b4027c8d8e2f3bae20">ECS::Position</a>
+: <a class="el" href="classECS_1_1Position.html#aead857da965d1947d3421fb35dfd2edd">ECS::Position</a>
 </li>
 <li>setPosition_y()
-: <a class="el" href="classECS_1_1Position.html#aa9a913eb42918493ac3a08ef03963ae6">ECS::Position</a>
+: <a class="el" href="classECS_1_1Position.html#acbd467b363b24ca5e14b9fa0eba96f78">ECS::Position</a>
 </li>
 <li>setRotate()
 : <a class="el" href="classECS_1_1Rotate.html#ad5b9e02fd1c210a6552337732285e5b4">ECS::Rotate</a>
@@ -115,15 +129,11 @@ $(function() {
 : <a class="el" href="classECS_1_1Text.html#ae58d2107d3fc750afadd2d01b9b9b0f7">ECS::Text</a>
 </li>
 <li>setSfml()
-: <a class="el" href="classECS_1_1GraphicSystem.html#ae90c407cf131a4a1ffd3a1be5477f879">ECS::GraphicSystem</a>
+: <a class="el" href="classECS_1_1EnemyShootSystem.html#a971a992eb75401df409250fe6b1d8668">ECS::EnemyShootSystem</a>
+, <a class="el" href="classECS_1_1EventsSystem.html#a39dd42a0de7c791c1ca41ebd8d89c155">ECS::EventsSystem</a>
+, <a class="el" href="classECS_1_1GraphicSystem.html#ae90c407cf131a4a1ffd3a1be5477f879">ECS::GraphicSystem</a>
 , <a class="el" href="classECS_1_1TextSystem.html#a0c559d7dfaaae7b90b341a2466eb9c0e">ECS::TextSystem</a>
 , <a class="el" href="classGameClient.html#a6b1bf54aa18fba46d9e011e9461c287b">GameClient</a>
-</li>
-<li>setSize_x()
-: <a class="el" href="classECS_1_1Size.html#aa08605638ffadd52505a06991360f5f6">ECS::Size</a>
-</li>
-<li>setSize_y()
-: <a class="el" href="classECS_1_1Size.html#a858fb7c1ece06a49383847a3e1438de3">ECS::Size</a>
 </li>
 <li>setSizeText()
 : <a class="el" href="classECS_1_1Text.html#adc53e24504c907a80c90a518591a9440">ECS::Text</a>
@@ -141,20 +151,17 @@ $(function() {
 <li>setWidth()
 : <a class="el" href="classECS_1_1Hitbox.html#aeac9467dbd5e13e8557c6c912e7541ad">ECS::Hitbox</a>
 </li>
-<li>ShootSystem()
-: <a class="el" href="classECS_1_1ShootSystem.html#ac28df92019ce27315dfaedf46ba7a240">ECS::ShootSystem</a>
-</li>
-<li>Size()
-: <a class="el" href="classECS_1_1Size.html#a6edc67fbaf91bb8d6a5c1610aeef62a0">ECS::Size</a>
+<li>shoot()
+: <a class="el" href="classECS_1_1EventsSystem.html#a8d8044eef4f58fef00bfc7a877d7f07b">ECS::EventsSystem</a>
 </li>
 <li>Sound()
 : <a class="el" href="classECS_1_1Sound.html#ac5405e9293ee78909c55f0272dfc1d48">ECS::Sound</a>
 </li>
 <li>Speed()
-: <a class="el" href="classECS_1_1Speed.html#a6a2188e8be66283f5e3d845e42677ac9">ECS::Speed</a>
+: <a class="el" href="classECS_1_1Speed.html#a8a107ac2d2654dc01c2300422f84ace3">ECS::Speed</a>
 </li>
 <li>Sprite()
-: <a class="el" href="classECS_1_1Sprite.html#adaaf3eb0150f514078da94010b384386">ECS::Sprite</a>
+: <a class="el" href="classECS_1_1Sprite.html#a8514da71a5c053863b885db0df7f2421">ECS::Sprite</a>
 </li>
 <li>System()
 : <a class="el" href="classECS_1_1System.html#a04f6fcb1cc5f0437e3787a4d9f491eb1">ECS::System</a>

@@ -1,5 +1,8 @@
 var searchData=
 [
-  ['text_472',['Text',['../classECS_1_1Text.html#ab9f461c9dcdeb170169a014a25bdc4e3',1,'ECS::Text::Text() noexcept=default'],['../classECS_1_1Text.html#a47ba3d35875b5240e65e20d74338ce00',1,'ECS::Text::Text(const Text &amp;text) noexcept'],['../classECS_1_1Text.html#abe703e08a219f7162d5a4b75c687f7b9',1,'ECS::Text::Text(Text &amp;&amp;) noexcept=delete']]],
-  ['textsystem_473',['TextSystem',['../classECS_1_1TextSystem.html#ab4f8655a984412f7bd462bfa4f73561c',1,'ECS::TextSystem']]]
+  ['rawmemchr_1344',['rawmemchr',['../string_8h.html#a567fbe29d341fe6eb778f4bc3b54ceea',1,'string.h']]],
+  ['removehealth_1345',['removeHealth',['../classECS_1_1Health.html#a4791c7a5d16916e5fd2c1d5e1ee51a84',1,'ECS::Health']]],
+  ['removespeed_1346',['removeSpeed',['../classECS_1_1Speed.html#afd48102323f7b0fa82f964840bb5acc8',1,'ECS::Speed']]],
+  ['rotate_1347',['Rotate',['../classECS_1_1Rotate.html#ade13963c303072ee9d0bc42b8443eaf4',1,'ECS::Rotate::Rotate(short rotate) noexcept'],['../classECS_1_1Rotate.html#a9631e9139cf657a7e0e97655bbb7fef4',1,'ECS::Rotate::Rotate(const Rotate &amp;rotate) noexcept'],['../classECS_1_1Rotate.html#a6fe88b8da25ccb688d8daefef0f8ca18',1,'ECS::Rotate::Rotate(Rotate &amp;&amp;) noexcept=delete']]],
+  ['run_5fand_5fget_5foutput_1348',['run_and_get_output',['../namespaceapplocal.html#a877eb6b181d002fbc12cd2570988884c',1,'applocal']]]
 ];
