@@ -10,6 +10,7 @@
 #include "../Network/NetworkClient.hpp"
 #include <iostream>
 #include "../Network/Enum.hpp"
+#include <SFML/System.hpp>
 
 //int program()
 //{
@@ -29,7 +30,7 @@ int onlyDigit(char *str)
 
 int main(int ac, char **av)
 {
-    std::vector<int> tab;
+    std::vector<int> tab{0};
     sf::Packet packet;
     int type;
     int playerId;
@@ -38,11 +39,11 @@ int main(int ac, char **av)
         return (84);
 
     Network::Client set(av[1], atoi(av[2]));
-    set.roomCreation(3);
-    tab = set.roomAskingList();
-    std::cout << "Rooms List : " << std::endl;
+    //set.roomCreation(3);
+    //tab = set.roomAskingList();
+    /*std::cout << "Rooms List : " << std::endl;
     for (size_t i = 0; i < tab.size(); ++i)
-        std::cout << tab[i] << std::endl;
+        std::cout << tab[i] << std::endl;*/
     set.joinRoom(tab);
     packet = set.retrievePacket();
     packet >> type;

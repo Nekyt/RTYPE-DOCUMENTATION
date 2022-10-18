@@ -13,7 +13,7 @@
 
 /**
  * It creates a client socket and binds it to a random port
- * 
+ *
  * @param ip the ip of the server
  * @param port the port to bind the socket to
  */
@@ -31,7 +31,7 @@ Network::Client::Client(const char* ip, unsigned short port)
 
 /**
  * It receives a packet from the server and returns it
- * 
+ *
  * @return A packet
  */
 sf::Packet Network::Client::retrievePacket()
@@ -48,7 +48,7 @@ sf::Packet Network::Client::retrievePacket()
 /**
  * It sends a packet to the server to create a room with the number of players specified in the
  * parameter
- * 
+ *
  * @param players The number of players in the room.
  */
 void Network::Client::roomCreation(int players)
@@ -64,7 +64,7 @@ void Network::Client::roomCreation(int players)
 
 /**
  * It sends a request to the server to get the list of rooms, and then it receives the list of rooms
- * 
+ *
  * @return A vector of int.
  */
 std::vector<int> Network::Client::roomAskingList()
@@ -90,9 +90,9 @@ std::vector<int> Network::Client::roomAskingList()
 /**
  * It sends a request to the server to join a room, and if it fails, it creates a new room and tries to
  * join it
- * 
+ *
  * @param rooms a vector of int, which contains the rooms' id.
- * 
+ *
  * @return The playerID
  */
 int Network::Client::joinRoom(std::vector<int> rooms)
@@ -131,7 +131,7 @@ int Network::Client::joinRoom(std::vector<int> rooms)
 
 /**
  * It sends a packet containing the size of the list of buttons and the list of buttons itself
- * 
+ *
  * @param buttons a list of buttons that the player pressed
  */
 void Network::Client::sendPlayerUpdate(std::list<Button> buttons)

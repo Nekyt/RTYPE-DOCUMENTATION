@@ -14,15 +14,17 @@ public:
     ~Server() = default;
 
     void serverLoop();
+    void gameLoop();
 
 private:
-    void gameLoop(int roomId);
-    //void setManager(std::shared_ptr<Manager>, int roomId);
+    void setManager(std::shared_ptr<Manager>, int roomId);
     void waitForFilledRoom(int roomId);
     void waitForClientsToBeReady(int roomId);
-    //void gameUpdate(int roomId, std::shared_ptr<Manager> manager);
+    void gameUpdate(int roomId, std::shared_ptr<Manager> manager);
+    void updateAll(std::shared_ptr<Manager> manager);
 
     bool _up;
+    int _idArg = -1;
     Network::Server _network;
     std::map<int, int> _players;
     std::vector<int> _roomsID;
