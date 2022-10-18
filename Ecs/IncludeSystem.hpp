@@ -9,6 +9,7 @@
 #define INCLUDESYSTEM_HPP_
 
 #include "./System/CollisionSystem.hpp"
+#include "./System/EnemyShootSystem.hpp"
 #include "./System/EventsSystem.hpp"
 #include "./System/GraphicSystem.hpp"
 #include "./System/MoveSystem.hpp"

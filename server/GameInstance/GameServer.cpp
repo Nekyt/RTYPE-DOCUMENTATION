@@ -36,6 +36,7 @@ void GameServer::handleNewClient(int nbrPlayer)
     _manager.addComponent(player, ECS::ComponentType::HEALTH, std::make_shared<ECS::Health>(100));
     _manager.addComponent(player, ECS::ComponentType::HITBOX, std::make_shared<ECS::Hitbox>(10, 30));
     _manager.addComponent(player, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(12));
+    _manager.addComponent(player, ECS::ComponentType::BULLET, std::make_shared<ECS::Bullet>(true));
     _mapPlayers[nbrPlayer] = player;
 }
 
@@ -124,6 +125,7 @@ void GameServer::updateAll()
         _manager.getSystem<ECS::EventsSystem>().update();
         _manager.getSystem<ECS::CollisionSystem>().update();
         _manager.getSystem<ECS::MoveSystem>().update();
+        _manager.getSystem<ECS::EnemyShootSystem>().update();
     } catch (const std::exception& e) {
         std::cerr << e.what() << std::endl;
     }

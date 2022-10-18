@@ -19,6 +19,7 @@
 #include "./Component/include/Bonus.hpp"
 #include "./Component/include/Controlable.hpp"
 #include "./Component/include/Damage.hpp"
+#include "./Component/include/Bullet.hpp"
 #include "./Component/include/Health.hpp"
 #include "./Component/include/Hitbox.hpp"
 #include "./Component/include/Id.hpp"
