@@ -5,25 +5,56 @@
 ** main
 */
 
-#include "./GameClient.hpp"
+//#include "./GameClient.hpp"
+#include <SFML/Network.hpp>
+#include "../Network/NetworkClient.hpp"
+#include <iostream>
+#include "../Network/Enum.hpp"
+#include <SFML/System.hpp>
 
-int program()
+//int program()
+//{
+//    GameClient client;
+//
+//    client.gameLoop();
+//    return 0;
+//}
+
+int onlyDigit(char *str)
 {
-    GameClient client;
-
-    client.gameLoop();
-    return 0;
+    for (int i = 0; str[i] != '\0'; i++)
+        if (str[i] < '0' || str[i] > '9')
+            return (1);
+    return (0);
 }
 
-int main()
+int main(int ac, char **av)
 {
-    try {
-        return program();
-    } catch (std::exception& e) {
-        std::cerr << "Error (stdexcept): " << e.what() << '\n';
-        return 84;
-    } catch (...) {
-        std::cerr << "Error: Unknown exception !!!!!!\n";
-        return 84;
+    std::vector<int> tab{0};
+    sf::Packet packet;
+    int type;
+    int playerId;
+
+    if (ac < 3 || onlyDigit(av[2]) == 1)
+        return (84);
+
+    Network::Client set(av[1], atoi(av[2]));
+    //set.roomCreation(3);
+    //tab = set.roomAskingList();
+    /*std::cout << "Rooms List : " << std::endl;
+    for (size_t i = 0; i < tab.size(); ++i)
+        std::cout << tab[i] << std::endl;*/
+    set.joinRoom(tab);
+    packet = set.retrievePacket();
+    packet >> type;
+    if (type == Network::Networking::ERROR) {
+        exit (84);
     }
+    packet >> playerId;
+    std::cout << "Player ID : " << playerId << std::endl;
+    packet.clear();
+    packet = set.retrievePacket();
+    packet.clear();
+    set.sendReady();
+
 }

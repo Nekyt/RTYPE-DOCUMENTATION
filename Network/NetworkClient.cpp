@@ -134,7 +134,7 @@ int Network::Client::joinRoom(std::vector<int> rooms)
  *
  * @param buttons a list of buttons that the player pressed
  */
-void Network::Client::sendPlayerUpdate(std::list<Button> buttons)
+void Network::Client::sendPlayerUpdate(std::vector<Button> buttons)
 {
     char buff[sizeof(std::list<Button>[buttons.size()])];
     sf::Packet packet;

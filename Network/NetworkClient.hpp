@@ -24,7 +24,7 @@ class Client {
         int joinRoom(std::vector<int> rooms);
         sf::Packet retrievePacket();
         void sendReady();
-        void sendPlayerUpdate(std::list<Button> buttons);
+        void sendPlayerUpdate(std::vector<Button> buttons);
 
 
     protected:

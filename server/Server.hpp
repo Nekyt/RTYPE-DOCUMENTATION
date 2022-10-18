@@ -3,9 +3,14 @@
 #include "../Ecs/IncludeSystem.hpp"
 #include "../Ecs/IncludeCpp.hpp"
 #include "../Network/NetworkServer.hpp"
-#include "../Ecs/Manager.hpp"
 #include "../Graphics/Events.hpp"
+#include "../Ecs/Manager.hpp"
+#include <memory>
+#include <SFML/System.hpp>
 #include <list>
+#include "surchargeVector.hpp"
+
+#define MAX_ENEMIES 15
 
 namespace Server {
 class Server {
@@ -17,14 +22,20 @@ public:
     void gameLoop();
 
 private:
-    void setManager(std::shared_ptr<Manager>, int roomId);
+    void setManager(std::shared_ptr<Manager> manager, int roomId);
+    ECS::Entity buildPlayer(int playerNb, std::shared_ptr<Manager> manager);
+    std::vector<ECS::Entity> buildAllPlayers(std::shared_ptr<Manager> manager, int roomId);
+    ECS::Entity buildEnnemy(std::shared_ptr<Manager> manager);
+    std::vector<ECS::Entity> buildAllEnnemies(std::shared_ptr<Manager> manager, int maxEnn);
+    void checkForEntityDeath(int roomId, std::shared_ptr<Manager> manager, std::vector<ECS::Entity> entities);
     void waitForFilledRoom(int roomId);
     void waitForClientsToBeReady(int roomId);
-    void gameUpdate(int roomId, std::shared_ptr<Manager> manager);
+    void gameUpdate(int roomId, std::shared_ptr<Manager> manager, std::vector<ECS::Entity> entities);
     void updateAll(std::shared_ptr<Manager> manager);
+    void getPlayersMove(int roomId, std::vector<ECS::Entity> entities, std::shared_ptr<Manager> manager);
 
     bool _up;
-    int _idArg = -1;
+    int _idArg;
     Network::Server _network;
     std::map<int, int> _players;
     std::vector<int> _roomsID;

@@ -17,18 +17,8 @@ int onlyDigit(char *str)
     return (0);
 }
 
-int main(int ac, char **av)
+int main()
 {
     Server::Server serv;
     serv.serverLoop();
-    /*if (ac == 1)
-        set.engage(4);
-    if (ac == 2) {
-        if (onlyDigit(av[1]) == 0) {
-            set.engage(atoi(av[1]));
-        } else {
-            return (84);
-        }
-    }
-    return (0);*/
 }

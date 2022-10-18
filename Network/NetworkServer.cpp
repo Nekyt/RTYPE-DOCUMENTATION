@@ -9,7 +9,6 @@
 #include <any>
 #include <memory>
 #include <cstring>
-#include "PacketOperatorSurcharge.hpp"
 
 /**
  * It's the destructor for the Server class
@@ -40,8 +39,8 @@ void Network::Server::createConnection()
 }
 
 /**
- * It receives a packet from the client, and returns a pair of pair of IpAddress and unsogned short, and a pair of Networking and sf::Packet
- * 
+ * It receives a packet from the client, and returns a pair of pair of IpAddress and unsigned short, and a pair of Networking and sf::Packet
+ *
  * @return A pair of pair of IpAddress and unsigned short, and a pair of Networking and sf::Packet
  */
 std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> Network::Server::retrievePacket()
@@ -68,7 +67,7 @@ std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networkin
 
 /**
  * It sends the player id to the client
- * 
+ *
  * @param client The client to send the packet to.
  * @param id The id of the player
  */
@@ -86,7 +85,7 @@ void Network::Server::sendPlayerId(std::pair<sf::IpAddress, unsigned short> clie
 
 /**
  * It sends the room list to the client
- * 
+ *
  * @param client The client's IP address and port.
  * @param roomId The id of the room you want to send to the client.
  */
@@ -104,7 +103,7 @@ void Network::Server::sendRoomList(std::pair<sf::IpAddress, unsigned short> clie
 
 /**
  * It sends an error message to a client
- * 
+ *
  * @param client The client to send the error to.
  * @param errorMsg The error message to send to the client.
  */
@@ -122,7 +121,7 @@ void Network::Server::sendError(std::pair<sf::IpAddress, unsigned short> client,
 
 /**
  * It sends an enum to the client
- * 
+ *
  * @param client The client to send the packet to.
  * @param type The type of packet you want to send.
  */
@@ -141,7 +140,7 @@ void Network::Server::sendEnum(std::pair<sf::IpAddress, unsigned short> client, 
 
 /**
  * It sends the game update to the client
- * 
+ *
  * @param client The client to send the packet to.
  * @param ent A vector of pairs of Entity and Position.
  */
@@ -159,7 +158,7 @@ void Network::Server::sendGameUpdate(std::pair<sf::IpAddress, unsigned short> cl
 
 /**
  * It sends a packet to a client to tell him that a player has died or disconnected.
- * 
+ *
  * @param client The client to send the packet to.
  * @param id The id of the player that died or disconnected.
  * @param type The type of packet we're sending.

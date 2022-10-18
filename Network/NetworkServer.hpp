@@ -13,6 +13,7 @@
 #include "../Ecs/Entity/Entity.hpp"
 #include "../Ecs/IncludeComponents.hpp"
 #include "Enum.hpp"
+#include "PacketOperatorSurcharge.hpp"
 
 namespace Network {
 class Server {

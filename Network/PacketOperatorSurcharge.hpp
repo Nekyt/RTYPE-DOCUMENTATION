@@ -3,6 +3,8 @@
 #include <utility>
 #include "../Ecs/Component/include/Position.hpp"
 #include "../Ecs/Entity/Entity.hpp"
+#include "../Graphics/Events.hpp"
+#include <list>
 
 inline sf::Packet& operator <<(sf::Packet& packet, const std::vector<int>& p)
 {
@@ -45,6 +47,27 @@ inline std::vector<std::pair<ECS::Entity, ECS::Position>>& operator >>(sf::Packe
     for (int i = 0; i < size; ++i) {
         packet >> id >> type >> posx >> posy;
         p.push_back(std::make_pair(ECS::Entity(static_cast<size_t>(id), static_cast<ECS::EntityType>(type)), ECS::Position(posx, posy)));
+    }
+    return p;
+}
+
+inline sf::Packet& operator <<(sf::Packet& packet, const std::vector<Button>& p)
+{
+    packet << static_cast<int>(p.size());
+    for (size_t i = 0; i < p.size(); ++i)
+        packet << static_cast<int>(p[i]);
+    return packet;
+}
+
+inline std::vector<Button>& operator >>(sf::Packet& packet, std::vector<Button>& p)
+{
+    int size;
+    int elem;
+
+    packet >> size;
+    for (int i = 0; i < size; ++i) {
+        packet >> elem;
+        p.push_back(static_cast<Button>(elem));
     }
     return p;
 }

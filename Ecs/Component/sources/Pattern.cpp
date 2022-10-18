@@ -4,7 +4,7 @@
 
 /**
  * It initializes the pattern of the enemy.
- * 
+ *
  * @param sizeMapX the width of the map
  * @param sizeMapY the height of the map
  * @param sizeEntityX the width of the entity
@@ -47,7 +47,7 @@ ECS::Pattern::Pattern(int sizeMapX, int sizeMapY, int sizeEntityX, int sizeEntit
 
 /**
  * It changes the pattern of the enemy
- * 
+ *
  * @param type The type of pattern to use.
  */
 void ECS::Pattern::changePatternType(PatternType type) noexcept
@@ -86,7 +86,7 @@ void ECS::Pattern::changePatternType(PatternType type) noexcept
 
 /**
  * It returns the first position of the pattern
- * 
+ *
  * @return The first position of the pattern.
  */
 std::pair<int, int> ECS::Pattern::getFirstPosition() noexcept
@@ -101,15 +101,15 @@ std::pair<int, int> ECS::Pattern::getFirstPosition() noexcept
 
 /**
  * It returns the next position of the entity according to the pattern
- * 
+ *
  * @param speed the speed of the entity
  * @param pos the position of the entity
- * 
+ *
  * @return A pair of int
  */
 std::pair<int, int> ECS::Pattern::getNextPosition(std::shared_ptr<ECS::Speed> speed, std::shared_ptr<ECS::Position> pos) noexcept
 {
-    std::pair nextPos = std::make_pair(pos->getPosition_x() + (speed->getSpeed() * _pattern[_moving].first), pos->getPosition_y() + (speed->getSpeed() * _pattern[_moving].second));
+    std::pair<int, int> nextPos = std::make_pair(pos->getPosition_x() + (speed->getSpeed() * _pattern[_moving].first), pos->getPosition_y() + (speed->getSpeed() * _pattern[_moving].second));
 
     if (_limit.empty()) {
         return std::make_pair(pos->getPosition_x() + (speed->getSpeed() * _pattern[0].first), pos->getPosition_y());
