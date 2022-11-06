@@ -30,6 +30,7 @@ void Network::Server::createConnection()
         std::cerr << "Failed to launch the server." << std::endl;
         exit(84);
     }
+    _udp.setBlocking(false);
     std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << std::endl;
     std::cout << "         THE SERVER IS STARTING         " << std::endl;
     std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << std::endl << std::endl << std::endl;
@@ -51,19 +52,39 @@ std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networkin
     int type;
     sf::Packet packet;
 
-    if (_udp.receive(packet, ip, port) != sf::Socket::Done) {
+    if (_udp.receive(packet, ip, port) == sf::Socket::Error) {
         std::cerr << "Failed to receive UDP Packet." << std::endl;
         exit (84);
     }
     message.first = std::make_pair(ip, port);
-    packet >> type;
-    message.second.first = static_cast<Network::Networking>(type);
-    message.second.second = packet;
-    std::cout << std::endl << "LOG : Receiving Packet from client" << std::endl;
-    //char best[size];
-    //std::memcpy(&get, best, size);
+    if (packet.getDataSize()) {
+        packet >> type;
+        message.second.first = static_cast<Network::Networking>(type);
+        message.second.second = packet;
+        std::cout << std::endl << "LOG : Receiving Packet from client" << std::endl;
+    } else {
+        message.second.first = Network::Networking::ERROR;
+        message.second.second = packet;
+    }
     return message;
 }
+
+
+/**
+ * It sends a packet to a client
+ *
+ * @param client The client to send the packet to.
+ * @param packet The packet to send
+ */
+void Network::Server::sendPacket(std::pair<std::pair<sf::IpAddress, unsigned short>, sf::Packet> packet)
+{
+    if (_udp.send(packet.second, packet.first.first, packet.first.second) != sf::Socket::Done) {
+        std::cerr << "Failed to send UDP Packet." << std::endl;
+        exit (84);
+    }
+    std::cout << std::endl << "LOG : Sending a packet to a Client." << std::endl;
+}
+
 
 /**
  * It sends the player id to the client

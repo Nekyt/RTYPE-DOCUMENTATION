@@ -14,7 +14,7 @@ namespace ECS {
 class Bullet : public IComp {
     public:
     explicit Bullet(bool isFriend) noexcept;
-    Bullet(const Bullet& bonus) noexcept = default;
+    Bullet(const Bullet& bullet) noexcept;
     explicit Bullet(Bullet&&) noexcept = delete;
     ~Bullet() noexcept override = default;
 

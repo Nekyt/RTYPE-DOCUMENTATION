@@ -17,8 +17,10 @@
  */
 InitSfml::InitSfml(int widthWindow, int heightWindow, const std::string& nameWindow)
 {
-    _window = std::make_shared<sf::RenderWindow>(sf::VideoMode(widthWindow, heightWindow), nameWindow);
+    _window = std::make_shared<sf::RenderWindow>(sf::VideoMode(widthWindow, heightWindow), nameWindow, sf::Style::Titlebar | sf::Style::Close);
     _window->setFramerateLimit(60);
+    _heightWindow = heightWindow;
+    _widthWindow = widthWindow;
 }
 
 /**
@@ -103,22 +105,25 @@ std::map<std::string, std::shared_ptr<sf::Font>> InitSfml::getAllFont()
     return _fontList;
 }
 
-// void InitSfml::setMusic(std::string idMusic, std::string namePath)
-// {
-//     sf::Music musics;
-//     musics.openFromFile(namePath);
-//     _musicsList.emplace(idMusic, std::make_shared<sf::Music>(musics));
-// }
+/**
+ * Get the width of the window.
+ *
+ * @return The width of the window.
+ */
+int InitSfml::getWidthWindow()
+{
+    return _widthWindow;
+}
 
-// std::shared_ptr<sf::Music> InitSfml::getMusic(std::string idMusic) const
-// {
-//     return _musicsList.at(idMusic);
-// }
-
-// std::map<std::string, std::shared_ptr<sf::Music>> InitSfml::getAllMusic()
-// {
-//     return _musicsList;
-// }
+/**
+ * Get the height of the window.
+ *
+ * @return The height of the window.
+ */
+int InitSfml::getHeightWindow()
+{
+    return _heightWindow;
+}
 
 /**
  * It clears the window.

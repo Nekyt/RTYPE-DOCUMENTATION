@@ -13,7 +13,7 @@ GameServer::GameServer()
 
 /**
  * It creates a player entity and adds all the components needed to make it work
- * 
+ *
  * @param nbrPlayer the number of the player
  */
 void GameServer::handleNewClient(int nbrPlayer)
@@ -42,7 +42,7 @@ void GameServer::handleNewClient(int nbrPlayer)
 
 /**
  * It creates an enemy entity and adds all the components it needs
- * 
+ *
  * @param nbrEnemy the number of the enemy
  */
 void GameServer::handleNewEnemy(int nbrEnemy)
@@ -63,19 +63,19 @@ void GameServer::handleNewEnemy(int nbrEnemy)
 
 /**
  * It adds a new command to the player's entity
- * 
+ *
  * @param nbrPlayer The player number
  * @param button The button that was pressed
  */
 void GameServer::AddNewCommands(int nbrPlayer, Button button)
 {
     ECS::Entity entityPlayer = _mapPlayers[nbrPlayer];
-    _manager.getSystem<ECS::EventsSystem>().setEvents(entityPlayer, button);
+    _manager.getSystem<ECS::EventsSystem>().setEvents(entityPlayer.getId(), button);
 }
 
 /**
  * It creates a new player for each player slot
- * 
+ *
  * @param maxPlayers The maximum number of players that can be connected to the
  * server.
  */
@@ -87,7 +87,7 @@ void GameServer::createAllPlayer(int maxPlayers)
 
 /**
  * It creates all the enemies
- * 
+ *
  * @param maxEnemy The maximum number of enemies that can be created.
  */
 void GameServer::createAllEnemy(int maxEnemy)
@@ -98,7 +98,7 @@ void GameServer::createAllEnemy(int maxEnemy)
 
 /**
  * It returns a map of all the players in the game
- * 
+ *
  * @return A map of int and ECS::Entity
  */
 std::map<int, ECS::Entity> GameServer::getPlayerList() const
@@ -108,7 +108,7 @@ std::map<int, ECS::Entity> GameServer::getPlayerList() const
 
 /**
  * It returns the map of enemys.
- * 
+ *
  * @return A map of int and ECS::Entity
  */
 std::map<int, ECS::Entity> GameServer::getEnemyList() const

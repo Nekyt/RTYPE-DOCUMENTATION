@@ -23,7 +23,8 @@ public:
     void destroyEntity(Entity e);
 
     std::vector<Entity>& getEntities();
-    Entity getEntityByType(EntityType type);
+    std::vector<Entity> getEntityByType(EntityType type);
+    std::vector<Entity> getEntityById(std::size_t id);
 
 private:
     std::vector<Entity> _entities;

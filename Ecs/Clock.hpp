@@ -1,3 +1,6 @@
+#ifndef CLOCK_HPP
+#define CLOCK_HPP
+
 #include "./Component/ComponentManager.hpp"
 #include <chrono>
 #include <map>
@@ -6,7 +9,7 @@
 
 class Clock {
 public:
-    Clock() = default;
+    Clock();
     ~Clock() = default;
     void addClockComponent(size_t entityId, ECS::ComponentType type, int updateTime);
     std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> getEntitiesToUpdate();
@@ -20,3 +23,5 @@ private:
     std::map<size_t, std::map<ECS::ComponentType, std::clock_t>> _previousIte;
     std::map<size_t, std::map<ECS::ComponentType, int>> _timer;
 };
+
+#endif

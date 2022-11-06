@@ -9,7 +9,7 @@
 
 /**
  * It's the constructor for the EnemyShootSystem class.
- * 
+ *
  * @param componentsManager The component manager that the system will use to
  * access components.
  * @param entityManager The entity manager that will be used to create entities.
@@ -27,31 +27,27 @@ ECS::EnemyShootSystem::EnemyShootSystem(const std::shared_ptr<ComponentManager>&
 void ECS::EnemyShootSystem::update()
 {
     const auto& entities = _entityManager->getEntities();
-    std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> enti = _clock->getEntitiesToUpdate();
 
-    for (size_t i = 0; i < enti.size(); ++i) {
-        for (const auto& entity : entities) {
-            if (entity.getId() != enti[i].first)
-                continue;
-            if (!checkIsValidEntity(entity))
-                continue;
-            if (entity.getType() != ECS::EntityType::PROJECTILES)
-                continue;
-            std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
-            std::shared_ptr<ECS::Bullet> bullet = std::dynamic_pointer_cast<ECS::Bullet>(_componentManager->getComponent(entity, ComponentType::BULLET));
+    for (const auto& entity : entities) {
+        if (!checkIsValidEntity(entity))
+            continue;
+        if (entity.getType() != ECS::EntityType::ENEMY)
+            continue;
+        std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
+        // clock pour la fréquence de tire
 
-            short posProjectile_x = position->getPosition_x();
-            short posProjectile_y = position->getPosition_y();
+        short posProjectile_x = position->getPosition_x();
+        short posProjectile_y = position->getPosition_y();
 
-            ECS::Entity entityProjectile = _entityManager->createEntity(ECS::EntityType::PROJECTILES);
-            _componentManager->addComponent(entityProjectile, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(posProjectile_x, posProjectile_y));
-            _componentManager->addComponent(entityProjectile, ECS::ComponentType::HEALTH, std::make_shared<ECS::Health>(1));
-            _componentManager->addComponent(entityProjectile, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_sfml->getTexture("enemy"), sf::Vector2f(2, 2), sf::IntRect(0, 0, 1135, 345), sf::Vector2f(posProjectile_x, posProjectile_y)));
-            _componentManager->addComponent(entityProjectile, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(16));
-            _componentManager->addComponent(entityProjectile, ECS::ComponentType::DAMAGE, std::make_shared<ECS::Damage>(20));
-            _componentManager->addComponent(entityProjectile, ECS::ComponentType::BULLET, std::make_shared<ECS::Bullet>(false));
-            _clock->addClockComponent(entityProjectile.getId(), ECS::ComponentType::BULLET, 400);
-        }
+        ECS::Entity entityProjectile = _entityManager->createEntity(ECS::EntityType::PROJECTILES);
+        _componentManager->addComponent(entityProjectile, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(posProjectile_x, posProjectile_y));
+        _componentManager->addComponent(entityProjectile, ECS::ComponentType::ACCELERATION, std::make_shared<ECS::Acceleration>(-1, 0));
+        _componentManager->addComponent(entityProjectile, ECS::ComponentType::HEALTH, std::make_shared<ECS::Health>(1));
+        _componentManager->addComponent(entityProjectile, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_sfml->getTexture("enemy"), sf::Vector2f(2, 2), sf::IntRect(0, 0, 1135, 345), sf::Vector2f(posProjectile_x, posProjectile_y)));
+        _componentManager->addComponent(entityProjectile, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(16));
+        _componentManager->addComponent(entityProjectile, ECS::ComponentType::DAMAGE, std::make_shared<ECS::Damage>(20));
+        _componentManager->addComponent(entityProjectile, ECS::ComponentType::BULLET, std::make_shared<ECS::Bullet>(false));
+        _clock->addClockComponent(entityProjectile.getId(), ECS::ComponentType::BULLET, 10000);
     }
 }
 
@@ -65,15 +61,6 @@ void ECS::EnemyShootSystem::setSfml(std::shared_ptr<InitSfml> sfml)
     _sfml = sfml;
 }
 
-/**
- * `void ECS::EnemyShootSystem::setClock(std::shared_ptr<Clock> clock)`
- * 
- * This function is a member of the `ECS::EnemyShootSystem` class. It takes a
- * `std::shared_ptr<Clock>` as an argument and returns nothing
- * 
- * @param clock The clock that will be used to determine when the enemy should
- * shoot.
- */
 void ECS::EnemyShootSystem::setClock(std::shared_ptr<Clock> clock)
 {
     _clock = clock;
@@ -82,9 +69,9 @@ void ECS::EnemyShootSystem::setClock(std::shared_ptr<Clock> clock)
 /**
  * If the entity has a speed, health, sprite, and position component, then it's a
  * valid entity
- * 
+ *
  * @param entity The entity to check
- * 
+ *
  * @return A boolean value.
  */
 bool ECS::EnemyShootSystem::checkIsValidEntity(Entity entity)

@@ -1,52 +1,87 @@
 #include "Server.hpp"
+#include <unistd.h>
 
 Server::Server::Server() : _up(true), _idArg(-1)
 {
     _network.createConnection();
 }
 
+
 /**
- * It's a loop that waits for packets and then does stuff with them
+ * It loops through the packets that have been retrieved from the network and puts them in a vector
+ */
+void Server::Server::loopPackets()
+{
+    std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> packet;
+
+    while (1) {
+        packet = _network.retrievePacket();
+        if (packet.second.first != -1 || packet.second.second.getDataSize())
+            _retrievedPackets.push_back(packet);
+        if (!_sendingPackets.empty()) {
+            _network.sendPacket(_sendingPackets[0]);
+            _sendingPackets.erase(_sendingPackets.begin());
+        }
+    }
+}
+
+/**
+ * It's a loop that will check if there's any packet to retrieve, and if there is, it will check what
+ * kind of packet it is, and will do the appropriate action
  */
 void Server::Server::serverLoop()
 {
     sf::Thread thread(&Server::Server::gameLoop, this);
-    int free = 0;
+    sf::Thread retrieve(&Server::Server::loopPackets, this);
+    sf::Packet prepSending;
+    sf::Packet back;
     int secondNb = 0;
     int i = 0;
-
     std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> packet;
 
+    retrieve.launch();
     while (_up) {
-        packet = _network.retrievePacket();
-        std::cout << packet.second.first << std::endl;
-        if (packet.second.first == Network::Networking::ROOMASKING)
-            _network.sendRoomList(packet.first, _roomsID);
-        else if (packet.second.first == Network::Networking::ROOMCREATION) {
-            packet.second.second >> secondNb;
-            if (_roomsID.empty() || _roomsID[0] > 0)
-                _roomsID.push_back(0);
-            else
-                _roomsID.push_back(_roomsID[_roomsID.size() - 1] + 1);
-            _inGamePackets.insert(std::make_pair(_roomsID[_roomsID.size() - 1], std::vector<std::vector<sf::Packet>>()));
-            _players.insert(std::make_pair(_roomsID.size() - 1, secondNb));
-            _idArg = _roomsID[_roomsID.size() - 1];
-            std::cout << "LOG : Creating new room" << std::endl;
-            thread.launch();
-        } else if (packet.second.first == Network::Networking::ROOMCONNECT) {
-            packet.second.second >> secondNb;
-            if (_inGamePackets[secondNb].size() - 1 == _players[secondNb]) {
-                _network.sendError(packet.first, "This room already have enough players.");
+        if (!_retrievedPackets.empty()) {
+            packet = _retrievedPackets[0];
+            _retrievedPackets.erase(_retrievedPackets.begin());
+            std::cout << "LOG : Network Enum received : " << packet.second.first << std::endl;
+            if (packet.second.first == Network::Networking::ROOMASKING) {
+                prepSending << Network::Networking::ROOMASKING << _roomsID;
+                _sendingPackets.push_back(std::make_pair(packet.first, prepSending));
+            } else if (packet.second.first == Network::Networking::ROOMCREATION) {
+                packet.second.second >> secondNb;
+                if (_roomsID.empty())
+                    _roomsID.push_back(0);
+                else
+                    _roomsID.push_back(_roomsID[_roomsID.size() - 1] + 1);
+                _inGamePackets.insert(std::make_pair(_roomsID[_roomsID.size() - 1], std::vector<std::vector<sf::Packet>>()));
+                _players.insert(std::make_pair(_roomsID.size() - 1, secondNb));
+                _idArg = _roomsID[_roomsID.size() - 1];
+                std::cout << "LOG : Creating new room" << std::endl;
+                thread.launch();
+            } else if (packet.second.first == Network::Networking::ROOMCONNECT) {
+                packet.second.second >> secondNb;
+                if (static_cast<int>(_inGamePackets[secondNb].size()) - 1 == _players[secondNb]) {
+                    prepSending << Network::Networking::ERROR << "This room already have enough players.";
+                    _sendingPackets.push_back(std::make_pair(packet.first, prepSending));
+                } else {
+                    _inGamePackets[secondNb].push_back(std::vector<sf::Packet>{packet.second.second});
+                    _clients[secondNb].push_back(packet.first);
+                }
             } else {
-                _inGamePackets[secondNb].push_back(std::vector<sf::Packet>{packet.second.second});
-                _clients[secondNb].push_back(packet.first);
+                for (i = 0; i < static_cast<int>(_clients[secondNb].size()) && _clients[secondNb][i] != packet.first; ++i);
+                packet.second.second >> secondNb;
+                if (packet.second.first == 4) {
+                    back << packet.second.first << packet.second.second;
+                    _inGamePackets[secondNb][i].push_back(back);
+                } else {
+                    _inGamePackets[secondNb][i].push_back(packet.second.second);
+                }
             }
-        } else if (packet.second.first == Network::Networking::PLAYERUPDATE) {
-            packet.second.second >> secondNb;
-            for (i = 0; i < _clients[secondNb].size() && _clients[secondNb][i] != packet.first; ++i);
-            _inGamePackets[secondNb][i].push_back(packet.second.second);
+            prepSending.clear();
         }
     }
+    retrieve.terminate();
 }
 
 /**
@@ -68,6 +103,8 @@ ECS::Entity Server::Server::buildPlayer(int playerNb, std::shared_ptr<Manager> m
     manager->addComponent(player, ECS::ComponentType::HEALTH, std::make_shared<ECS::Health>(100));
     manager->addComponent(player, ECS::ComponentType::HITBOX, std::make_shared<ECS::Hitbox>(10, 30));
     manager->addComponent(player, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(12));
+    std::shared_ptr<ECS::Health> health = std::dynamic_pointer_cast<ECS::Health>(manager->getComponent(player, ECS::ComponentType::HEALTH));
+    std::cout << "Player Health : " << health->getHealth() << std::endl;
     return player;
 }
 
@@ -83,8 +120,10 @@ std::vector<ECS::Entity> Server::Server::buildAllPlayers(std::shared_ptr<Manager
 {
     std::vector<ECS::Entity> entities;
 
-    for (int i = 0; i < _players[roomId]; ++i)
+    for (int i = 0; i < _players[roomId]; ++i) {
         entities.push_back(buildPlayer(i, manager));
+        std::cout << i + 1 << " on " << _players[roomId] << " players created" << std::endl;
+    }
     return entities;
 }
 
@@ -123,8 +162,11 @@ ECS::Entity Server::Server::buildEnnemy(std::shared_ptr<Manager> manager)
 std::vector<ECS::Entity> Server::Server::buildAllEnnemies(std::shared_ptr<Manager> manager, int maxEnn)
 {
     std::vector<ECS::Entity> entities;
-    for (int i = 0; i < maxEnn; ++i)
+
+    for (int i = 0; i < maxEnn; ++i) {
         entities.push_back(buildEnnemy(manager));
+        std::cout << i + 1 << " on " << maxEnn << " enemies created" << std::endl;
+    }
     return entities;
 }
 
@@ -134,7 +176,7 @@ std::vector<ECS::Entity> Server::Server::buildAllEnnemies(std::shared_ptr<Manage
  * @param manager The manager that will be used to manage the entities.
  * @param roomId The id of the room that the manager is being set for.
  */
-void Server::Server::setManager(std::shared_ptr<Manager> manager, int roomId)
+void Server::Server::setManager(std::shared_ptr<Manager> manager)
 {
 
     manager->addSystem<ECS::MoveSystem>();
@@ -150,13 +192,12 @@ void Server::Server::setManager(std::shared_ptr<Manager> manager, int roomId)
  */
 void Server::Server::updateAll(std::shared_ptr<Manager> manager)
 {
-    try {
-        manager->getSystem<ECS::EventsSystem>().update();
+        std::cout << "BEGINNING SYSTEMS UPDATES" << std::endl;
+        //manager->getSystem<ECS::EventsSystem>().update();
+        //std::cout << "Done Events" << std::endl;
         manager->getSystem<ECS::CollisionSystem>().update();
         manager->getSystem<ECS::MoveSystem>().update();
-    } catch (const std::exception& e) {
-        std::cerr << e.what() << std::endl;
-    }
+        std::cout << "OUT OF SYSTEMS UPDATES" << std::endl;
 }
 
 /**
@@ -166,22 +207,28 @@ void Server::Server::updateAll(std::shared_ptr<Manager> manager)
  */
 void Server::Server::waitForFilledRoom(int roomId)
 {
-    while (_clients[roomId].size() - 1 > _players[roomId]) {
-        for (int i = 0; i < _inGamePackets[roomId].size(); ++i) {
-            std::cout << i << std::endl;
+    sf::Packet prepSending;
+
+    std::cout << "BEGIN WAIT FOR FILLED ROOM" << std::endl;
+    while (static_cast<int>(_clients[roomId].size()) < _players[roomId]) {
+        for (size_t i = 0; i < _inGamePackets[roomId].size(); ++i) {
             if (!_inGamePackets[roomId][i].empty()) {
                 _inGamePackets[roomId][i].clear();
-                std::cout << _inGamePackets[roomId][i].size() << std::endl;
-                _network.sendPlayerId(_clients[roomId][i], i);
+                prepSending << Network::Networking::CONNECTED << static_cast<int>(i);
+                _sendingPackets.push_back(std::make_pair(_clients[roomId][i], prepSending));
+                prepSending.clear();
             }
         }
     }
-    for (int i = 0; i < _inGamePackets[roomId].size(); ++i) {
+    for (size_t i = 0; i < _inGamePackets[roomId].size(); ++i) {
         if (!_inGamePackets[roomId][i].empty()) {
             _inGamePackets[roomId][i].clear();
-            _network.sendPlayerId(_clients[roomId][i], i);
+            prepSending << Network::Networking::CONNECTED << static_cast<int>(i);
+            _sendingPackets.push_back(std::make_pair(_clients[roomId][i], prepSending));
+            prepSending.clear();
         }
     }
+    std::cout << "END WAIT FOR FILLED ROOM" << std::endl;
 }
 
 
@@ -194,34 +241,51 @@ void Server::Server::waitForFilledRoom(int roomId)
 void Server::Server::waitForClientsToBeReady(int roomId)
 {
     int g = _players[roomId];
+    sf::Packet pack;
+    int net;
 
-    for (size_t i = 0; i < _clients[roomId].size(); ++i)
-        _network.sendEnum(_clients[roomId][i], Network::Networking::READY);
+    pack << Network::Networking::READY;
+    for (size_t i = 0; i < _clients[roomId].size(); ++i) {
+        std::cout << "SENDING READY" << std::endl;
+        _sendingPackets.push_back(std::make_pair(_clients[roomId][i], pack));
+    }
     while (g != 0) {
         for (size_t i = 0; i < _inGamePackets[roomId].size(); ++i) {
             if (!_inGamePackets[roomId][i].empty()) {
-                --g;
-                _inGamePackets[roomId][i].clear();
+                pack = _inGamePackets[roomId][i][0];
+                pack >> net;
+                if (net == Network::Networking::READY)
+                    --g;
+                _inGamePackets[roomId][i].erase(_inGamePackets[roomId][i].begin());
+                pack.clear();
             }
         }
     }
 }
 
 /**
- * It updates the game.
+ * It updates all the entities, then it puts them in a vector of pairs, then it puts the vector in a
+ * packet, then it puts the packet in a vector of pairs with the client as the first element
  *
- * @param roomId The id of the room that the game is in.
- * @param manager The manager that contains all the entities
- * @param entities A vector of all the entities in the room.
+ * @param roomId The id of the room to send the packet to.
+ * @param manager The manager of the game
+ * @param entities a vector of entities that are in the room
  */
 void Server::Server::gameUpdate(int roomId, std::shared_ptr<Manager> manager, std::vector<ECS::Entity> entities)
 {
+    sf::Packet prepSending;
     std::vector<std::pair<ECS::Entity, ECS::Position>> list;
+
+    //std::cout << "In game update" << std::endl;
+    //manager->getSystem<ECS::EventsSystem>();
+    //std::cout << "Out of game update" << std::endl;
     updateAll(manager);
     for (size_t i = 0; i < entities.size(); ++i)
         list.push_back(std::make_pair(entities[i], *std::dynamic_pointer_cast<ECS::Position>(manager->getComponent(entities[i], ECS::ComponentType::POSITION))));
-    for (size_t i = 0; i < _clients[roomId].size(); ++i)
-        _network.sendGameUpdate(_clients[roomId][i], list);
+    prepSending << Network::Networking::GAMEUPDATE << list;
+    for (size_t i = 0; i < _clients[roomId].size(); ++i) {
+        _sendingPackets.push_back(std::make_pair(_clients[roomId][i], prepSending));
+    }
 }
 
 /**
@@ -233,6 +297,7 @@ void Server::Server::gameUpdate(int roomId, std::shared_ptr<Manager> manager, st
  */
 void Server::Server::checkForEntityDeath(int roomId, std::shared_ptr<Manager> manager, std::vector<ECS::Entity> entities)
 {
+    sf::Packet prepSending;
     std::shared_ptr<ECS::Pattern> pattern;
     std::shared_ptr<ECS::Position> position;
     std::pair<int, int> pos;
@@ -247,11 +312,15 @@ void Server::Server::checkForEntityDeath(int roomId, std::shared_ptr<Manager> ma
                 position->setPosition_x(pos.first);
                 position->setPosition_y(pos.second);
             } else {
+                position = std::dynamic_pointer_cast<ECS::Position>(manager->getComponent(entities[i], ECS::ComponentType::POSITION));
+                std::cout << "Position of player" << i << " : x=" << position->getPosition_x() << " y=" << position->getPosition_y() << std::endl;
+                /*prepSending << Network::Networking::PLAYERDEATH << static_cast<int>(entities[i].getId());
                 for (size_t g = 0; g < _clients[roomId].size(); ++g)
-                    _network.sendPlayerDeathOrDisconnect(_clients[roomId][g], entities[i].getId(), Network::Networking::PLAYERDEATH);
-                entities.erase(entities.begin() + i);
-                _clients[roomId].erase(_clients[roomId].begin() + i);
-                _inGamePackets[roomId].erase(_inGamePackets[roomId].begin() + i);
+                    _sendingPackets.push_back(std::make_pair(_clients[roomId][g], prepSending));*/
+                //entities.erase(entities.begin() + i);
+                //_clients[roomId].erase(_clients[roomId].begin() + i);
+                //_inGamePackets[roomId].erase(_inGamePackets[roomId].begin() + i);
+                std::dynamic_pointer_cast<ECS::Health>(manager->getComponent(entities[i], ECS::ComponentType::HEALTH))->setHealth(std::dynamic_pointer_cast<ECS::Health>(manager->getComponent(entities[i], ECS::ComponentType::HEALTH))->getMaxHealth());
             }
         }
     }
@@ -271,13 +340,27 @@ void Server::Server::getPlayersMove(int roomId, std::vector<ECS::Entity> entitie
     std::vector<Button> pressed;
     Button but;
     int free;
+    std::vector<int> nb;
 
+    std::cout << "CHECKING BUTTONS" << std::endl;
     for (size_t i = 0; i < _clients[roomId].size(); ++i) {
-        _inGamePackets[roomId][i][0] >> free >> pressed;
+        if (_inGamePackets[roomId][i].empty())
+            continue;
+        _inGamePackets[roomId][i][0] >> pressed;
+        /*for (auto a : nb) {
+            std::cout << a << " ";
+            pressed.push_back(static_cast<Button>(a));
+        }
+        std::cout<< std::endl;*/
         _inGamePackets[roomId][i].erase(_inGamePackets[roomId][i].begin());
+        std::cout << "All buttons : " << std::endl;
+        for (size_t i = 0; i < pressed.size(); ++i)
+            std::cout << static_cast<int>(pressed[i]) << " ";
+        std::cout << std::endl;
         playerPos = std::dynamic_pointer_cast<ECS::Position>(manager->getComponent(entities[i], ECS::ComponentType::POSITION));
         playerSpeed = std::dynamic_pointer_cast<ECS::Speed>(manager->getComponent(entities[i], ECS::ComponentType::SPEED));
         while (!pressed.empty()) {
+            playerSpeed->setSpeed(playerSpeed->getMaxSpeed());
             but = pressed[0];
             pressed.erase(pressed.begin());
             if (but == Button::Up && but != Button::Down)
@@ -291,28 +374,32 @@ void Server::Server::getPlayersMove(int roomId, std::vector<ECS::Entity> entitie
             //if (but == Button::Space)
         }
     }
+    std::cout << "OUT OF CHECKING BUTTONS" << std::endl;
 }
 
 /**
- * It creates a manager, builds all the players and enemies, waits for the room to be filled and for
- * the clients to be ready, and then starts the game loop
+ * It's the main loop of the game, it's where the game is actually played
  */
 void Server::Server::gameLoop()
 {
+    sf::Packet prepSending;
     int roomId(_idArg);
     std::shared_ptr<Manager> manager = std::make_shared<Manager>();
     std::vector<ECS::Entity> entities;
 
     _idArg = -1;
-    setManager(manager, roomId);
+    setManager(manager);
     entities = buildAllPlayers(manager, roomId);
     entities = entities + (buildAllEnnemies(manager, MAX_ENEMIES));
     waitForFilledRoom(roomId);
     waitForClientsToBeReady(roomId);
+    prepSending << Network::Networking::LAUNCHING;
     for (size_t i = 0; i < _clients[roomId].size(); ++i)
-        _network.sendEnum(_clients[roomId][i], Network::Networking::LAUNCHING);
+        _sendingPackets.push_back(std::make_pair(_clients[roomId][i], prepSending));
     while (!_clients[roomId].empty()) {
+        sf::sleep(sf::milliseconds(250));
         gameUpdate(roomId, manager, entities);
+        getPlayersMove(roomId, entities, manager);
         checkForEntityDeath(roomId, manager, entities);
     }
     std::cout << std::endl << "ROOM " << roomId << " IS CLOSING, GAME OVER" << std::endl << std::endl;

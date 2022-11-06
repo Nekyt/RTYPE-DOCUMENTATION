@@ -45,9 +45,22 @@ std::vector<ECS::Entity>& ECS::EntityManager::getEntities()
     return _entities;
 }
 
-ECS::Entity ECS::EntityManager::getEntityByType(EntityType type)
+std::vector<ECS::Entity> ECS::EntityManager::getEntityByType(EntityType type)
 {
+    std::vector<Entity> entitiesByType;
+
     for (auto& entity : _entities)
         if (entity.getType() == type)
-            return entity;
+            entitiesByType.push_back(entity);
+    return entitiesByType;
+}
+
+std::vector<ECS::Entity> ECS::EntityManager::getEntityById(std::size_t id)
+{
+    std::vector<Entity> entitiesById;
+
+    for (auto& entity : _entities)
+        if (entity.getId() == id)
+            entitiesById.push_back(entity);
+    return entitiesById;
 }

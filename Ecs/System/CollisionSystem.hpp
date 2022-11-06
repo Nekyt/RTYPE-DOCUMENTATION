@@ -20,6 +20,7 @@ public:
     bool checkIsValidEntity(Entity entity);
 
 protected:
+    void bonusCollisionManagement(Entity entityPlayer, Entity entityBonus);
 private:
 };
 } // namespace ECS

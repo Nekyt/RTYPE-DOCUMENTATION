@@ -27,6 +27,7 @@ class Server {
 
         std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> retrievePacket();
         int createRoom(int playerNb);
+        void sendPacket(std::pair<std::pair<sf::IpAddress, unsigned short>, sf::Packet> packet);
         void sendRoomList(std::pair<sf::IpAddress, unsigned short>, std::vector<int> list);
         void sendPlayerId(std::pair<sf::IpAddress, unsigned short>, int id);
         void sendError(std::pair<sf::IpAddress, unsigned short>, std::string errorMsg);

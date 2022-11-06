@@ -51,9 +51,24 @@ std::vector<ECS::Entity>& Manager::getEntities()
     return _entityManager->getEntities();
 }
 
-ECS::Entity Manager::getEntityByType(ECS::EntityType type)
+/**
+ * It returns a reference to a vector of entities that have the specified type
+ *
+ * @return A vector of entities.
+ */
+std::vector<ECS::Entity> Manager::getEntityByType(ECS::EntityType type)
 {
     return _entityManager->getEntityByType(type);
+}
+
+/**
+ * It returns a reference to a vector of entities that have the given id
+ *
+ * @return A vector of entities with the given id.
+ */
+std::vector<ECS::Entity> Manager::getEntityById(std::size_t id)
+{
+    return _entityManager->getEntityById(id);
 }
 
 /**

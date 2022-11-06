@@ -10,7 +10,10 @@
 
 #include "../Graphics/InitSfml.hpp"
 #include "../Network/NetworkClient.hpp"
+#include "../Network/Enum.hpp"
 #include <SFML/System.hpp>
+#include "../Ecs/Manager.hpp"
+#include "../Ecs/Clock.hpp"
 
 enum GameState
 {
@@ -26,37 +29,25 @@ public:
 
         void setSfml();
 
-<<<<<<< Updated upstream
-        void loadComponents();
         void loadSystems();
         void gameLoop();
         void handleEvents(const sf::Event &event);
         void mouseMenu(const sf::Event &event);
         void handleEventsMouse(const sf::Event &event);
         void handleEventsKey(Button eventKey);
-    void initConnection(int roomId);
+        void initConnection(int roomId);
         void handleEventsTextEntered(const sf::Event &event);
-    void retreivePackets();
+        void retrievePackets();
+        void sendCommandsToServer();
+        void empacketing(Network::Networking net);
 
         void selectMode();
-=======
-    void loadComponents();
-    void loadSystems();
-    void gameLoop();
-    void handleEvents(const sf::Event& event);
-    void mouseMenu(const sf::Event& event);
-    void handleEventsMouse(const sf::Event& event);
-    void handleEventsKey(Button eventKey);
-    void initConnection(int roomId);
-
-    void sendCommandsToServer();
-    void retreivePackets();
->>>>>>> Stashed changes
 
         void loadMenu();
         void manageMenu();
 
         void loadGame();
+        void waitEnum(Network::Networking net);
         void manageGame();
 
 protected:
@@ -68,12 +59,15 @@ private:
     std::shared_ptr<Clock> _clock;
     std::vector<Button> _gameCommandsList;
     int _roomId;
+    int _playerID;
+    int _graphEntitiesCount;
 
     std::vector<std::shared_ptr<ECS::Sprite>> _spriteMenu;
     std::vector<std::shared_ptr<ECS::Text>> _textMenu;
 
     Network::Client _cli;
-    std::vector<sf::Packet> _packets;
+    std::vector<sf::Packet> _retrievedPackets;
+    std::vector<sf::Packet> _sendingPackets;
     sf::Sprite _sprite;
     bool _retrieving;
     bool _isInGame;

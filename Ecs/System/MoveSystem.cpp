@@ -28,7 +28,7 @@ ECS::MoveSystem::MoveSystem(const std::shared_ptr<ComponentManager>& componentsM
 void ECS::MoveSystem::update()
 {
     const auto& entities = _entityManager->getEntities();
-    std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> enti = _clock->getEntitiesToUpdate();
+    std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> enti;// = _clock->getEntitiesToUpdate();
 
     for (size_t i = 0; i < enti.size(); ++i) {
         for (const auto& entity : entities) {
@@ -36,6 +36,15 @@ void ECS::MoveSystem::update()
                 continue;
             if (!checkIsValidEntity(entity))
                 continue;
+            for (size_t j = 0; j < enti[i].second.size(); ++j) {
+                if (enti.at(i).second.at(j) == ECS::ComponentType::SPEED) {
+                    std::shared_ptr<ECS::Speed> speedRemove = std::dynamic_pointer_cast<ECS::Speed>(_componentManager->getComponent(entity, ComponentType::SPEED));
+                    speedRemove->removeSpeed(6);
+                    _clock->eraseClockComponent(entity.getId(), ECS::ComponentType::SPEED);
+                }
+                if (enti.at(i).second.at(j) != ECS::ComponentType::POSITION)
+                    continue;
+            }
             std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
             std::shared_ptr<ECS::Speed> speed = std::dynamic_pointer_cast<ECS::Speed>(_componentManager->getComponent(entity, ComponentType::SPEED));
             std::shared_ptr<ECS::Acceleration> acceleration = std::dynamic_pointer_cast<ECS::Acceleration>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
@@ -54,7 +63,7 @@ void ECS::MoveSystem::update()
 
 /**
  * This function sets the clock for the MoveSystem.
- * 
+ *
  * @param clock A pointer to the clock that the system will use to determine how
  * much time has passed since the last update.
  */

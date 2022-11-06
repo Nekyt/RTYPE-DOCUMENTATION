@@ -23,8 +23,8 @@ class Client {
         std::vector<int> roomAskingList();
         int joinRoom(std::vector<int> rooms);
         sf::Packet retrievePacket();
-        void sendReady();
-        void sendPlayerUpdate(std::vector<Button> buttons);
+        int getRoomId() const;
+        int sendPacket(sf::Packet packet);
 
 
     protected:

@@ -18,7 +18,8 @@ public:
     ECS::Entity createEntity(ECS::EntityType type);
     void destroyEntity(ECS::Entity entity);
     std::vector<ECS::Entity>& getEntities();
-    ECS::Entity getEntityByType(ECS::EntityType type);
+    std::vector<ECS::Entity> getEntityByType(ECS::EntityType type);
+    std::vector<ECS::Entity> getEntityById(std::size_t id);
 
     void addComponent(ECS::Entity e, ECS::ComponentType c, std::shared_ptr<ECS::IComp> comp);
     std::shared_ptr<ECS::IComp> getComponent(ECS::Entity e, ECS::ComponentType c);

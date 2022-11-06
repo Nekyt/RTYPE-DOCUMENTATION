@@ -5,7 +5,7 @@
 ## Makefile
 ##
 
-SRC	=	Client/main.cpp \
+SRC	=	Network/NetworkServer.cpp \
 		Graphics/Events.cpp \
 		Graphics/InitSfml.cpp \
 		Ecs/Entity/Entity.cpp \
@@ -13,6 +13,8 @@ SRC	=	Client/main.cpp \
 		Ecs/Component/ComponentManager.cpp \
 		Ecs/Component/sources/Acceleration.cpp \
 		Ecs/Component/sources/Controlable.cpp \
+		Ecs/Component/sources/Bullet.cpp \
+		Ecs/Component/sources/Bonus.cpp \
 		Ecs/Component/sources/Damage.cpp \
 		Ecs/Component/sources/Health.cpp \
 		Ecs/Component/sources/Hitbox.cpp \
@@ -25,6 +27,7 @@ SRC	=	Client/main.cpp \
 		Ecs/Component/sources/Text.cpp \
 		Ecs/System/CollisionSystem.cpp \
 		Ecs/System/EnemyShootSystem.cpp \
+		Ecs/System/BonusSystem.cpp \
 		Ecs/System/EventsSystem.cpp \
 		Ecs/System/MoveSystem.cpp \
 		Ecs/System/GraphicSystem.cpp \
@@ -33,14 +36,15 @@ SRC	=	Client/main.cpp \
 		Ecs/System/System.cpp \
 		Ecs/Manager.cpp \
 		Ecs/Clock.cpp \
-		Client/GameClient.cpp \
+		server/Server.cpp \
+		server/main.cpp \
 
 
 OBJ	=	$(SRC:.cpp=.o)
 
 NAME =	r-type
 
-CXXFLAGS	=	-lsfml-window -lsfml-graphics -lsfml-system -Wall -Wextra -std=c++17 -g
+CXXFLAGS	=	-lsfml-network -lsfml-window -lsfml-graphics -lsfml-system -Wall -Wextra -std=c++17 -g
 
 all:	$(NAME)
 

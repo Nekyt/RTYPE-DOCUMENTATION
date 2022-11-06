@@ -21,8 +21,10 @@ enum EntityType { PLAYER,
     GRAPHICS,
     BUTTONS,
     PARALLAX,
+    MENUCONNECT,
     MENU,
-    GAME };
+    GAME,
+    BONUSENTITY };
 
 class Entity {
 public:

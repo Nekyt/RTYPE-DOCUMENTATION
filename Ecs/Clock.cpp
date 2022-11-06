@@ -3,9 +3,11 @@
 #include <chrono>
 #include <iostream>
 
+Clock::Clock() : _entities() {}
+
 /**
  * It adds a component to the clock
- * 
+ *
  * @param entity The entity to which the component is attached.
  * @param type The type of the component you want to add to the clock.
  * @param updateTime The time in milliseconds between each update.
@@ -33,7 +35,7 @@ void Clock::addClockComponent(size_t entity, ECS::ComponentType type, int update
 /**
  * It returns a vector of pairs of entity IDs and component types that need to be
  * updated
- * 
+ *
  * @return A vector of pairs of size_t and vector of ComponentType.
  */
 std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> Clock::getEntitiesToUpdate()
@@ -41,11 +43,13 @@ std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> Clock::getEntiti
     std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> toUpdate;
     std::clock_t time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
-    for (size_t i = 0; i < _entities.size(); ++i) {
-        for (size_t g = 0; g < _timersList[_entities[i]].size(); ++g) {
-            if (_previousIte[_entities[i]][_timersList[_entities[i]][g]] + _timer[_entities[i]][_timersList[_entities[i]][g]] < time) {
-                toUpdate.push_back(std::make_pair(_entities[i], _timersList[i]));
-                break;
+    if (!_entities.empty()) {
+        for (size_t i = 0; i < _entities.size(); ++i) {
+            for (size_t g = 0; g < _timersList[_entities[i]].size(); ++g) {
+                if (_previousIte[_entities[i]][_timersList[_entities[i]][g]] + _timer[_entities[i]][_timersList[_entities[i]][g]] < time) {
+                    toUpdate.push_back(std::make_pair(_entities[i], _timersList[i]));
+                    break;
+                }
             }
         }
     }
@@ -55,12 +59,12 @@ std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> Clock::getEntiti
 /**
  * "If the time since the last update is greater than the timer, then update the
  * entity and return the number of times the entity was updated."
- * 
+ *
  * The function is a bit more complicated than that, but that's the gist of it
- * 
+ *
  * @param entity The entity to check for updates.
  * @param type The type of the component you want to update.
- * 
+ *
  * @return The number of times the component has been updated.
  */
 int Clock::componentUpdateNumber(size_t entity, ECS::ComponentType type)
@@ -75,12 +79,12 @@ int Clock::componentUpdateNumber(size_t entity, ECS::ComponentType type)
 
 /**
  * It removes a component from the clock
- * 
+ *
  * @param entity The entity ID from where the component will be removed.
  * @param type The type of the component to be removed.
  * @param debug if true, the function will print some information about the removal
  * of the component.
- * 
+ *
  * @return A reference to the component of the entity.
  */
 void Clock::eraseClockComponent(size_t entity, ECS::ComponentType type, bool debug)
@@ -111,7 +115,7 @@ void Clock::eraseClockComponent(size_t entity, ECS::ComponentType type, bool deb
 
 /**
  * It erases the clock of the entity passed in parameter
- * 
+ *
  * @param entity The entity you want to erase the clock of.
  */
 void Clock::eraseClock(size_t entity)

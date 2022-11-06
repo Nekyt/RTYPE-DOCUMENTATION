@@ -10,7 +10,7 @@
 
 /**
  * This function is a constructor for the Bullet class
- * 
+ *
  * @param isFriend Whether the bullet is friendly or not.
  */
 ECS::Bullet::Bullet(bool isFriend) noexcept : _isFriend(isFriend)
@@ -18,8 +18,18 @@ ECS::Bullet::Bullet(bool isFriend) noexcept : _isFriend(isFriend)
 }
 
 /**
+ * ECS::Bullet::Bullet(const Bullet& bullet) noexcept :
+ * _isFriend(bullet.getBullet())
+ *
+ * @param bullet The bullet to copy.
+ */
+ECS::Bullet::Bullet(const Bullet& bullet) noexcept : _isFriend(bullet.getBullet())
+{
+}
+
+/**
  * This function sets the bullet to be friendly or not.
- * 
+ *
  * @param isFriend Whether the bullet is friendly or not.
  */
 void ECS::Bullet::setBullet(const bool& isFriend) noexcept
@@ -29,7 +39,7 @@ void ECS::Bullet::setBullet(const bool& isFriend) noexcept
 
 /**
  * It returns the value of the private variable _isFriend.
- * 
+ *
  * @return A boolean value.
  */
 bool ECS::Bullet::getBullet() const noexcept { return _isFriend; }

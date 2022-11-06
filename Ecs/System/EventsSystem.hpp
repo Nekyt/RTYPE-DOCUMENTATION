@@ -18,8 +18,9 @@ public:
 
     void update();
     void setSfml(std::shared_ptr<InitSfml> sfml);
+    void setClock(std::shared_ptr<Clock> clock);
     bool checkIsValidEntity(Entity entity);
-    void setEvents(Entity& entity, Button& event);
+    void setEvents(std::size_t entity, Button& event);
     void clearEvents();
 
 protected:
@@ -29,6 +30,7 @@ protected:
 private:
     std::unordered_map<std::size_t, std::vector<Button>> _currentEvents;
     std::shared_ptr<InitSfml> _sfml;
+    std::shared_ptr<Clock> _clock;
 };
 } // namespace ECS
 
