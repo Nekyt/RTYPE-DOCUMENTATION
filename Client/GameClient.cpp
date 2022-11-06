@@ -131,6 +131,8 @@ void GameClient::gameLoop()
             _retrievedPackets.clear();
         }
     }
+    if (_retrieving == true)
+        thread.terminate();
 }
 
 /**
