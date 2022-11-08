@@ -40,6 +40,7 @@ private:
     Network::Server _network;
     std::map<int, int> _players;
     std::vector<int> _roomsID;
+    std::shared_ptr<Clock> _clock;
     std::vector<std::pair<std::pair<sf::IpAddress, unsigned short>, sf::Packet>> _sendingPackets;
     std::vector<std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>>> _retrievedPackets;
     std::map<int, std::vector<std::pair<sf::IpAddress, unsigned short>>> _clients;   // vector of clients (pair with ip address and port used) sorted by room id

@@ -9,7 +9,7 @@
 
 class Clock {
 public:
-    Clock();
+    Clock() = default;
     ~Clock() = default;
     void addClockComponent(size_t entityId, ECS::ComponentType type, int updateTime);
     std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> getEntitiesToUpdate();

@@ -28,7 +28,7 @@ ECS::MoveSystem::MoveSystem(const std::shared_ptr<ComponentManager>& componentsM
 void ECS::MoveSystem::update()
 {
     const auto& entities = _entityManager->getEntities();
-    std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> enti;// = _clock->getEntitiesToUpdate();
+    std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> enti = _clock->getEntitiesToUpdate();
 
     for (size_t i = 0; i < enti.size(); ++i) {
         for (const auto& entity : entities) {

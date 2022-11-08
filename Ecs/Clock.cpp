@@ -3,8 +3,6 @@
 #include <chrono>
 #include <iostream>
 
-Clock::Clock() : _entities() {}
-
 /**
  * It adds a component to the clock
  *
@@ -20,7 +18,7 @@ void Clock::addClockComponent(size_t entity, ECS::ComponentType type, int update
 
     mapT.insert(std::pair<ECS::ComponentType, std::clock_t>(type, time));
     mapC.insert(std::pair<ECS::ComponentType, int>(type, updateTime));
-    if (_timer.find(entity) == _timer.end()) {
+    if (_entities.empty() || _timer.find(entity) == _timer.end()) {
         _entities.push_back(entity);
         _timer.insert(std::pair<size_t, std::map<ECS::ComponentType, int>>(entity, mapC));
         _previousIte.insert(std::pair<size_t, std::map<ECS::ComponentType, std::clock_t>>(entity, mapT));

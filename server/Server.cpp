@@ -147,6 +147,7 @@ ECS::Entity Server::Server::buildEnnemy(std::shared_ptr<Manager> manager)
     std::shared_ptr<ECS::Pattern> patt = std::dynamic_pointer_cast<ECS::Pattern>(manager->getComponent(enemy, ECS::ComponentType::PATTERN));
     std::pair<int, int> pos = patt->getFirstPosition();
     manager->addComponent(enemy, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(pos.first, pos.second));
+    _clock->addClockComponent(enemy.getId(), ECS::ComponentType::POSITION, 400);
     return enemy;
 }
 
@@ -178,11 +179,12 @@ std::vector<ECS::Entity> Server::Server::buildAllEnnemies(std::shared_ptr<Manage
  */
 void Server::Server::setManager(std::shared_ptr<Manager> manager)
 {
-
-    manager->addSystem<ECS::MoveSystem>();
-    manager->addSystem<ECS::CollisionSystem>();
-    manager->addSystem<ECS::TextSystem>();
-    manager->addSystem<ECS::GraphicSystem>();
+    _clock = std::make_shared<Clock>();
+    auto &move = manager->addSystem<ECS::MoveSystem>();
+    move.setClock(_clock);
+    auto &collision = manager->addSystem<ECS::CollisionSystem>();
+    //manager->addSystem<ECS::TextSystem>();
+    //manager->addSystem<ECS::GraphicSystem>();
 }
 
 /**

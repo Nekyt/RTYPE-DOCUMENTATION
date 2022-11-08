@@ -347,8 +347,10 @@ void GameClient::manageGame()
     sf::Packet pack;
     std::vector<std::pair<ECS::Entity, ECS::Position>> entitiesUpdate;
     std::shared_ptr<ECS::Position> pos;
+    std::shared_ptr<ECS::Sprite> sprite;
     std::vector<ECS::Entity> entities;
     int playerID;
+    std::shared_ptr<sf::Texture> texture;
 
     if (!_retrievedPackets.empty()) {
         pack = _retrievedPackets[0];
@@ -360,12 +362,18 @@ void GameClient::manageGame()
                 for (auto entity : entitiesUpdate) {
                     _manager.createEntity(entity.first.getType());
                     _manager.addComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(entity.second));
+                    if (entity.first.getType() == ECS::EntityType::PLAYER)
+                        _manager.addComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("player"), 3, 3, 0, 0, 34, 20, sf::Vector2f(entity.second.getPosition_x(), entity.second.getPosition_y())));
+                    else if (entity.first.getType() == ECS::EntityType::ENEMY)
+                        _manager.addComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("enemy"), 2, 2, 0, 0, 34, 25, sf::Vector2f(entity.second.getPosition_x(), entity.second.getPosition_y())));
                 }
             } else {
                 for (auto entity : entitiesUpdate) {
                     pos = std::dynamic_pointer_cast<ECS::Position>(_manager.getComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::POSITION));
                     pos->setPosition_x(entity.second.getPosition_x());
                     pos->setPosition_y(entity.second.getPosition_y());
+                    sprite = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::SPRITE));
+                    sprite->setPosition(sf::Vector2f(pos->getPosition_x(), pos->getPosition_y()));
                     std::cout << entity.first.getId() + _graphEntitiesCount << " pos : x=" << pos->getPosition_x() << " y=" << pos->getPosition_y() << std::endl;
                 }
                 std::cout << std::endl;
@@ -385,7 +393,8 @@ void GameClient::manageGame()
         _manager.getSystem<ECS::MoveSystem>().update();
         _manager.getSystem<ECS::GraphicSystem>().update();
         _manager.getSystem<ECS::TextSystem>().update();
-        empacketing(Network::Networking::PLAYERUPDATE);
+        if (!_gameCommandsList.empty())
+            empacketing(Network::Networking::PLAYERUPDATE);
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';
     }
