@@ -3,6 +3,7 @@
 
 Server::Server::Server() : _up(true), _idArg(-1)
 {
+    _clock = std::make_shared<Clock>();
     _network.createConnection();
 }
 
@@ -54,6 +55,7 @@ void Server::Server::serverLoop()
                     _roomsID.push_back(0);
                 else
                     _roomsID.push_back(_roomsID[_roomsID.size() - 1] + 1);
+                _clock->addClockComponent(_roomsID[_roomsID.size() - 1], ECS::ComponentType::NETWORK, 30);
                 _inGamePackets.insert(std::make_pair(_roomsID[_roomsID.size() - 1], std::vector<std::vector<sf::Packet>>()));
                 _players.insert(std::make_pair(_roomsID.size() - 1, secondNb));
                 _idArg = _roomsID[_roomsID.size() - 1];
@@ -134,7 +136,7 @@ std::vector<ECS::Entity> Server::Server::buildAllPlayers(std::shared_ptr<Manager
  *
  * @return The entity created.
  */
-ECS::Entity Server::Server::buildEnnemy(std::shared_ptr<Manager> manager)
+ECS::Entity Server::Server::buildEnnemy(std::shared_ptr<Manager> manager, std::shared_ptr<Clock> clock)
 {
     ECS::Entity enemy = manager->createEntity(ECS::EntityType::ENEMY);
 
@@ -147,7 +149,7 @@ ECS::Entity Server::Server::buildEnnemy(std::shared_ptr<Manager> manager)
     std::shared_ptr<ECS::Pattern> patt = std::dynamic_pointer_cast<ECS::Pattern>(manager->getComponent(enemy, ECS::ComponentType::PATTERN));
     std::pair<int, int> pos = patt->getFirstPosition();
     manager->addComponent(enemy, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(pos.first, pos.second));
-    _clock->addClockComponent(enemy.getId(), ECS::ComponentType::POSITION, 400);
+    clock->addClockComponent(enemy.getId(), ECS::ComponentType::POSITION, 400);
     return enemy;
 }
 
@@ -160,12 +162,12 @@ ECS::Entity Server::Server::buildEnnemy(std::shared_ptr<Manager> manager)
  *
  * @return A vector of entities
  */
-std::vector<ECS::Entity> Server::Server::buildAllEnnemies(std::shared_ptr<Manager> manager, int maxEnn)
+std::vector<ECS::Entity> Server::Server::buildAllEnnemies(std::shared_ptr<Manager> manager, int maxEnn, std::shared_ptr<Clock> clock)
 {
     std::vector<ECS::Entity> entities;
 
     for (int i = 0; i < maxEnn; ++i) {
-        entities.push_back(buildEnnemy(manager));
+        entities.push_back(buildEnnemy(manager, clock));
         std::cout << i + 1 << " on " << maxEnn << " enemies created" << std::endl;
     }
     return entities;
@@ -177,11 +179,10 @@ std::vector<ECS::Entity> Server::Server::buildAllEnnemies(std::shared_ptr<Manage
  * @param manager The manager that will be used to manage the entities.
  * @param roomId The id of the room that the manager is being set for.
  */
-void Server::Server::setManager(std::shared_ptr<Manager> manager)
+void Server::Server::setManager(std::shared_ptr<Manager> manager, std::shared_ptr<Clock> clock)
 {
-    _clock = std::make_shared<Clock>();
     auto &move = manager->addSystem<ECS::MoveSystem>();
-    move.setClock(_clock);
+    move.setClock(clock);
     auto &collision = manager->addSystem<ECS::CollisionSystem>();
     //manager->addSystem<ECS::TextSystem>();
     //manager->addSystem<ECS::GraphicSystem>();
@@ -282,11 +283,13 @@ void Server::Server::gameUpdate(int roomId, std::shared_ptr<Manager> manager, st
     //manager->getSystem<ECS::EventsSystem>();
     //std::cout << "Out of game update" << std::endl;
     updateAll(manager);
-    for (size_t i = 0; i < entities.size(); ++i)
-        list.push_back(std::make_pair(entities[i], *std::dynamic_pointer_cast<ECS::Position>(manager->getComponent(entities[i], ECS::ComponentType::POSITION))));
-    prepSending << Network::Networking::GAMEUPDATE << list;
-    for (size_t i = 0; i < _clients[roomId].size(); ++i) {
-        _sendingPackets.push_back(std::make_pair(_clients[roomId][i], prepSending));
+    if (_clock->componentUpdateNumber(roomId, ECS::ComponentType::NETWORK)) {
+        for (size_t i = 0; i < entities.size(); ++i)
+            list.push_back(std::make_pair(entities[i], *std::dynamic_pointer_cast<ECS::Position>(manager->getComponent(entities[i], ECS::ComponentType::POSITION))));
+        prepSending << Network::Networking::GAMEUPDATE << list;
+        for (size_t i = 0; i < _clients[roomId].size(); ++i) {
+            _sendingPackets.push_back(std::make_pair(_clients[roomId][i], prepSending));
+        }
     }
 }
 
@@ -388,21 +391,22 @@ void Server::Server::gameLoop()
     int roomId(_idArg);
     std::shared_ptr<Manager> manager = std::make_shared<Manager>();
     std::vector<ECS::Entity> entities;
+    std::shared_ptr<Clock> clock = std::make_shared<Clock>();
 
     _idArg = -1;
-    setManager(manager);
+    setManager(manager, clock);
     entities = buildAllPlayers(manager, roomId);
-    entities = entities + (buildAllEnnemies(manager, MAX_ENEMIES));
+    entities = entities + (buildAllEnnemies(manager, MAX_ENEMIES, clock));
     waitForFilledRoom(roomId);
     waitForClientsToBeReady(roomId);
     prepSending << Network::Networking::LAUNCHING;
     for (size_t i = 0; i < _clients[roomId].size(); ++i)
         _sendingPackets.push_back(std::make_pair(_clients[roomId][i], prepSending));
     while (!_clients[roomId].empty()) {
-        sf::sleep(sf::milliseconds(250));
         gameUpdate(roomId, manager, entities);
         getPlayersMove(roomId, entities, manager);
         checkForEntityDeath(roomId, manager, entities);
     }
+    _clock->eraseClockComponent(roomId, ECS::ComponentType::NETWORK);
     std::cout << std::endl << "ROOM " << roomId << " IS CLOSING, GAME OVER" << std::endl << std::endl;
 }

@@ -28,7 +28,8 @@ enum ComponentType { ACCELERATION,
     IDE,
     TEXT,
     SPRITE,
-    WEAPON };
+    WEAPON,
+    NETWORK };
 class ComponentManager {
 public:
     ComponentManager() = default;

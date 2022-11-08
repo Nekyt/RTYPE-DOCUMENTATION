@@ -57,6 +57,7 @@ private:
     Manager _manager;
     Events _events;
     std::shared_ptr<Clock> _clock;
+    std::shared_ptr<Clock> _networkClock;
     std::vector<Button> _gameCommandsList;
     int _roomId;
     int _playerID;

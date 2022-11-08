@@ -22,11 +22,11 @@ public:
     void gameLoop();
 
 private:
-    void setManager(std::shared_ptr<Manager> manager);
+    void setManager(std::shared_ptr<Manager> manager, std::shared_ptr<Clock> clock);
     ECS::Entity buildPlayer(int playerNb, std::shared_ptr<Manager> manager);
     std::vector<ECS::Entity> buildAllPlayers(std::shared_ptr<Manager> manager, int roomId);
-    ECS::Entity buildEnnemy(std::shared_ptr<Manager> manager);
-    std::vector<ECS::Entity> buildAllEnnemies(std::shared_ptr<Manager> manager, int maxEnn);
+    ECS::Entity buildEnnemy(std::shared_ptr<Manager> manager, std::shared_ptr<Clock> clock);
+    std::vector<ECS::Entity> buildAllEnnemies(std::shared_ptr<Manager> manager, int maxEnn, std::shared_ptr<Clock> clock);
     void loopPackets();
     void checkForEntityDeath(int roomId, std::shared_ptr<Manager> manager, std::vector<ECS::Entity> entities);
     void waitForFilledRoom(int roomId);
