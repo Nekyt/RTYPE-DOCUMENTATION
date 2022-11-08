@@ -38,7 +38,6 @@ public:
         void initConnection(int roomId);
         void handleEventsTextEntered(const sf::Event &event);
         void retrievePackets();
-        void sendCommandsToServer();
         void empacketing(Network::Networking net);
 
         void selectMode();

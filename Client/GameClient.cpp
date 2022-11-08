@@ -19,7 +19,7 @@ GameClient::GameClient(const char* ip, unsigned short port) : _cli(ip, port)
     srand(time(NULL));
     _graphical = std::make_shared<InitSfml>();
     _networkClock = std::make_shared<Clock>();
-    _networkClock->addClockComponent(0, ECS::ComponentType::NETWORK, 30);
+    _networkClock->addClockComponent(0, ECS::ComponentType::NETWORK, 50);
     _clock = std::make_shared<Clock>();
     _state = Menu;
     _isInGame = false;
@@ -41,8 +41,8 @@ void GameClient::setSfml()
     _graphical->setTexture("stars", "Assets/game/stars.png");
     _graphical->setTexture("heart", "Assets/game/heart.png");
     _graphical->setTexture("start", "Assets/menu/startButtons.png");
-    _graphical->setTexture("player", "Assets/entities/r-typesheet1-0.png");
-    _graphical->setTexture("enemy", "Assets/entities/r-typesheet1-1.png");
+    _graphical->setTexture("player", "Assets/entities/r-typesheet1-35.png");
+    _graphical->setTexture("enemy", "Assets/entities/r-typesheet1-0.png");
     _graphical->setFont("origintech", "Assets/font/origintech.ttf");
     // _graphical->setMusic("menu", "space_oddity-menu.ogg");
 }
@@ -70,8 +70,6 @@ void GameClient::waitEnum(Network::Networking net)
             _retrievedPackets[0] >> networkType;
             _retrievedPackets.erase(_retrievedPackets.begin());
         }
-        //std::cout << "Still There" << std::endl;
-        //sleep(2);
     }
     std::cout << "Enum : " << net << " aquired" << std::endl;
 }
@@ -83,11 +81,6 @@ void GameClient::empacketing(Network::Networking net)
     pack << net << _cli.getRoomId();
     std::cout << "empacketing enum : " << net << std::endl;
     if (net == Network::Networking::PLAYERUPDATE) {
-        /*sf::sleep(sf::milliseconds(250));
-        std::cout << "All buttons : " << std::endl;
-        for (size_t i = 0; i < _gameCommandsList.size(); ++i)
-            std::cout << static_cast<int>(_gameCommandsList[i]) << " ";
-        std::cout << std::endl;*/
         pack << _gameCommandsList;
         _gameCommandsList.clear();
     }
@@ -213,19 +206,6 @@ void GameClient::handleEventsKey(Button eventKey)
     default:
         break;
     }
-}
-
-/**
- * Send commands to the server.
- */
-void GameClient::sendCommandsToServer()
-{
-    sf::Packet packet;
-
-    sf::sleep(sf::milliseconds(250));
-    packet << Network::Networking::PLAYERUPDATE << _cli.getRoomId() << _gameCommandsList;
-    _cli.sendPacket(packet);
-    _gameCommandsList.clear();
 }
 
 /**
@@ -366,9 +346,9 @@ void GameClient::manageGame()
                     _manager.createEntity(entity.first.getType());
                     _manager.addComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(entity.second));
                     if (entity.first.getType() == ECS::EntityType::PLAYER)
-                        _manager.addComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("player"), 3, 3, 101, 3, 32, 14, sf::Vector2f(entity.second.getPosition_x(), entity.second.getPosition_y())));
+                        _manager.addComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("player"), 3, 3, 1, 3, 31, 13, sf::Vector2f(entity.second.getPosition_x(), entity.second.getPosition_y())));
                     else if (entity.first.getType() == ECS::EntityType::ENEMY)
-                        _manager.addComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("enemy"), 2, 2, 0, 0, 34, 25, sf::Vector2f(entity.second.getPosition_x(), entity.second.getPosition_y())));
+                        _manager.addComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("enemy"), 3, 3, 333, 3, 31, 11, sf::Vector2f(entity.second.getPosition_x(), entity.second.getPosition_y())));
                 }
             } else {
                 for (auto entity : entitiesUpdate) {
@@ -377,9 +357,9 @@ void GameClient::manageGame()
                     pos->setPosition_y(entity.second.getPosition_y());
                     sprite = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::SPRITE));
                     sprite->setPosition(sf::Vector2f(pos->getPosition_x(), pos->getPosition_y()));
-                    std::cout << entity.first.getId() + _graphEntitiesCount << " pos : x=" << pos->getPosition_x() << " y=" << pos->getPosition_y() << std::endl;
+                    //std::cout << entity.first.getId() + _graphEntitiesCount << " pos : x=" << pos->getPosition_x() << " y=" << pos->getPosition_y() << std::endl;
                 }
-                std::cout << std::endl;
+                //std::cout << std::endl;
             }
         } else if (netw == Network::Networking::PLAYERDEATH || netw == Network::Networking::PLAYERDISCONNECTED) {
             pack >> playerID;
@@ -396,7 +376,7 @@ void GameClient::manageGame()
         _manager.getSystem<ECS::MoveSystem>().update();
         _manager.getSystem<ECS::GraphicSystem>().update();
         _manager.getSystem<ECS::TextSystem>().update();
-        if (_networkClock->componentUpdateNumber(0, ECS::ComponentType::NETWORK) || !_gameCommandsList.empty())
+        if (_networkClock->componentUpdateNumber(0, ECS::ComponentType::NETWORK) && !_gameCommandsList.empty())
             empacketing(Network::Networking::PLAYERUPDATE);
     } catch (const std::exception& e) {
         std::cerr << e.what() << '\n';

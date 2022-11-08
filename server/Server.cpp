@@ -55,7 +55,7 @@ void Server::Server::serverLoop()
                     _roomsID.push_back(0);
                 else
                     _roomsID.push_back(_roomsID[_roomsID.size() - 1] + 1);
-                _clock->addClockComponent(_roomsID[_roomsID.size() - 1], ECS::ComponentType::NETWORK, 30);
+                _clock->addClockComponent(_roomsID[_roomsID.size() - 1], ECS::ComponentType::NETWORK, 50);
                 _inGamePackets.insert(std::make_pair(_roomsID[_roomsID.size() - 1], std::vector<std::vector<sf::Packet>>()));
                 _players.insert(std::make_pair(_roomsID.size() - 1, secondNb));
                 _idArg = _roomsID[_roomsID.size() - 1];
@@ -104,7 +104,7 @@ ECS::Entity Server::Server::buildPlayer(int playerNb, std::shared_ptr<Manager> m
     manager->addComponent(player, ECS::ComponentType::DAMAGE, std::make_shared<ECS::Damage>(10));
     manager->addComponent(player, ECS::ComponentType::HEALTH, std::make_shared<ECS::Health>(100));
     manager->addComponent(player, ECS::ComponentType::HITBOX, std::make_shared<ECS::Hitbox>(10, 30));
-    manager->addComponent(player, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(12));
+    manager->addComponent(player, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(20));
     std::shared_ptr<ECS::Health> health = std::dynamic_pointer_cast<ECS::Health>(manager->getComponent(player, ECS::ComponentType::HEALTH));
     std::cout << "Player Health : " << health->getHealth() << std::endl;
     return player;
