@@ -23,10 +23,13 @@ void Clock::addClockComponent(size_t entity, ECS::ComponentType type, int update
         _timer.insert(std::pair<size_t, std::map<ECS::ComponentType, int>>(entity, mapC));
         _previousIte.insert(std::pair<size_t, std::map<ECS::ComponentType, std::clock_t>>(entity, mapT));
         _timersList.insert(std::make_pair(entity, std::vector<ECS::ComponentType> { type }));
-    } else {
+    } else if (_timer[entity].find(type) == _timer[entity].end()) {
         _timersList[entity].push_back(type);
         _timer[entity].insert(std::make_pair(type, updateTime));
         _previousIte[entity].insert(std::make_pair(type, time));
+    } else {
+        _timer[entity][type] = updateTime;
+        _previousIte[entity][type] = time;
     }
 }
 
