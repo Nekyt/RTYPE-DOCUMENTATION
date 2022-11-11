@@ -44,8 +44,8 @@ public:
 
 private:
     sf::Vector2f _scale;
-    sf::Vector2f _pos;
     sf::IntRect _intRect;
+    sf::Vector2f _pos;
     sf::Sprite* _sprite;
 };
 

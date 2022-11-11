@@ -30,6 +30,7 @@ SRC	=	Network/NetworkServer.cpp \
 		Ecs/System/BonusSystem.cpp \
 		Ecs/System/EventsSystem.cpp \
 		Ecs/System/MoveSystem.cpp \
+		Ecs/System/PatternSystem.cpp \
 		Ecs/System/GraphicSystem.cpp \
 		Ecs/System/TextSystem.cpp \
 		Ecs/System/SystemManager.cpp \

@@ -19,7 +19,7 @@ GameClient::GameClient(const char* ip, unsigned short port) : _cli(ip, port)
     srand(time(NULL));
     _graphical = std::make_shared<InitSfml>();
     _networkClock = std::make_shared<Clock>();
-    _networkClock->addClockComponent(0, ECS::ComponentType::NETWORK, 50);
+    _networkClock->addClockComponent(0, ECS::ComponentType::NETWORK, 25);
     _clock = std::make_shared<Clock>();
     _state = Menu;
     _isInGame = false;
@@ -74,6 +74,12 @@ void GameClient::waitEnum(Network::Networking net)
     std::cout << "Enum : " << net << " aquired" << std::endl;
 }
 
+/**
+ * It takes a Network::Networking enum as a parameter, and depending on the value of the enum, it will
+ * add the appropriate data to the packet
+ *
+ * @param net The enum that will be used to identify the packet.
+ */
 void GameClient::empacketing(Network::Networking net)
 {
     sf::Packet pack;
@@ -88,12 +94,12 @@ void GameClient::empacketing(Network::Networking net)
 }
 
 /**
- * It's a loop that handles events and draws the game
+ * It's a game loop that handles the events, displays the game, and retrieves the packets
  */
 void GameClient::gameLoop()
 {
     sf::Thread thread(&GameClient::retrievePackets, this);
-    std::vector<int> rooms = _cli.roomAskingList();
+    std::deque<int> rooms = _cli.roomAskingList();
 
     std::cout << "ASKING FOR ROOMS LIST" << std::endl;
     while (rooms.empty()) {
@@ -138,13 +144,13 @@ void GameClient::gameLoop()
  */
 void GameClient::handleEvents(const sf::Event& event)
 {
-    Button eventKey = _events.getEventType(event);
+    std::deque<Button> eventKey = _events.getEventType(event);
 
     if (event.type == sf::Event::Closed)
         _graphical->getWindow()->close();
     else if (event.type == sf::Event::MouseButtonReleased)
         handleEventsMouse(event);
-    else if (event.type == sf::Event::KeyPressed && eventKey != Button::None)
+    else if (event.type == sf::Event::KeyPressed && !eventKey.empty())
         handleEventsKey(eventKey);
 }
 
@@ -197,11 +203,12 @@ void GameClient::handleEventsMouse(const sf::Event& event)
  *
  * @param eventKey The key that was pressed.
  */
-void GameClient::handleEventsKey(Button eventKey)
+void GameClient::handleEventsKey(std::deque<Button> eventKey)
 {
     switch (_state) {
     case GameState::Game:
-        _gameCommandsList.push_back(eventKey);
+        for (size_t i = 0; i < eventKey.size(); ++i)
+            _gameCommandsList.push_back(eventKey[i]);
         break;
     default:
         break;
@@ -304,6 +311,9 @@ void GameClient::loadGame()
     _clock->addClockComponent(entityStars2.getId(), ECS::ComponentType::POSITION, 400);
 }
 
+/**
+ * It retrieves packets from the client and puts them in a deque
+ */
 void GameClient::retrievePackets()
 {
     sf::Packet pack;
@@ -328,10 +338,10 @@ void GameClient::manageGame()
 {
     int netw;
     sf::Packet pack;
-    std::vector<std::pair<ECS::Entity, ECS::Position>> entitiesUpdate;
+    std::deque<std::pair<ECS::Entity, ECS::Position>> entitiesUpdate;
     std::shared_ptr<ECS::Position> pos;
     std::shared_ptr<ECS::Sprite> sprite;
-    std::vector<ECS::Entity> entities;
+    std::deque<ECS::Entity> entities;
     int playerID;
     std::shared_ptr<sf::Texture> texture;
 
@@ -343,19 +353,20 @@ void GameClient::manageGame()
             pack >> entitiesUpdate;
             if (_manager.getEntities().size() == _graphEntitiesCount) {
                 for (auto entity : entitiesUpdate) {
+                    std::cout << "RIGHT HERE : " << entity.first.getId() << std::endl;
                     _manager.createEntity(entity.first.getType());
-                    _manager.addComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(entity.second));
+                    _manager.addComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount), ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(entity.second));
                     if (entity.first.getType() == ECS::EntityType::PLAYER)
-                        _manager.addComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("player"), 3, 3, 1, 3, 31, 13, sf::Vector2f(entity.second.getPosition_x(), entity.second.getPosition_y())));
+                        _manager.addComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount), ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("player"), 3, 3, 1, 3, 31, 13, sf::Vector2f(entity.second.getPosition_x(), entity.second.getPosition_y())));
                     else if (entity.first.getType() == ECS::EntityType::ENEMY)
-                        _manager.addComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("enemy"), 3, 3, 333, 3, 31, 11, sf::Vector2f(entity.second.getPosition_x(), entity.second.getPosition_y())));
+                        _manager.addComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount), ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_graphical->getTexture("enemy"), 3, 3, 333, 3, 31, 11, sf::Vector2f(entity.second.getPosition_x(), entity.second.getPosition_y())));
                 }
             } else {
                 for (auto entity : entitiesUpdate) {
-                    pos = std::dynamic_pointer_cast<ECS::Position>(_manager.getComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::POSITION));
+                    pos = std::dynamic_pointer_cast<ECS::Position>(_manager.getComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount), ECS::ComponentType::POSITION));
                     pos->setPosition_x(entity.second.getPosition_x());
                     pos->setPosition_y(entity.second.getPosition_y());
-                    sprite = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount)[0], ECS::ComponentType::SPRITE));
+                    sprite = std::dynamic_pointer_cast<ECS::Sprite>(_manager.getComponent(_manager.getEntityById(entity.first.getId() + _graphEntitiesCount), ECS::ComponentType::SPRITE));
                     sprite->setPosition(sf::Vector2f(pos->getPosition_x(), pos->getPosition_y()));
                     //std::cout << entity.first.getId() + _graphEntitiesCount << " pos : x=" << pos->getPosition_x() << " y=" << pos->getPosition_y() << std::endl;
                 }
@@ -366,14 +377,13 @@ void GameClient::manageGame()
             if (playerID == _playerID) {
                 entities = _manager.getEntities();
                 for (size_t i = _graphEntitiesCount; i < entities.size(); ++i)
-                    _manager.destroyEntity(_manager.getEntityById(i)[0]);
+                    _manager.destroyEntity(_manager.getEntityById(i));
                 _state = Menu;
             } else
-                _manager.destroyEntity(_manager.getEntityById(playerID + _graphEntitiesCount)[0]);
+                _manager.destroyEntity(_manager.getEntityById(playerID + _graphEntitiesCount));
         }
     }
     try {
-        _manager.getSystem<ECS::MoveSystem>().update();
         _manager.getSystem<ECS::GraphicSystem>().update();
         _manager.getSystem<ECS::TextSystem>().update();
         if (_networkClock->componentUpdateNumber(0, ECS::ComponentType::NETWORK) && !_gameCommandsList.empty())

@@ -28,11 +28,11 @@ class Server {
         std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> retrievePacket();
         int createRoom(int playerNb);
         void sendPacket(std::pair<std::pair<sf::IpAddress, unsigned short>, sf::Packet> packet);
-        void sendRoomList(std::pair<sf::IpAddress, unsigned short>, std::vector<int> list);
+        void sendRoomList(std::pair<sf::IpAddress, unsigned short>, std::deque<int> list);
         void sendPlayerId(std::pair<sf::IpAddress, unsigned short>, int id);
         void sendError(std::pair<sf::IpAddress, unsigned short>, std::string errorMsg);
         void sendEnum(std::pair<sf::IpAddress, unsigned short> client, Network::Networking type);
-        void sendGameUpdate(std::pair<sf::IpAddress, unsigned short> client, std::vector<std::pair<ECS::Entity, ECS::Position>>);
+        void sendGameUpdate(std::pair<sf::IpAddress, unsigned short> client, std::deque<std::pair<ECS::Entity, ECS::Position>>);
         void sendPlayerDeathOrDisconnect(std::pair<sf::IpAddress, unsigned short> client, int id, Network::Networking type);
 
     private:

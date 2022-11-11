@@ -41,7 +41,7 @@ void ECS::EnemyShootSystem::update()
 
         ECS::Entity entityProjectile = _entityManager->createEntity(ECS::EntityType::PROJECTILES);
         _componentManager->addComponent(entityProjectile, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(posProjectile_x, posProjectile_y));
-        _componentManager->addComponent(entityProjectile, ECS::ComponentType::ACCELERATION, std::make_shared<ECS::Acceleration>(-1, 0));
+        _componentManager->addComponent(entityProjectile, ECS::ComponentType::ACCELERATION, std::make_shared<ECS::Acceleration>(-1.0f, 0.0f));
         _componentManager->addComponent(entityProjectile, ECS::ComponentType::HEALTH, std::make_shared<ECS::Health>(1));
         _componentManager->addComponent(entityProjectile, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_sfml->getTexture("enemy"), sf::Vector2f(2, 2), sf::IntRect(0, 0, 1135, 345), sf::Vector2f(posProjectile_x, posProjectile_y)));
         _componentManager->addComponent(entityProjectile, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(16));
@@ -81,7 +81,6 @@ bool ECS::EnemyShootSystem::checkIsValidEntity(Entity entity)
     try {
         components.at(ComponentType::SPEED);
         components.at(ComponentType::HEALTH);
-        components.at(ComponentType::SPRITE);
         components.at(ComponentType::POSITION);
         return true;
     } catch (const std::exception& e) {

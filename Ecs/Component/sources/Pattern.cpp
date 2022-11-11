@@ -1,6 +1,7 @@
 #include "../include/Pattern.hpp"
 #include <random>
 #include <iostream>
+#include <SFML/System.hpp>
 
 /**
  * It initializes the pattern of the enemy.
@@ -107,21 +108,27 @@ std::pair<int, int> ECS::Pattern::getFirstPosition() noexcept
  *
  * @return A pair of int
  */
-std::pair<int, int> ECS::Pattern::getNextPosition(std::shared_ptr<ECS::Speed> speed, std::shared_ptr<ECS::Position> pos) noexcept
+void ECS::Pattern::getNextPosition(std::shared_ptr<ECS::Acceleration> acceleration, std::shared_ptr<ECS::Speed> speed, std::shared_ptr<ECS::Position> pos) noexcept
 {
-    std::pair<int, int> nextPos = std::make_pair(pos->getPosition_x() + (speed->getSpeed() * _pattern[_moving].first), pos->getPosition_y() + (speed->getSpeed() * _pattern[_moving].second));
+    std::pair<int, int> nextPos = std::make_pair(pos->getPosition_x() + (speed->getMaxSpeed() * _pattern[_moving].first), pos->getPosition_y() + (speed->getMaxSpeed() * _pattern[_moving].second));
 
+    acceleration->setAcceleration_x(0.0f);
+    acceleration->setAcceleration_y(0.0f);
     if (_limit.empty()) {
-        return std::make_pair(pos->getPosition_x() + (speed->getSpeed() * _pattern[0].first), pos->getPosition_y());
+        acceleration->setAcceleration_x(-1.0f);
+        return;
     }
-    if ((_limit[_moving].first == -1 || _limit[_moving].first > abs(nextPos.first - _keepPosition.first)) && ((_limit[_moving].second == 0 && nextPos.second > 0 && nextPos.second < _sizeMap.second - _sizeEntity.second) || (_limit[_moving].second == -1 || _limit[_moving].second > abs(nextPos.second - _keepPosition.second))))
-        return nextPos;
-    ++_moving;
+    if ((_limit[_moving].first == -1 || _limit[_moving].first > abs(nextPos.first - _keepPosition.first)) && ((_limit[_moving].second == 0 && nextPos.second > 0 && nextPos.second < _sizeMap.second - _sizeEntity.second) || (_limit[_moving].second == -1 || _limit[_moving].second > abs(nextPos.second - _keepPosition.second)))) {
+        acceleration->setAcceleration_x(_pattern[_moving].first);
+        acceleration->setAcceleration_y(_pattern[_moving].second);
+        return;
+    }
     if ((_limit[_moving].first != -1 && _limit[_moving].first > abs(nextPos.first - _keepPosition.first)))
         _keepPosition.first = pos->getPosition_x();
     else
         _keepPosition.second = pos->getPosition_y();
+    ++_moving;
     if (_moving >= _pattern.size())
         _moving = 0;
-    return this->getNextPosition(speed, pos);
+    this->getNextPosition(acceleration, speed, pos);
 }

@@ -28,6 +28,15 @@ const std::map<sf::Keyboard::Key, Button> Events::eventsButton = {
     std::make_pair(sf::Keyboard::F7, Button::F7),
 };
 
+/* It's a deque of the keys that are used in the game. */
+const std::deque<sf::Keyboard::Key> Events::keys = {
+    sf::Keyboard::Left,
+    sf::Keyboard::Right,
+    sf::Keyboard::Up,
+    sf::Keyboard::Down,
+    sf::Keyboard::Space
+};
+
 /* It's a map of the sfml mouse button codes to the Mouse enum. */
 const std::map<sf::Mouse::Button, Mouse> Events::eventsMouse = {
     std::make_pair(sf::Mouse::Left, Mouse::Left),
@@ -42,15 +51,18 @@ const std::map<sf::Mouse::Button, Mouse> Events::eventsMouse = {
  *
  * @return the Button type.
  */
-Button Events::getEventType(const sf::Event& event) const
+std::deque<Button> Events::getEventType(const sf::Event& event) const
 {
-    if (event.type == sf::Event::KeyPressed) {
-        if (eventsButton.find(event.key.code) != eventsButton.end())
-            return eventsButton.at(event.key.code);
-        else
-            return Button::None;
-    }
-    return Button::None;
+    std::deque<Button> buttons;
+
+    //if (event.type == sf::Event::KeyPressed) {
+        for (sf::Keyboard::Key key : keys) {
+            if (sf::Keyboard::isKeyPressed(key)) {
+                buttons.push_back(eventsButton.at(key));
+            }
+        }
+    //}
+    return buttons;
 }
 
 /**

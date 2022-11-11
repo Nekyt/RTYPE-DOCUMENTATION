@@ -78,11 +78,11 @@ void Network::Client::roomCreation(int players)
  * It sends a request to the server to join a room, and if it fails, it creates a new room and tries to
  * join it
  *
- * @param rooms a vector of int, which contains the rooms' id.
+ * @param rooms a deque of int, which contains the rooms' id.
  *
  * @return The playerID
  */
-int Network::Client::joinRoom(std::vector<int> rooms)
+int Network::Client::joinRoom(std::deque<int> rooms)
 {
     sf::Packet packet;
     int playerID = 0;
@@ -127,13 +127,13 @@ int Network::Client::joinRoom(std::vector<int> rooms)
 /**
  * It sends a request to the server to get the list of rooms, and then it receives the list of rooms
  *
- * @return A vector of int.
+ * @return A deque of int.
  */
-std::vector<int> Network::Client::roomAskingList()
+std::deque<int> Network::Client::roomAskingList()
 {
     sf::Packet packet;
     int type;
-    std::vector<int> vec;
+    std::deque<int> vec;
     sf::UdpSocket::Status status;
     sf::IpAddress ip = _ip;
     unsigned short port = _port;

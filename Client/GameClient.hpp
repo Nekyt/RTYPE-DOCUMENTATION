@@ -34,7 +34,7 @@ public:
         void handleEvents(const sf::Event &event);
         void mouseMenu(const sf::Event &event);
         void handleEventsMouse(const sf::Event &event);
-        void handleEventsKey(Button eventKey);
+        void handleEventsKey(std::deque<Button> eventKey);
         void initConnection(int roomId);
         void handleEventsTextEntered(const sf::Event &event);
         void retrievePackets();
@@ -57,17 +57,17 @@ private:
     Events _events;
     std::shared_ptr<Clock> _clock;
     std::shared_ptr<Clock> _networkClock;
-    std::vector<Button> _gameCommandsList;
+    std::deque<Button> _gameCommandsList;
     int _roomId;
     int _playerID;
     int _graphEntitiesCount;
 
-    std::vector<std::shared_ptr<ECS::Sprite>> _spriteMenu;
-    std::vector<std::shared_ptr<ECS::Text>> _textMenu;
+    std::deque<std::shared_ptr<ECS::Sprite>> _spriteMenu;
+    std::deque<std::shared_ptr<ECS::Text>> _textMenu;
 
     Network::Client _cli;
-    std::vector<sf::Packet> _retrievedPackets;
-    std::vector<sf::Packet> _sendingPackets;
+    std::deque<sf::Packet> _retrievedPackets;
+    std::deque<sf::Packet> _sendingPackets;
     sf::Sprite _sprite;
     bool _retrieving;
     bool _isInGame;

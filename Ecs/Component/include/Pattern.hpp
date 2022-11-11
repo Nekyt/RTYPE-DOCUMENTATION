@@ -2,10 +2,11 @@
 #define _PATTERN
 
 #include "IComp.hpp"
+#include "Acceleration.hpp"
 #include "Position.hpp"
 #include "Speed.hpp"
 #include <memory>
-#include <vector>
+#include <deque>
 
 namespace ECS {
 enum PatternType {
@@ -25,7 +26,7 @@ public:
 
     void changePatternType(PatternType pattern) noexcept;
     std::pair<int, int> getFirstPosition() noexcept;
-    std::pair<int, int> getNextPosition(std::shared_ptr<ECS::Speed> speed, std::shared_ptr<ECS::Position> pos) noexcept;
+    void getNextPosition(std::shared_ptr<ECS::Acceleration> acc, std::shared_ptr<ECS::Speed> speed, std::shared_ptr<ECS::Position> pos) noexcept;
 
     Pattern& operator=(const Pattern&) const noexcept = delete;
     Pattern& operator=(Pattern&&) const noexcept = delete;
@@ -33,8 +34,8 @@ public:
 private:
     std::pair<int, int> _sizeMap;
     std::pair<int, int> _sizeEntity;
-    std::vector<std::pair<float, float>> _pattern;
-    std::vector<std::pair<int, int>> _limit;
+    std::deque<std::pair<float, float>> _pattern;
+    std::deque<std::pair<int, int>> _limit;
     std::pair<int, int> _keepPosition;
     PatternType _type;
     int _moving;

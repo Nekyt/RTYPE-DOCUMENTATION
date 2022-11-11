@@ -28,7 +28,7 @@ ECS::Sprite::Sprite(const sf::Texture& texture, sf::Vector2f scale, sf::IntRect 
     _sprite->setTexture(texture);
     if (_scale.x > 0 && _scale.y > 0)
         _sprite->setScale(_scale.x, _scale.y);
-    if (_intRect.width > 0, _intRect.height > 0)
+    if (_intRect.width > 0 && _intRect.height > 0)
         _sprite->setTextureRect(_intRect);
     _sprite->setPosition(_pos.x, _pos.y);
 }
@@ -55,7 +55,7 @@ ECS::Sprite::Sprite(const sf::Texture& texture, int scaleX, int scaleY, sf::IntR
     _sprite->setTexture(texture);
     if (_scale.x > 0 && _scale.y > 0)
         _sprite->setScale(_scale.x, _scale.y);
-    if (_intRect.width > 0, _intRect.height > 0)
+    if (_intRect.width > 0 && _intRect.height > 0)
         _sprite->setTextureRect(_intRect);
     _sprite->setPosition(_pos.x, _pos.y);
 }

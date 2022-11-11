@@ -19,6 +19,11 @@ ECS::Entity::Entity(std::size_t id, ECS::EntityType type)
 {
 }
 
+ECS::Entity::Entity(ECS::EntityType type)
+    : _type(type)
+{
+}
+
 /**
  * `std::size_t ECS::Entity::getId() const {return _id;}`
  *

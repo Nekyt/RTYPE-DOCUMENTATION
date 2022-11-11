@@ -3,7 +3,7 @@
 /**
  * This function is the default constructor for the Acceleration class
  */
-ECS::Acceleration::Acceleration(int x, int y) noexcept
+ECS::Acceleration::Acceleration(float x, float y) noexcept
     : _x(x)
     , _y(y)
 {
@@ -25,25 +25,25 @@ ECS::Acceleration::Acceleration(const Acceleration& acc) noexcept
  *
  * @return The value of the private member variable _x.
  */
-int ECS::Acceleration::getAcceleration_x() const noexcept { return _x; }
+float ECS::Acceleration::getAcceleration_x() const noexcept { return _x; }
 
 /**
  * It returns the y value of the acceleration.
  *
  * @return The acceleration in the y direction.
  */
-int ECS::Acceleration::getAcceleration_y() const noexcept { return _y; }
+float ECS::Acceleration::getAcceleration_y() const noexcept { return _y; }
 
 /**
  * Sets the acceleration in the x direction.
  *
  * @param x The x-coordinate of the acceleration.
  */
-void ECS::Acceleration::setAcceleration_x(int x) noexcept { _x = x; }
+void ECS::Acceleration::setAcceleration_x(float x) noexcept { _x = x; }
 
 /**
  * This function sets the acceleration in the y direction.
  *
  * @param y The y-coordinate of the acceleration.
  */
-void ECS::Acceleration::setAcceleration_y(int y) noexcept { _y = y; }
+void ECS::Acceleration::setAcceleration_y(float y) noexcept { _y = y; }

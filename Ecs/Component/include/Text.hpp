@@ -41,8 +41,8 @@ private:
     sf::Font _font;
     std::string _sentence;
     int _size;
-    sf::Text _text;
     sf::Vector2f _pos;
+    sf::Text _text;
 };
 
 };

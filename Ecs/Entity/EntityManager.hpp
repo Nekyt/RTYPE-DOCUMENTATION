@@ -11,7 +11,7 @@
 #include "Entity.hpp"
 #include <map>
 #include <set>
-#include <vector>
+#include <deque>
 
 namespace ECS {
 class EntityManager {
@@ -22,12 +22,12 @@ public:
     Entity createEntity(EntityType t);
     void destroyEntity(Entity e);
 
-    std::vector<Entity>& getEntities();
-    std::vector<Entity> getEntityByType(EntityType type);
-    std::vector<Entity> getEntityById(std::size_t id);
+    std::deque<Entity>& getEntities();
+    std::deque<Entity> getEntityByType(EntityType type);
+    Entity getEntityById(std::size_t id);
 
 private:
-    std::vector<Entity> _entities;
+    std::deque<Entity> _entities;
 };
 } // namespace ECS
 

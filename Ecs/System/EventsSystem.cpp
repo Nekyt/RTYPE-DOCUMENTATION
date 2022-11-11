@@ -34,16 +34,13 @@ void ECS::EventsSystem::update()
         if (!checkIsValidEntity(entity))
             continue;
         for (auto& events : _currentEvents) {
-            for (auto& event : events.second) {
                 // std::cout << events.first << std::endl;
                 // std::cout << entity.getId() << std::endl;
-                if (event == Button::Space && events.first == entity.getId())
+                if (std::find(events.second.begin(), events.second.end(), Button::Space) != events.second.end() && events.first == entity.getId())
                     shoot(entity);
                 else if (events.first == entity.getId()) {
-                    //std::cout << "ici2" << std::endl;
-                    modifyAcceleration(entity, event);
+                    modifyAcceleration(entity, events.second);
                 }
-            }
         }
     }
 }
@@ -64,9 +61,10 @@ void ECS::EventsSystem::setClock(std::shared_ptr<Clock> clock)
 }
 
 
-void ECS::EventsSystem::setEvents(std::size_t entity, Button& event)
+void ECS::EventsSystem::setEvents(std::size_t entity, std::deque<Button> event)
 {
-    _currentEvents[entity].push_back(event);
+    for (Button button : event)
+        _currentEvents[entity].push_back(button);
 }
 
 /**
@@ -75,35 +73,35 @@ void ECS::EventsSystem::setEvents(std::size_t entity, Button& event)
  * @param entity The entity that will be modified.
  * @param event The event that was triggered.
  */
-void ECS::EventsSystem::modifyAcceleration(Entity entity, Button event)
+void ECS::EventsSystem::modifyAcceleration(Entity entity, std::deque<Button> &event)
 {
     std::shared_ptr<ECS::Speed> speed = std::dynamic_pointer_cast<ECS::Speed>(_componentManager->getComponent(entity, ComponentType::SPEED));
     std::shared_ptr<ECS::Acceleration> acceleration = std::dynamic_pointer_cast<ECS::Acceleration>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
 
-    switch (event) {
-    case Button::Right:
-        acceleration->setAcceleration_x(1);
-        acceleration->setAcceleration_y(0);
-        speed->setSpeed(4);
-        break;
-    case Button::Left:
-        acceleration->setAcceleration_x(-1);
-        acceleration->setAcceleration_y(0);
-        speed->setSpeed(4);
-        break;
-    case Button::Down:
-        acceleration->setAcceleration_x(0);
-        acceleration->setAcceleration_y(1);
-        speed->setSpeed(4);
-        break;
-    case Button::Up:
-        acceleration->setAcceleration_x(0);
-        acceleration->setAcceleration_y(-1);
-        speed->setSpeed(4);
-        break;
-    default:
-        break;
+    if (event.empty()) {
+        return;
     }
+    speed->setSpeed(speed->getMaxSpeed());
+    for (Button button : event) {
+        std::cout << "In for loop" << std::endl;
+        switch (button) {
+        case Button::Right:
+            acceleration->setAcceleration_x(1.0f);
+            break;
+        case Button::Left:
+            acceleration->setAcceleration_x(-1.0f);
+            break;
+        case Button::Down:
+            acceleration->setAcceleration_y(1.0f);
+            break;
+        case Button::Up:
+            acceleration->setAcceleration_y(-1.0f);
+            break;
+        default:
+            break;
+        }
+    }
+    std::cout << "ACCELERATION : x=" << acceleration->getAcceleration_x() << " y=" << acceleration->getAcceleration_y() << std::endl;
 }
 
 /**
@@ -122,7 +120,7 @@ void ECS::EventsSystem::shoot(Entity entity)
 
     ECS::Entity entityProjectile = _entityManager->createEntity(ECS::EntityType::PROJECTILES);
     _componentManager->addComponent(entityProjectile, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(posProjectile_x, posProjectile_y));
-    _componentManager->addComponent(entityProjectile, ECS::ComponentType::ACCELERATION, std::make_shared<ECS::Acceleration>(1, 0));
+    _componentManager->addComponent(entityProjectile, ECS::ComponentType::ACCELERATION, std::make_shared<ECS::Acceleration>(1.0f, 0.0f));
     _componentManager->addComponent(entityProjectile, ECS::ComponentType::HEALTH, std::make_shared<ECS::Health>(1));
     _componentManager->addComponent(entityProjectile, ECS::ComponentType::SPRITE, std::make_shared<ECS::Sprite>(*_sfml->getTexture("bullet"), sf::Vector2f(2, 2), sf::IntRect(0, 0, 1135, 345), sf::Vector2f(posProjectile_x, posProjectile_y)));
     _componentManager->addComponent(entityProjectile, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(12));
@@ -137,7 +135,8 @@ void ECS::EventsSystem::shoot(Entity entity)
 void ECS::EventsSystem::clearEvents()
 {
     for (auto& i : _currentEvents)
-        i.second.clear();
+        if (!i.second.empty())
+            i.second.clear();
 }
 
 /**
@@ -152,13 +151,7 @@ bool ECS::EventsSystem::checkIsValidEntity(Entity entity)
 {
     auto& components = _componentManager->getComponentList(entity);
 
-    try {
-        components.at(ComponentType::SPEED);
-        components.at(ComponentType::HEALTH);
-        components.at(ComponentType::SPRITE);
-        components.at(ComponentType::POSITION);
+    if (components.find(ComponentType::SPEED) != components.end() && components.find(ComponentType::HEALTH) != components.end() && components.find(ComponentType::POSITION) != components.end())
         return true;
-    } catch (const std::exception& e) {
-        return false;
-    }
+    return false;
 }

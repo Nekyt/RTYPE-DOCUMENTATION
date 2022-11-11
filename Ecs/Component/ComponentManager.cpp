@@ -48,12 +48,12 @@ std::map<ECS::ComponentType, std::shared_ptr<ECS::IComp>>& ECS::ComponentManager
 }
 
 /**
- * It returns a reference to the vector of entities that have the specified
+ * It returns a reference to the deque of entities that have the specified
  * component type
  *
- * @return A vector of entities.
+ * @return A deque of entities.
  */
-std::vector<ECS::Entity>& ECS::ComponentManager::getEntityList(ComponentType type)
+std::deque<ECS::Entity>& ECS::ComponentManager::getEntityList(ComponentType type)
 {
     return _centities.at(type);
 }

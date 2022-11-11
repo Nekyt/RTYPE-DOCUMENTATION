@@ -110,7 +110,7 @@ void Network::Server::sendPlayerId(std::pair<sf::IpAddress, unsigned short> clie
  * @param client The client's IP address and port.
  * @param roomId The id of the room you want to send to the client.
  */
-void Network::Server::sendRoomList(std::pair<sf::IpAddress, unsigned short> client, std::vector<int> roomId)
+void Network::Server::sendRoomList(std::pair<sf::IpAddress, unsigned short> client, std::deque<int> roomId)
 {
     sf::Packet packet;
 
@@ -163,9 +163,9 @@ void Network::Server::sendEnum(std::pair<sf::IpAddress, unsigned short> client, 
  * It sends the game update to the client
  *
  * @param client The client to send the packet to.
- * @param ent A vector of pairs of Entity and Position.
+ * @param ent A deque of pairs of Entity and Position.
  */
-void Network::Server::sendGameUpdate(std::pair<sf::IpAddress, unsigned short> client, std::vector<std::pair<ECS::Entity, ECS::Position>> ent)
+void Network::Server::sendGameUpdate(std::pair<sf::IpAddress, unsigned short> client, std::deque<std::pair<ECS::Entity, ECS::Position>> ent)
 {
     sf::Packet packet;
 

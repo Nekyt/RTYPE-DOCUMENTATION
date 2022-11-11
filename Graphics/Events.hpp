@@ -11,6 +11,7 @@
 #include "SFML/Graphics.hpp"
 #include <map>
 #include <string>
+#include <deque>
 
 enum class Button {
     Left,
@@ -44,7 +45,7 @@ public:
     Events() = default;
     ~Events() = default;
 
-    Button getEventType(const sf::Event& event) const;
+    std::deque<Button> getEventType(const sf::Event& event) const;
     std::string getTextEntered(const sf::Event& event) const;
     Mouse getEventTypeMouse(const sf::Event& event) const;
 
@@ -52,6 +53,7 @@ protected:
 private:
     static const std::map<sf::Keyboard::Key, Button> eventsButton;
     static const std::map<sf::Mouse::Button, Mouse> eventsMouse;
+    static const std::deque<sf::Keyboard::Key> keys;
 };
 
 #endif /* !EVENTS_HPP_ */

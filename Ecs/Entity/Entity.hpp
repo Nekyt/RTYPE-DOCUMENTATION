@@ -24,11 +24,13 @@ enum EntityType { PLAYER,
     MENUCONNECT,
     MENU,
     GAME,
-    BONUSENTITY };
+    BONUSENTITY,
+    ERROR = -1 };
 
 class Entity {
 public:
     Entity(std::size_t id, EntityType type);
+    Entity(EntityType type = ECS::EntityType::ERROR);
     ~Entity() = default;
 
     Entity(Entity const&) = default;

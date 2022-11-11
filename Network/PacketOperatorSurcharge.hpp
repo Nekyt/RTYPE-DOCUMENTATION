@@ -1,12 +1,13 @@
 #include <SFML/Network.hpp>
-#include <vector>
+#include <deque>
 #include <utility>
 #include "../Ecs/Component/include/Position.hpp"
 #include "../Ecs/Entity/Entity.hpp"
 #include "../Graphics/Events.hpp"
 #include <list>
+#include <deque>
 
-inline sf::Packet& operator <<(sf::Packet& packet, const std::vector<int>& p)
+inline sf::Packet& operator <<(sf::Packet& packet, const std::deque<int>& p)
 {
     packet << static_cast<int>(p.size());
     for (size_t i = 0; i < p.size(); ++i) {
@@ -15,7 +16,7 @@ inline sf::Packet& operator <<(sf::Packet& packet, const std::vector<int>& p)
     return packet;
 }
 
-inline std::vector<int>& operator >>(sf::Packet& packet, std::vector<int>& p)
+inline std::deque<int>& operator >>(sf::Packet& packet, std::deque<int>& p)
 {
     int size = 0;
     int elem = 0;
@@ -28,7 +29,7 @@ inline std::vector<int>& operator >>(sf::Packet& packet, std::vector<int>& p)
     return p;
 }
 
-inline sf::Packet& operator <<(sf::Packet& packet, const std::vector<std::pair<ECS::Entity, ECS::Position>>& p)
+inline sf::Packet& operator <<(sf::Packet& packet, const std::deque<std::pair<ECS::Entity, ECS::Position>>& p)
 {
     packet << static_cast<int>(p.size());
     for (size_t i = 0; i < p.size(); ++i) {
@@ -38,7 +39,7 @@ inline sf::Packet& operator <<(sf::Packet& packet, const std::vector<std::pair<E
     return packet;
 }
 
-inline std::vector<std::pair<ECS::Entity, ECS::Position>>& operator >>(sf::Packet& packet, std::vector<std::pair<ECS::Entity, ECS::Position>>& p)
+inline std::deque<std::pair<ECS::Entity, ECS::Position>>& operator >>(sf::Packet& packet, std::deque<std::pair<ECS::Entity, ECS::Position>>& p)
 {
     int size = 0;
     int id, type, posx, posy = 0;
@@ -51,7 +52,7 @@ inline std::vector<std::pair<ECS::Entity, ECS::Position>>& operator >>(sf::Packe
     return p;
 }
 
-inline sf::Packet& operator <<(sf::Packet& packet, const std::vector<Button>& p)
+inline sf::Packet& operator <<(sf::Packet& packet, const std::deque<Button>& p)
 {
     packet << static_cast<int>(p.size());
     for (size_t i = 0; i < p.size(); ++i)
@@ -59,7 +60,7 @@ inline sf::Packet& operator <<(sf::Packet& packet, const std::vector<Button>& p)
     return packet;
 }
 
-inline std::vector<Button>& operator >>(sf::Packet& packet, std::vector<Button>& p)
+inline std::deque<Button>& operator >>(sf::Packet& packet, std::deque<Button>& p)
 {
     int size;
     int elem;

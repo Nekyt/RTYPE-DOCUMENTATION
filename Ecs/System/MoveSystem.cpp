@@ -28,7 +28,7 @@ ECS::MoveSystem::MoveSystem(const std::shared_ptr<ComponentManager>& componentsM
 void ECS::MoveSystem::update()
 {
     const auto& entities = _entityManager->getEntities();
-    std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> enti = _clock->getEntitiesToUpdate();
+    std::deque<std::pair<size_t, std::deque<ECS::ComponentType>>> enti = _clock->getEntitiesToUpdate();
 
     for (size_t i = 0; i < enti.size(); ++i) {
         for (const auto& entity : entities) {
@@ -45,17 +45,36 @@ void ECS::MoveSystem::update()
                 if (enti.at(i).second.at(j) != ECS::ComponentType::POSITION)
                     continue;
             }
-            std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
-            std::shared_ptr<ECS::Speed> speed = std::dynamic_pointer_cast<ECS::Speed>(_componentManager->getComponent(entity, ComponentType::SPEED));
-            std::shared_ptr<ECS::Acceleration> acceleration = std::dynamic_pointer_cast<ECS::Acceleration>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
+            if (_clock->componentUpdateNumber(i, ECS::POSITION)) {
+                std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
+                std::shared_ptr<ECS::Speed> speed = std::dynamic_pointer_cast<ECS::Speed>(_componentManager->getComponent(entity, ComponentType::SPEED));
+                std::shared_ptr<ECS::Acceleration> acceleration = std::dynamic_pointer_cast<ECS::Acceleration>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
 
-            auto posX = position->getPosition_x();
-            auto posY = position->getPosition_y();
-            if ((posX += acceleration->getAcceleration_x() * speed->getMaxSpeed()) < -1920)
-                position->setPosition_x(1920);
-            else {
-                position->setPosition_x(posX += acceleration->getAcceleration_x() * speed->getMaxSpeed());
-                position->setPosition_y(posY += acceleration->getAcceleration_y() * speed->getMaxSpeed());
+                auto posX = position->getPosition_x();
+                auto posY = position->getPosition_y();
+                if (entity.getType() == ECS::EntityType::PARALLAX && ((posX += acceleration->getAcceleration_x() * speed->getMaxSpeed()) < -1920))
+                    position->setPosition_x(1920);
+                else if (entity.getType() == ECS::EntityType::PLAYER) {
+                    if (acceleration->getAcceleration_x() != 0)
+                    std::cout << "In movesystem : position before : x=" << posX << " y=" << posY << " Acceleration : x=" << acceleration->getAcceleration_x() << " y=" << acceleration->getAcceleration_y() << std::endl;
+                    posX += acceleration->getAcceleration_x() * speed->getMaxSpeed();
+                    posY += acceleration->getAcceleration_y() * speed->getMaxSpeed();
+                    position->setPosition_x(posX);
+                    position->setPosition_y(posY);
+                    if (posX >= 1920 - (31 * 3))
+                        position->setPosition_x(1920 - (31 * 3));
+                    if (posY >= 1080 - (13 * 3))
+                        position->setPosition_y(1080 - (13 * 3));
+                    if (posX <= 0)
+                        position->setPosition_x(0);
+                    if (posY <= 0)
+                        position->setPosition_y(0);
+                    acceleration->setAcceleration_x(0.0f);
+                    acceleration->setAcceleration_y(0.0f);
+                } else {
+                    position->setPosition_x(posX + acceleration->getAcceleration_x() * speed->getMaxSpeed());
+                    position->setPosition_y(posY + acceleration->getAcceleration_y() * speed->getMaxSpeed());
+                }
             }
         }
     }

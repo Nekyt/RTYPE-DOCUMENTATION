@@ -17,14 +17,14 @@ public:
 
     ECS::Entity createEntity(ECS::EntityType type);
     void destroyEntity(ECS::Entity entity);
-    std::vector<ECS::Entity>& getEntities();
-    std::vector<ECS::Entity> getEntityByType(ECS::EntityType type);
-    std::vector<ECS::Entity> getEntityById(std::size_t id);
+    std::deque<ECS::Entity>& getEntities();
+    std::deque<ECS::Entity> getEntityByType(ECS::EntityType type);
+    ECS::Entity getEntityById(std::size_t id);
 
     void addComponent(ECS::Entity e, ECS::ComponentType c, std::shared_ptr<ECS::IComp> comp);
     std::shared_ptr<ECS::IComp> getComponent(ECS::Entity e, ECS::ComponentType c);
     std::map<ECS::ComponentType, std::shared_ptr<ECS::IComp>>& getComponentList(ECS::Entity entity);
-    std::vector<ECS::Entity>& getEntityList(ECS::ComponentType type);
+    std::deque<ECS::Entity>& getEntityList(ECS::ComponentType type);
 
     template <typename System>
     System& addSystem()

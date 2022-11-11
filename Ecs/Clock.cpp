@@ -22,7 +22,7 @@ void Clock::addClockComponent(size_t entity, ECS::ComponentType type, int update
         _entities.push_back(entity);
         _timer.insert(std::pair<size_t, std::map<ECS::ComponentType, int>>(entity, mapC));
         _previousIte.insert(std::pair<size_t, std::map<ECS::ComponentType, std::clock_t>>(entity, mapT));
-        _timersList.insert(std::make_pair(entity, std::vector<ECS::ComponentType> { type }));
+        _timersList.insert(std::make_pair(entity, std::deque<ECS::ComponentType> { type }));
     } else if (_timer[entity].find(type) == _timer[entity].end()) {
         _timersList[entity].push_back(type);
         _timer[entity].insert(std::make_pair(type, updateTime));
@@ -34,14 +34,14 @@ void Clock::addClockComponent(size_t entity, ECS::ComponentType type, int update
 }
 
 /**
- * It returns a vector of pairs of entity IDs and component types that need to be
+ * It returns a deque of pairs of entity IDs and component types that need to be
  * updated
  *
- * @return A vector of pairs of size_t and vector of ComponentType.
+ * @return A deque of pairs of size_t and deque of ComponentType.
  */
-std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> Clock::getEntitiesToUpdate()
+std::deque<std::pair<size_t, std::deque<ECS::ComponentType>>> Clock::getEntitiesToUpdate()
 {
-    std::vector<std::pair<size_t, std::vector<ECS::ComponentType>>> toUpdate;
+    std::deque<std::pair<size_t, std::deque<ECS::ComponentType>>> toUpdate;
     std::clock_t time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
     if (!_entities.empty()) {

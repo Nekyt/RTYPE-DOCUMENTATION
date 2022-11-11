@@ -39,12 +39,12 @@ public:
     std::shared_ptr<IComp> getComponent(Entity e, ComponentType c);
 
     std::map<ComponentType, std::shared_ptr<IComp>>& getComponentList(Entity entity);
-    std::vector<Entity>& getEntityList(ComponentType type);
+    std::deque<Entity>& getEntityList(ComponentType type);
 
 protected:
 private:
     std::map<Entity, std::map<ComponentType, std::shared_ptr<IComp>>> _eentities;
-    std::map<ComponentType, std::vector<Entity>> _centities;
+    std::map<ComponentType, std::deque<Entity>> _centities;
 };
 } // namespace ECS
 

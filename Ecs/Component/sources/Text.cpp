@@ -9,7 +9,7 @@
 
 /**
  * It initializes the text object
- * 
+ *
  * @param font The font that the text will use.
  * @param sentence The text you want to display
  * @param size The size of the text.

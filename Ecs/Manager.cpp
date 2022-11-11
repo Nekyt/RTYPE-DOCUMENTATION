@@ -42,31 +42,31 @@ void Manager::destroyEntity(ECS::Entity entity)
 }
 
 /**
- * It returns a reference to the vector of entities
+ * It returns a reference to the deque of entities
  *
- * @return A vector of entities.
+ * @return A deque of entities.
  */
-std::vector<ECS::Entity>& Manager::getEntities()
+std::deque<ECS::Entity>& Manager::getEntities()
 {
     return _entityManager->getEntities();
 }
 
 /**
- * It returns a reference to a vector of entities that have the specified type
+ * It returns a reference to a deque of entities that have the specified type
  *
- * @return A vector of entities.
+ * @return A deque of entities.
  */
-std::vector<ECS::Entity> Manager::getEntityByType(ECS::EntityType type)
+std::deque<ECS::Entity> Manager::getEntityByType(ECS::EntityType type)
 {
     return _entityManager->getEntityByType(type);
 }
 
 /**
- * It returns a reference to a vector of entities that have the given id
+ * It returns a reference to a deque of entities that have the given id
  *
- * @return A vector of entities with the given id.
+ * @return A deque of entities with the given id.
  */
-std::vector<ECS::Entity> Manager::getEntityById(std::size_t id)
+ECS::Entity Manager::getEntityById(std::size_t id)
 {
     return _entityManager->getEntityById(id);
 }
@@ -101,7 +101,7 @@ std::map<ECS::ComponentType, std::shared_ptr<ECS::IComp>>& Manager::getComponent
 /**
  * Get a list of entities that have a specific component.
  */
-std::vector<ECS::Entity>& Manager::getEntityList(ECS::ComponentType type)
+std::deque<ECS::Entity>& Manager::getEntityList(ECS::ComponentType type)
 {
     return _componentManager->getEntityList(type);
 }

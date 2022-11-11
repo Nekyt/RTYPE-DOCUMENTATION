@@ -20,8 +20,8 @@ class Client {
         ~Client() = default;
 
         void roomCreation(int players);
-        std::vector<int> roomAskingList();
-        int joinRoom(std::vector<int> rooms);
+        std::deque<int> roomAskingList();
+        int joinRoom(std::deque<int> rooms);
         sf::Packet retrievePacket();
         int getRoomId() const;
         int sendPacket(sf::Packet packet);
@@ -29,7 +29,7 @@ class Client {
 
     protected:
     private:
-        std::vector<int> packetToVectorInt(sf::Packet packet, int size);
+        std::deque<int> packetTodequeInt(sf::Packet packet, int size);
 
         sf::UdpSocket _udp;
         sf::SocketSelector _selector;
