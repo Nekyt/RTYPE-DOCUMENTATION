@@ -29,7 +29,7 @@ private:
     ECS::Entity buildEnnemy(std::shared_ptr<Manager> manager, std::shared_ptr<Clock> clock);
     std::deque<ECS::Entity> buildAllEnnemies(std::shared_ptr<Manager> manager, int maxEnn, std::shared_ptr<Clock> clock);
     void loopPackets();
-    void checkForEntityDeath(int roomId, std::shared_ptr<Manager> manager, std::deque<ECS::Entity> entities);
+    void checkForEntityDeath(int roomId, std::shared_ptr<Manager> manager, std::deque<ECS::Entity> &entities);
     void waitForFilledRoom(int roomId);
     void waitForClientsToBeReady(int roomId);
     void gameUpdate(int roomId, std::shared_ptr<Manager> manager, std::deque<ECS::Entity> entities);

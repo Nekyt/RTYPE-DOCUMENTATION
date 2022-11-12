@@ -19,7 +19,7 @@ GameClient::GameClient(const char* ip, unsigned short port) : _cli(ip, port)
     srand(time(NULL));
     _graphical = std::make_shared<InitSfml>();
     _networkClock = std::make_shared<Clock>();
-    _networkClock->addClockComponent(0, ECS::ComponentType::NETWORK, 25);
+    _networkClock->addClockComponent(0, ECS::ComponentType::NETWORK, 40);
     _clock = std::make_shared<Clock>();
     _state = Menu;
     _isInGame = false;
@@ -378,6 +378,7 @@ void GameClient::manageGame()
                 entities = _manager.getEntities();
                 for (size_t i = _graphEntitiesCount; i < entities.size(); ++i)
                     _manager.destroyEntity(_manager.getEntityById(i));
+                _isInGame = false;
                 _state = Menu;
             } else
                 _manager.destroyEntity(_manager.getEntityById(playerID + _graphEntitiesCount));

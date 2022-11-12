@@ -30,8 +30,6 @@ void ECS::EntityManager::destroyEntity(ECS::Entity e)
 {
     _entities.erase(std::find(_entities.begin(), _entities.end(), e));
     //_eentities.erase(_eentities.find(e));
-    /*for (std::size_t i = 0; i < _centities.size(); ++i)
-        _centities[i].erase(std::find(_centities[i].begin(), _centities[i].end(), e));*/
     // Problème à résoudre (aucune idée de pourquoi _centities[i] n'est pas possible, la raison la plus présente sur internet c'est concernant des const donc pas compris)
 }
 

@@ -19,11 +19,11 @@ void Server::Server::loopPackets()
         packet = _network.retrievePacket();
         if (packet.second.first != -1 || packet.second.second.getDataSize())
             _retrievedPackets.push_back(packet);
-        if (!_sendingPackets.empty()) {
+        if (!_sendingPackets.empty() && _clock->componentUpdateNumber(50, ECS::ComponentType::NETWORK)) {
             _network.sendPacket(_sendingPackets[0]);
             if (!_sendingPackets.empty()) {
                 std::cout << "ERASING a packet : " << _sendingPackets.size() << std::endl;
-                _sendingPackets.erase(_sendingPackets.begin());
+                _sendingPackets.pop_front();
                 std::cout << "ERASED a packet" << _sendingPackets.size() << std::endl;
             }
         }
@@ -36,6 +36,7 @@ void Server::Server::loopPackets()
  */
 void Server::Server::serverLoop()
 {
+    _clock->addClockComponent(50, ECS::ComponentType::NETWORK, 10);
     sf::Thread thread(&Server::Server::gameLoop, this);
     sf::Thread retrieve(&Server::Server::loopPackets, this);
     sf::Packet prepSending;
@@ -59,7 +60,7 @@ void Server::Server::serverLoop()
                     _roomsID.push_back(0);
                 else
                     _roomsID.push_back(_roomsID[_roomsID.size() - 1] + 1);
-                _clock->addClockComponent(_roomsID[_roomsID.size() - 1], ECS::ComponentType::NETWORK, 25);
+                _clock->addClockComponent(_roomsID[_roomsID.size() - 1], ECS::ComponentType::NETWORK, 40);
                 _inGamePackets.insert(std::make_pair(_roomsID[_roomsID.size() - 1], std::deque<std::deque<sf::Packet>>()));
                 _players.insert(std::make_pair(_roomsID.size() - 1, secondNb));
                 _idArg = _roomsID[_roomsID.size() - 1];
@@ -116,12 +117,13 @@ ECS::Entity Server::Server::buildPlayer(int playerNb, std::shared_ptr<Manager> m
 }
 
 /**
- * It builds all the players for a room
+ * It creates a player entity for each player in the room
  *
- * @param manager The manager that will be used to create the entities.
- * @param roomId The id of the room the player is in.
+ * @param manager The ECS manager
+ * @param roomId The id of the room you want to build the players for.
+ * @param clock the clock that will be used to synchronize the game
  *
- * @return A deque of entities.
+ * @return A deque of entities
  */
 std::deque<ECS::Entity> Server::Server::buildAllPlayers(std::shared_ptr<Manager> manager, int roomId, std::shared_ptr<Clock> clock)
 {
@@ -137,16 +139,17 @@ std::deque<ECS::Entity> Server::Server::buildAllPlayers(std::shared_ptr<Manager>
 /**
  * It builds an enemy
  *
- * @param manager the manager of the game
+ * @param manager the ECS manager
+ * @param clock the clock that will be used to update the entity's components
  *
- * @return The entity created.
+ * @return The entity that was created.
  */
 ECS::Entity Server::Server::buildEnnemy(std::shared_ptr<Manager> manager, std::shared_ptr<Clock> clock)
 {
     ECS::Entity enemy = manager->createEntity(ECS::EntityType::ENEMY);
 
     manager->addComponent(enemy, ECS::ComponentType::ACCELERATION, std::make_shared<ECS::Acceleration>(0.0f, 0.0f));
-    manager->addComponent(enemy, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(15));
+    manager->addComponent(enemy, ECS::ComponentType::SPEED, std::make_shared<ECS::Speed>(10));
     manager->addComponent(enemy, ECS::ComponentType::CONTROLABLE, std::make_shared<ECS::Controlable>(false));
     manager->addComponent(enemy, ECS::ComponentType::DAMAGE, std::make_shared<ECS::Damage>(10));
     manager->addComponent(enemy, ECS::ComponentType::HEALTH, std::make_shared<ECS::Health>(100));
@@ -155,8 +158,8 @@ ECS::Entity Server::Server::buildEnnemy(std::shared_ptr<Manager> manager, std::s
     std::shared_ptr<ECS::Pattern> patt = std::dynamic_pointer_cast<ECS::Pattern>(manager->getComponent(enemy, ECS::ComponentType::PATTERN));
     std::pair<int, int> pos = patt->getFirstPosition();
     manager->addComponent(enemy, ECS::ComponentType::POSITION, std::make_shared<ECS::Position>(pos.first, pos.second));
-    clock->addClockComponent(enemy.getId(), ECS::ComponentType::POSITION, 50);
     clock->addClockComponent(enemy.getId(), ECS::ComponentType::PATTERN, 50);
+    clock->addClockComponent(enemy.getId(), ECS::ComponentType::POSITION, 50);
     return enemy;
 }
 
@@ -164,7 +167,7 @@ ECS::Entity Server::Server::buildEnnemy(std::shared_ptr<Manager> manager, std::s
  * It builds a number of enemies and returns them in a deque
  *
  * @param manager the ECS manager
- * @param maxEnn the maximum number of enemies you want to create
+ * @param maxEnn the maximum number of enemies to create
  * @param clock the clock used to create the ennemies
  *
  * @return A deque of entities
@@ -181,10 +184,10 @@ std::deque<ECS::Entity> Server::Server::buildAllEnnemies(std::shared_ptr<Manager
 }
 
 /**
- * It adds the systems that the game will use
+ * It adds the systems to the manager
  *
  * @param manager The manager that will be used to manage the entities.
- * @param roomId The id of the room that the manager is being set for.
+ * @param clock The clock that will be used to update the systems.
  */
 void Server::Server::setManager(std::shared_ptr<Manager> manager, std::shared_ptr<Clock> clock)
 {
@@ -194,36 +197,32 @@ void Server::Server::setManager(std::shared_ptr<Manager> manager, std::shared_pt
     events.setClock(clock);
     auto &pattern = manager->addSystem<ECS::PatternSystem>();
     pattern.setClock(clock);
-    //auto &collision = manager->addSystem<ECS::CollisionSystem>();
+    auto &collision = manager->addSystem<ECS::CollisionSystem>();
     //manager->addSystem<ECS::TextSystem>();
     //manager->addSystem<ECS::GraphicSystem>();
 }
 
 /**
- * It updates all the systems in the manager
+ * It updates all the systems in the game
  *
  * @param manager The manager that the systems are in.
  */
 void Server::Server::updateAll(std::shared_ptr<Manager> manager)
 {
         //std::cout << "BEGINNING SYSTEMS UPDATES" << std::endl;
-        std::cout << "HERE 1" << std::endl;
         manager->getSystem<ECS::EventsSystem>().update();
-        std::cout << "HERE 2" << std::endl;
         manager->getSystem<ECS::PatternSystem>().update();
-        std::cout << "HERE 3" << std::endl;
         //std::cout << "Done Events" << std::endl;
         manager->getSystem<ECS::MoveSystem>().update();
-        std::cout << "HERE 4" << std::endl << std::endl;
-        //manager->getSystem<ECS::CollisionSystem>().update();
+        manager->getSystem<ECS::CollisionSystem>().update();
         manager->getSystem<ECS::EventsSystem>().clearEvents();
         //std::cout << "OUT OF SYSTEMS UPDATES" << std::endl;
 }
 
 /**
- * It waits for the room to be filled with players
+ * It waits for a room to be filled with players
  *
- * @param roomId The id of the room you want to wait for.
+ * @param roomId The id of the room to wait for
  */
 void Server::Server::waitForFilledRoom(int roomId)
 {
@@ -253,8 +252,7 @@ void Server::Server::waitForFilledRoom(int roomId)
 
 
 /**
- * It sends a READY enum to all the clients in the room, then waits for all the clients to send a
- * packet back
+ * It sends a packet to all the clients in a room, and waits for them to send a packet back
  *
  * @param roomId The id of the room you want to wait for clients to be ready in.
  */
@@ -284,10 +282,11 @@ void Server::Server::waitForClientsToBeReady(int roomId)
 }
 
 /**
- * It updates all the entities, then it puts them in a deque of pairs, then it puts the deque in a
- * packet, then it puts the packet in a deque of pairs with the client as the first element
+ * It updates all the components of the entities in the room, and if the clock says that the network
+ * component needs to be updated, it sends the position of all the entities to all the clients in the
+ * room
  *
- * @param roomId The id of the room to send the packet to.
+ * @param roomId The id of the room to update
  * @param manager The manager of the game
  * @param entities a deque of entities that are in the room
  */
@@ -308,13 +307,13 @@ void Server::Server::gameUpdate(int roomId, std::shared_ptr<Manager> manager, st
 }
 
 /**
- * It checks if an entity has died, and if it has, it either respawns it or removes it from the game
+ * It checks if an entity is dead, and if it is, it respawns it
  *
- * @param roomId The id of the room in which the entities are.
- * @param manager The ECS manager
- * @param entities The entities in the room
+ * @param roomId the id of the room in which the entities are
+ * @param manager the manager of the room
+ * @param entities a deque of entities that are in the room
  */
-void Server::Server::checkForEntityDeath(int roomId, std::shared_ptr<Manager> manager, std::deque<ECS::Entity> entities)
+void Server::Server::checkForEntityDeath(int roomId, std::shared_ptr<Manager> manager, std::deque<ECS::Entity> &entities)
 {
     sf::Packet prepSending;
     std::shared_ptr<ECS::Pattern> pattern;
@@ -332,25 +331,30 @@ void Server::Server::checkForEntityDeath(int roomId, std::shared_ptr<Manager> ma
                 position->setPosition_y(pos.second);
             } else {
                 position = std::dynamic_pointer_cast<ECS::Position>(manager->getComponent(entities[i], ECS::ComponentType::POSITION));
-                //std::cout << "Position of player" << i << " : x=" << position->getPosition_x() << " y=" << position->getPosition_y() << std::endl;
-                /*prepSending << Network::Networking::PLAYERDEATH << static_cast<int>(entities[i].getId());
+                std::cout << "Position of player" << entities[i].getId() << " : x=" << position->getPosition_x() << " y=" << position->getPosition_y() << std::endl;
+                prepSending << Network::Networking::PLAYERDEATH << static_cast<int>(entities[i].getId());
                 for (size_t g = 0; g < _clients[roomId].size(); ++g)
-                    _sendingPackets.push_back(std::make_pair(_clients[roomId][g], prepSending));*/
-                //entities.erase(entities.begin() + i);
-                //_clients[roomId].erase(_clients[roomId].begin() + i);
-                //_inGamePackets[roomId].erase(_inGamePackets[roomId].begin() + i);
-                std::dynamic_pointer_cast<ECS::Health>(manager->getComponent(entities[i], ECS::ComponentType::HEALTH))->setHealth(std::dynamic_pointer_cast<ECS::Health>(manager->getComponent(entities[i], ECS::ComponentType::HEALTH))->getMaxHealth());
+                    _sendingPackets.push_back(std::make_pair(_clients[roomId][g], prepSending));
+                manager->destroyEntity(entities[i]);
+                entities.erase(entities.begin() + i);
+                _clients[roomId].erase(_clients[roomId].begin() + i);
+                _inGamePackets[roomId].erase(_inGamePackets[roomId].begin() + i);
+                --i;
+                prepSending.clear();
             }
         }
     }
+    for (auto entity : _clients[roomId]) {
+        std::cout << "Player ip: " << entity.first << " port : " << entity.second << std::endl;
+    }
+    std::cout << std::endl;
 }
 
 /**
- * It gets the players' moves from the packets and applies them to the entities
+ * It gets the buttons pressed by the players and sends them to the ECS
  *
- * @param roomId The id of the room in which the players are playing.
- * @param entities a deque of entities that are in the game
- * @param manager The ECS manager
+ * @param roomId the id of the room in which the players are
+ * @param manager The manager of the game
  */
 void Server::Server::getPlayersMove(int roomId, std::shared_ptr<Manager> manager)
 {
@@ -373,7 +377,7 @@ void Server::Server::getPlayersMove(int roomId, std::shared_ptr<Manager> manager
 }
 
 /**
- * It's the main loop of the game, it's where the game is actually played
+ * It's the main game loop, it's where the game is actually played
  */
 void Server::Server::gameLoop()
 {

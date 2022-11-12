@@ -39,10 +39,10 @@ void ECS::CollisionSystem::update()
                 continue;
             if (entity.getId() == entity2.getId())
                 continue;
-            std::shared_ptr<ECS::Position> position2 = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
-            std::shared_ptr<ECS::Hitbox> hitbox2 = std::dynamic_pointer_cast<ECS::Hitbox>(_componentManager->getComponent(entity, ComponentType::HITBOX));
-            std::shared_ptr<ECS::Health> health2 = std::dynamic_pointer_cast<ECS::Health>(_componentManager->getComponent(entity, ComponentType::HEALTH));
-            std::shared_ptr<ECS::Damage> damage2 = std::dynamic_pointer_cast<ECS::Damage>(_componentManager->getComponent(entity, ComponentType::DAMAGE));
+            std::shared_ptr<ECS::Position> position2 = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity2, ComponentType::POSITION));
+            std::shared_ptr<ECS::Hitbox> hitbox2 = std::dynamic_pointer_cast<ECS::Hitbox>(_componentManager->getComponent(entity2, ComponentType::HITBOX));
+            std::shared_ptr<ECS::Health> health2 = std::dynamic_pointer_cast<ECS::Health>(_componentManager->getComponent(entity2, ComponentType::HEALTH));
+            std::shared_ptr<ECS::Damage> damage2 = std::dynamic_pointer_cast<ECS::Damage>(_componentManager->getComponent(entity2, ComponentType::DAMAGE));
             if (hitbox->isColliding(position, hitbox2, position2) == true) {
                 if ((entity.getType() == EntityType::PLAYER) && (entity2.getType() == EntityType::ENEMY))
                     health->removeHealth(damage2->getDamage());

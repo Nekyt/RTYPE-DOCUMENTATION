@@ -1,4 +1,6 @@
 #include "../include/Hitbox.hpp"
+#include <iostream>
+
 /**
  * It sets the width of the hitbox.
  *
@@ -63,13 +65,30 @@ void ECS::Hitbox::setHeight(unsigned short height) noexcept { _sizey = height; }
  */
 bool ECS::Hitbox::isColliding(const std::shared_ptr<ECS::Position> current, const std::shared_ptr<ECS::Hitbox> compare, const std::shared_ptr<ECS::Position> comp) const noexcept
 {
-    if (current->getPosition_x() >= comp->getPosition_x() && current->getPosition_x() <= comp->getPosition_x() + compare->getWidth() && current->getPosition_y() >= comp->getPosition_y() && current->getPosition_y() <= comp->getPosition_y() + compare->getHeight())
+    if (current->getPosition_x() >= comp->getPosition_x() && current->getPosition_x() <= comp->getPosition_x() + compare->getWidth() && current->getPosition_y() >= comp->getPosition_y() && current->getPosition_y() <= comp->getPosition_y() + compare->getHeight()) {
+        // std::cout << "IF1 :" << std::endl << current->getPosition_x() << " >= " << comp->getPosition_x() << std::endl;
+        // std::cout << current->getPosition_x() << " <= " << comp->getPosition_x() + compare->getWidth() << std::endl;
+        // std::cout << current->getPosition_y() << " >= " << comp->getPosition_y() << std::endl;
+        // std::cout << current->getPosition_y() << " <= " << comp->getPosition_y() + compare->getHeight() << std::endl;
         return true;
-    else if (current->getPosition_x() >= comp->getPosition_x() && current->getPosition_x() <= comp->getPosition_x() + compare->getWidth() && current->getPosition_y() + _sizey >= comp->getPosition_y() && current->getPosition_y() + _sizey <= comp->getPosition_y() + compare->getHeight())
+    } else if (current->getPosition_x() >= comp->getPosition_x() && current->getPosition_x() <= comp->getPosition_x() + compare->getWidth() && current->getPosition_y() + _sizey >= comp->getPosition_y() && current->getPosition_y() + _sizey <= comp->getPosition_y() + compare->getHeight()) {
+        // std::cout << "IF2" << std::endl << current->getPosition_x() << " >= " << comp->getPosition_x() << std::endl;
+        // std::cout << current->getPosition_x() << " <= " << comp->getPosition_x() + compare->getWidth() << std::endl;
+        // std::cout << current->getPosition_y() + _sizey << " >= " << comp->getPosition_y() << std::endl;
+        // std::cout << current->getPosition_y() + _sizey << " <= " << comp->getPosition_y() + compare->getHeight() << std::endl;
         return true;
-    else if (current->getPosition_x() + _sizex >= comp->getPosition_x() && current->getPosition_x() + _sizex <= comp->getPosition_x() + compare->getWidth() && current->getPosition_y() >= comp->getPosition_y() && current->getPosition_y() <= comp->getPosition_y() + compare->getHeight())
+    } else if (current->getPosition_x() + _sizex >= comp->getPosition_x() && current->getPosition_x() + _sizex <= comp->getPosition_x() + compare->getWidth() && current->getPosition_y() >= comp->getPosition_y() && current->getPosition_y() <= comp->getPosition_y() + compare->getHeight()) {
+        // std::cout << "IF3" << std::endl << current->getPosition_x() + _sizex << " >= " << comp->getPosition_x() << std::endl;
+        // std::cout << current->getPosition_x() + _sizex << " <= " << comp->getPosition_x() + compare->getWidth() << std::endl;
+        // std::cout << current->getPosition_y() << " >= " << comp->getPosition_y() << std::endl;
+        // std::cout << current->getPosition_y() << " <= " << comp->getPosition_y() + compare->getHeight() << std::endl;
         return true;
-    else if (current->getPosition_x() + _sizex >= comp->getPosition_x() && current->getPosition_x() + _sizex <= comp->getPosition_x() + compare->getWidth() && current->getPosition_y() + _sizey >= comp->getPosition_y() && current->getPosition_y() + _sizey <= comp->getPosition_y() + compare->getHeight())
+    } else if (current->getPosition_x() + _sizex >= comp->getPosition_x() && current->getPosition_x() + _sizex <= comp->getPosition_x() + compare->getWidth() && current->getPosition_y() + _sizey >= comp->getPosition_y() && current->getPosition_y() + _sizey <= comp->getPosition_y() + compare->getHeight()) {
+        // std::cout << "IF4" << std::endl << current->getPosition_x() + _sizex << " >= " << comp->getPosition_x() << std::endl;
+        // std::cout << current->getPosition_x() + _sizex << " <= " << comp->getPosition_x() + compare->getWidth() << std::endl;
+        // std::cout << current->getPosition_y() + _sizey << " >= " << comp->getPosition_y() << std::endl;
+        // std::cout << current->getPosition_y() + _sizey<< " <= " << comp->getPosition_y() + compare->getHeight() << std::endl;
         return true;
+    }
     return false;
 }

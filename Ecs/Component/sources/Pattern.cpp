@@ -110,7 +110,7 @@ std::pair<int, int> ECS::Pattern::getFirstPosition() noexcept
  */
 void ECS::Pattern::getNextPosition(std::shared_ptr<ECS::Acceleration> acceleration, std::shared_ptr<ECS::Speed> speed, std::shared_ptr<ECS::Position> pos) noexcept
 {
-    std::pair<int, int> nextPos = std::make_pair(pos->getPosition_x() + (speed->getMaxSpeed() * _pattern[_moving].first), pos->getPosition_y() + (speed->getMaxSpeed() * _pattern[_moving].second));
+    std::pair<int, int> nextPos = std::make_pair(static_cast<int>(pos->getPosition_x() + (speed->getMaxSpeed() * _pattern[_moving].first)), static_cast<int>(pos->getPosition_y() + (speed->getMaxSpeed() * _pattern[_moving].second)));
 
     acceleration->setAcceleration_x(0.0f);
     acceleration->setAcceleration_y(0.0f);

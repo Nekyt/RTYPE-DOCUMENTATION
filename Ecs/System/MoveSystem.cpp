@@ -74,6 +74,8 @@ void ECS::MoveSystem::update()
                 } else {
                     position->setPosition_x(posX + acceleration->getAcceleration_x() * speed->getMaxSpeed());
                     position->setPosition_y(posY + acceleration->getAcceleration_y() * speed->getMaxSpeed());
+                    acceleration->setAcceleration_x(0.0f);
+                    acceleration->setAcceleration_y(0.0f);
                 }
             }
         }
