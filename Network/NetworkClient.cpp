@@ -51,12 +51,17 @@ void Network::Client::connectUDP()
 sf::Packet Network::Client::retrievePacketUDP()
 {
     sf::Packet packet;
-    sf::IpAddress ip = _ip;
-    unsigned short port = _port;
+    sf::IpAddress ip;
+    unsigned short port;
     sf::Socket::Status status = _udp.receive(packet, ip, port);
     if (status == sf::Socket::Error) {
         std::cerr << "ERROR : Fail to receive request in Network::Client::retrievePacketUDP." << std::endl;
         exit (84);
+    }
+    if (status == sf::Socket::Status::Done) {
+        _ip = ip;
+        _port = port;
+        std::cout << "IP UDP : " << ip << " PORT UDP : " << port << std::endl;
     }
     return packet;
 }

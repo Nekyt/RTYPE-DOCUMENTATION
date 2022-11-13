@@ -63,7 +63,7 @@ std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networkin
         packet >> type;
         message.second.first = static_cast<Network::Networking>(type);
         message.second.second = packet;
-        std::cout << std::endl << "LOG : Receiving Packet from client" << std::endl;
+        std::cout << std::endl << "LOG : Receiving Packet from client : " << type << std::endl;
     } else {
         message.second.first = Network::Networking::ERROR;
         message.second.second = packet;

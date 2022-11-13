@@ -265,7 +265,8 @@ void GameClient::handleEventsKey(std::deque<Button> eventKey)
     switch (_state) {
     case GameState::Game:
         for (size_t i = 0; i < eventKey.size(); ++i)
-            _gameCommandsList.push_back(eventKey[i]);
+            if (std::find(_gameCommandsList.begin(), _gameCommandsList.end(), eventKey[i]) ==_gameCommandsList.end())
+                _gameCommandsList.push_back(eventKey[i]);
         break;
     default:
         break;

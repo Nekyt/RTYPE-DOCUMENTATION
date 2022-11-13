@@ -47,7 +47,7 @@ void GameServer::initGameServer()
     gameLoop();
     retrieve.terminate();
     _endGame = true;
-    while (_endGame);
+    //while (_endGame);
 
 }
 
@@ -323,8 +323,10 @@ void GameServer::GameServer::getPlayersMove()
     std::deque<int> nb;
 
     for (auto id : _playerIds) {
-        if (_retrievedPackets[_players[id]].empty() || _retrievedPackets[_players[id]][0].first == Network::Networking::PLAYERUPDATE)
+        if (_retrievedPackets[_players[id]].empty() || _retrievedPackets[_players[id]][0].first != Network::Networking::PLAYERUPDATE) {
+            std::cout << "nb of packets : " << _retrievedPackets[_players[id]].size() << std::endl;
             continue;
+        }
         _retrievedPackets[_players[id]][0].second >> pressed;
         _retrievedPackets[_players[id]].erase(_retrievedPackets[_players[id]].begin());
         std::cout << "All buttons : " << std::endl;

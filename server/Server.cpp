@@ -35,7 +35,7 @@ void Server::Server::checkGameThreads()
             if (_rooms[_roomsID[i]].get()->getEndGame() == true) {
                 _rooms.erase(_roomsID[i]);
                 _gameServers[i]->terminate();
-                _gameServers[i]->~Thread();
+                //_gameServers[i]->~Thread();
                 _gameServers.erase(_gameServers.begin() + i);
                 _roomsID.erase(_roomsID.begin() + i);
                 break;
