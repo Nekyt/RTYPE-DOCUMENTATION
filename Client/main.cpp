@@ -23,7 +23,10 @@
 
 int main(int ac, char **av)
 {
-    GameClient client(av[1], atoi(av[2]));
+    if  (ac == 3) {
+        std::cout << "ARGS : " << av[1] << " " << av[2] << std::endl;
+        GameClient client(av[1], atoi(av[2]));
 
-    client.gameLoop();
+        client.gameLoop();
+    }
 }

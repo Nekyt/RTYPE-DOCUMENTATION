@@ -22,11 +22,23 @@ Network::Client::Client(const char* ip, unsigned short port)
     : _ip(ip)
     , _port(port)
 {
+    if (_tcp.connect(ip, port) != sf::Socket::Done) {
+        std::cerr << "ERROR : Fail to launch client Network." << std::endl;
+        exit (84);
+    }
+    _selector.add(_tcp);
+    _tcp.setBlocking(false);
+    printf("listening on port %d\n", _tcp.getLocalPort());
+    connectUDP();
+}
+
+void Network::Client::connectUDP()
+{
     if (_udp.bind(sf::Socket::AnyPort) != sf::Socket::Done) {
         std::cerr << "ERROR : Fail to launch client Network." << std::endl;
         exit (84);
     }
-    _selector.add(_udp);
+    //_selector.add(_udp);
     _udp.setBlocking(false);
     printf("listening on port %d\n", _udp.getLocalPort());
 }
@@ -36,16 +48,35 @@ Network::Client::Client(const char* ip, unsigned short port)
  *
  * @return A packet.
  */
-sf::Packet Network::Client::retrievePacket()
+sf::Packet Network::Client::retrievePacketUDP()
 {
     sf::Packet packet;
     sf::IpAddress ip = _ip;
     unsigned short port = _port;
     sf::Socket::Status status = _udp.receive(packet, ip, port);
-
     if (status == sf::Socket::Error) {
-        std::cerr << "ERROR : Fail to receive request in Network::Client::retrievePacket." << std::endl;
+        std::cerr << "ERROR : Fail to receive request in Network::Client::retrievePacketUDP." << std::endl;
         exit (84);
+    }
+    return packet;
+}
+
+/**
+ * It waits for 10 milliseconds for a packet to be received, and if it is, it returns it
+ *
+ * @return A packet.
+ */
+sf::Packet Network::Client::retrievePacketTCP()
+{
+    sf::Packet packet;
+
+    if (_selector.wait(sf::milliseconds(10))) {
+        if (_selector.isReady(_tcp)) {
+            if (_tcp.receive(packet) != sf::Socket::Status::Done) {
+                std::cerr << "ERROR: Fail to receive request in Network::Client::retrievePacketTCP." << std::endl;
+                exit(84);
+            }
+        }
     }
     return packet;
 }
@@ -64,14 +95,17 @@ int Network::Client::getRoomId() const
 void Network::Client::roomCreation(int players)
 {
     sf::Packet packet;
-    sf::IpAddress ip = _ip;
-    unsigned short port = _port;
 
     packet << Network::Networking::ROOMCREATION << players;
-    if (_udp.send(packet, ip, port) != sf::Socket::Done) {
+    if (_tcp.send(packet) != sf::Socket::Done) {
         std::cerr << "ERROR : Fail to send a request." << std::endl;
-        exit (84);
+        exit(84);
     }
+}
+
+std::pair<sf::IpAddress, unsigned short> Network::Client::getUdpAddress()
+{
+    return std::make_pair(sf::IpAddress::getLocalAddress(), _udp.getLocalPort());
 }
 
 /**
@@ -88,23 +122,21 @@ int Network::Client::joinRoom(std::deque<int> rooms)
     int playerID = 0;
     std::string error;
     int type;
-    sf::UdpSocket::Status status;
-    sf::IpAddress ip = _ip;
-    unsigned short port = _port;
+    sf::Socket::Status status;
 
     for (int i = 0; i < rooms.size(); ++i) {
-        packet << Network::Networking::ROOMCONNECT << static_cast<int>(i);
-        if (_udp.send(packet, ip, port) != sf::Socket::Done) {
+        packet << Network::Networking::ROOMCONNECT << static_cast<int>(i) << std::make_pair(sf::IpAddress::getLocalAddress(), _udp.getLocalPort());
+        if (_tcp.send(packet) != sf::Socket::Done) {
             std::cerr << "ERROR : Fail to send a request in Network::Client::joinRoom." << std::endl;
             exit (84);
         }
         std::cout << "SENDING ROOMCONNECT" << std::endl;
         packet.clear();
-        status = _udp.receive(packet, ip, port);
-        while (status != sf::Socket::Done) {
-            if (status == sf::UdpSocket::Status::Error)
+        status = _tcp.receive(packet);
+        while (status != sf::Socket::Status::Done) {
+            if (status == sf::Socket::Status::Error)
                 std::cerr << "ERROR : Fail to retrieve a request in Network::Client::joinRoom." << std::endl;
-            status = _udp.receive(packet, ip, port);
+            status = _tcp.receive(packet);
         }
         packet >> type;
         if (type == Network::Networking::CONNECTED) {
@@ -113,12 +145,10 @@ int Network::Client::joinRoom(std::deque<int> rooms)
         } else if (type == Network::Networking::ERROR) {
             packet >> error;
             std::cerr << "ERROR : " << error << std::endl;
+        } else {
+            std::cout << "The fuck ? : " << type << std::endl;
         }
         packet.clear();
-    }
-    if (type == Network::Networking::ERROR) {
-        roomCreation(4);
-        return joinRoom(roomAskingList());
     }
     packet >> playerID;
     return playerID;
@@ -129,28 +159,30 @@ int Network::Client::joinRoom(std::deque<int> rooms)
  *
  * @return A deque of int.
  */
-std::deque<int> Network::Client::roomAskingList()
+std::deque<std::pair<size_t, std::pair<int, int>>> Network::Client::roomAskingList()
 {
     sf::Packet packet;
     int type;
-    std::deque<int> vec;
-    sf::UdpSocket::Status status;
-    sf::IpAddress ip = _ip;
-    unsigned short port = _port;
+    std::deque<std::pair<size_t, std::pair<int, int>>> vec;
+    sf::Socket::Status status;
 
     packet << Network::Networking::ROOMASKING;
-    if (_udp.send(packet, ip, port) == sf::Socket::Error) {
+    std::cout << "Room asking list begin" << std::endl;
+    status = _tcp.send(packet);
+    if (status == sf::Socket::Status::Error) {
         std::cerr << "ERROR : Fail to send a request in Network::Client::roomAskingList." << std::endl;
         exit (84);
     }
     packet.clear();
-    status = _udp.receive(packet, ip, port);
-    while (status != sf::Socket::Done) {
-        if (status == sf::UdpSocket::Status::Error)
+    std::cout << "Room asking list mid : " << status << std::endl;
+    status = _tcp.receive(packet);
+    while (status != sf::Socket::Status::Done) {
+        if (status == sf::Socket::Status::Error)
             std::cerr << "ERROR : Fail to retrieve a request in Network::Client::joinRoom." << std::endl;
-        status = _udp.receive(packet, ip, port);
+        status = _tcp.receive(packet);
     }
     packet >> type >> vec;
+    std::cout << "Room asking list end" << std::endl;
     return vec;
 }
 
@@ -159,14 +191,33 @@ std::deque<int> Network::Client::roomAskingList()
  *
  * @param packet The packet to send.
  */
-int Network::Client::sendPacket(sf::Packet packet)
+int Network::Client::sendPacketUDP(sf::Packet packet)
 {
     int net;
     sf::Packet copy;
     sf::IpAddress ip = _ip;
     unsigned short port = _port;
     sf::Socket::Status status = _udp.send(packet, ip, port);
+
     if (status == sf::Socket::Error) {
+        copy = packet;
+        copy >> net;
+        std::cout << "ERROR : Fail to send the request : " << net << " UDP Status : " << status << " Packet size : " << packet.getDataSize() << std::endl << "Trying again in a second..." << std::endl;
+        sleep(1);
+        return -1;
+    }
+    packet >> net;
+    std::cout << "Sending enum : " << net << std::endl;
+    return 0;
+}
+
+int Network::Client::sendPacketTCP(sf::Packet packet)
+{
+    int net;
+    sf::Packet copy;
+    sf::Socket::Status status = _tcp.send(packet);
+
+    if (status == sf::Socket::Status::Error) {
         copy = packet;
         copy >> net;
         std::cout << "ERROR : Fail to send the request : " << net << " UDP Status : " << status << " Packet size : " << packet.getDataSize() << std::endl << "Trying again in a second..." << std::endl;

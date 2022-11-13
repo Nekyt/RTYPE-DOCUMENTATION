@@ -37,8 +37,11 @@ public:
         void handleEventsKey(std::deque<Button> eventKey);
         void initConnection(int roomId);
         void handleEventsTextEntered(const sf::Event &event);
-        void retrievePackets();
+        void retrievePacketsUDP();
+        void retrievePacketsTCP();
         void empacketing(Network::Networking net);
+        void sendReady();
+        void waitConnected();
 
         void selectMode();
 
@@ -46,7 +49,8 @@ public:
         void manageMenu();
 
         void loadGame();
-        void waitEnum(Network::Networking net);
+        void waitEnumTCP(Network::Networking net);
+        void waitEnumUDP(Network::Networking);
         void manageGame();
 
 protected:
@@ -58,6 +62,7 @@ private:
     std::shared_ptr<Clock> _clock;
     std::shared_ptr<Clock> _networkClock;
     std::deque<Button> _gameCommandsList;
+    std::pair<sf::IpAddress, unsigned short> addressUDP;
     int _roomId;
     int _playerID;
     int _graphEntitiesCount;
@@ -66,10 +71,13 @@ private:
     std::deque<std::shared_ptr<ECS::Text>> _textMenu;
 
     Network::Client _cli;
-    std::deque<sf::Packet> _retrievedPackets;
-    std::deque<sf::Packet> _sendingPackets;
+    std::deque<sf::Packet> _retrievedPacketsUDP;
+    std::deque<sf::Packet> _retrievedPacketsTCP;
+    std::deque<sf::Packet> _sendingPacketsTCP;
+    std::deque<sf::Packet> _sendingPacketsUDP;
     sf::Sprite _sprite;
-    bool _retrieving;
+    bool _retrievingUDP;
+    bool _retrievingTCP;
     bool _isInGame;
     bool _nbrPlayersInGameReached;
 };

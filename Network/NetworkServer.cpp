@@ -6,9 +6,10 @@
 */
 
 #include "NetworkServer.hpp"
+#include "PacketOperatorSurcharge.hpp"
 #include <any>
-#include <memory>
 #include <cstring>
+#include <memory>
 
 /**
  * It's the destructor for the Server class
@@ -22,41 +23,107 @@ Network::Server::~Server()
 }
 
 /**
- * It creates a connection between the server and the client.
+ * It creates a connection and prints the server's IP and port
  */
 void Network::Server::createConnection()
 {
-    if (_udp.bind(sf::Socket::AnyPort) != sf::Socket::Done) {
-        std::cerr << "Failed to launch the server." << std::endl;
+    if (_listener.listen(sf::Socket::AnyPort) != sf::Socket::Done) {
+        std::cerr << "Failed to listen." << std::endl;
         exit(84);
     }
-    _udp.setBlocking(false);
     std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << std::endl;
     std::cout << "         THE SERVER IS STARTING         " << std::endl;
     std::cout << "<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<" << std::endl << std::endl << std::endl;
     std::cout << "SERVER INFOS:" << std::endl;
     std::cout << "    IP    : " << sf::IpAddress::getLocalAddress() << std::endl;
-    std::cout << "    Port  : " << _udp.getLocalPort() << std::endl << std::endl;
+    std::cout << "    Port  : " << _listener.getLocalPort() << std::endl << std::endl;
 }
 
 /**
- * It receives a packet from the client, and returns a pair of pair of IpAddress and unsigned short, and a pair of Networking and sf::Packet
+ * It waits for a client to connect, then adds it to the selector and the client array
+ */
+void Network::Server::connectClients()
+{
+    _isTcpUp = true;
+    _selector.add(_listener);
+
+    while (_isTcpUp) {
+        if (_selector.wait(sf::milliseconds(10))) {
+            if (_selector.isReady(_listener)) {
+                sf::TcpSocket *newClient = new sf::TcpSocket();
+                if (_listener.accept(*newClient) == sf::Socket::Done) {
+                    newClient->setBlocking(false);
+                    _clientArray.push_back(newClient);
+                    _clientPair.push_back(std::make_pair<sf::IpAddress, unsigned short>(newClient->getRemoteAddress(), newClient->getRemotePort()));
+                    _selector.add(*newClient);
+                    std::cout << "Added client " << newClient->getRemoteAddress() << ":" << newClient->getRemotePort() << std::endl;
+                } else {
+                    delete(newClient);
+                    break;
+                }
+            } /*else {
+                managePackets();
+            }*/
+        }
+    }
+}
+
+/**
+ * It disconnects the client from the socket and removes it from the client array.
+ *
+ * @param socket The socket to disconnect.
+ * @param pos The index of this socket in the array.
+*/
+void Network::Server::disconnectClient(sf::TcpSocket *socket, size_t pos)
+{
+    std::cout << "Client " << socket->getRemoteAddress() << ":" << socket->getRemotePort() << " disconnected" << std::endl;
+    socket->disconnect();
+    _clientArray.erase(_clientArray.begin() + pos);
+    _clientPair.erase(_clientPair.begin() + pos);
+}
+
+
+/**
+ * It loops through all the clients and checks if they have sent a packet. If they have, it returns the
+ * packet
+ *
+ * @return A pair of pairs of sf::IpAddress and unsigned short, and a pair of Network::Networking and
+ * sf::Packet.
+ */
+std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> Network::Server::retrieveTcpPacket()
+{
+    std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> message;
+    sf::Packet error;
+
+    if (_selector.wait(sf::milliseconds(10))) {
+        for (size_t i = 0; i < _clientArray.size(); i++) {
+            if (_selector.isReady(*(_clientArray[i]))) {
+                return receivePacket(_clientArray[i], i);
+            }
+        }
+    }
+    message.second.first = Network::Networking::ERROR;
+    message.second.second = error;
+    return message;
+}
+
+/**
+ * It receives a packet from the specified client, and returns a pair of pair of IpAddress and unsigned short, and a pair of Networking and sf::Packet
  *
  * @return A pair of pair of IpAddress and unsigned short, and a pair of Networking and sf::Packet
  */
-std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> Network::Server::retrievePacket()
+std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> Network::Server::receivePacket(sf::TcpSocket *client, size_t iterator)
 {
-    std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> message;
-    sf::IpAddress ip;
-    unsigned short port;
-    int type;
     sf::Packet packet;
+    std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> message;
+    int type;
+    sf::Socket::Status status = client->receive(packet);
 
-    if (_udp.receive(packet, ip, port) == sf::Socket::Error) {
-        std::cerr << "Failed to receive UDP Packet." << std::endl;
-        exit (84);
+    if (status == sf::Socket::Error) {
+        std::cerr << "Failed to receive TCP packet." << std::endl;
+        exit(84);
     }
-    message.first = std::make_pair(ip, port);
+    message.first = std::make_pair(client->getRemoteAddress(), client->getRemotePort());
     if (packet.getDataSize()) {
         packet >> type;
         message.second.first = static_cast<Network::Networking>(type);
@@ -69,132 +136,28 @@ std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networkin
     return message;
 }
 
-
 /**
  * It sends a packet to a client
  *
  * @param client The client to send the packet to.
  * @param packet The packet to send
  */
-void Network::Server::sendPacket(std::pair<std::pair<sf::IpAddress, unsigned short>, sf::Packet> packet)
+void Network::Server::sendTcpPacket(std::pair<std::pair<sf::IpAddress, unsigned short>, sf::Packet> packet)
 {
-    if (_udp.send(packet.second, packet.first.first, packet.first.second) != sf::Socket::Done) {
-        std::cerr << "Failed to send UDP Packet." << std::endl;
-        exit (84);
+    size_t i = 0;
+    for (; i < _clientPair.size() && (packet.first.first != _clientPair[i].first || packet.first.second != _clientPair[i].second); ++i);
+    if (i >= _clientPair.size()) {
+        std::cerr << "ERROR : Not a client." << std::endl;
+        return;
+    }
+    std::cout << "Client : " << i << std::endl;
+    while (_clientArray[i]->send(packet.second) != sf::Socket::Done) {
+        std::cerr << "Failed to send TCP Packet." << std::endl;
     }
     std::cout << std::endl << "LOG : Sending a packet to a Client." << std::endl;
 }
 
-
-/**
- * It sends the player id to the client
- *
- * @param client The client to send the packet to.
- * @param id The id of the player
- */
-void Network::Server::sendPlayerId(std::pair<sf::IpAddress, unsigned short> client, int id)
+std::deque<std::pair<sf::IpAddress, unsigned short>> Network::Server::getClientPair() const
 {
-    sf::Packet packet;
-
-    packet << Network::Networking::CONNECTED << id;
-    if (_udp.send(packet, client.first, client.second) != sf::Socket::Done) {
-        std::cerr << "Failed to send UDP Packet." << std::endl;
-        exit (84);
-    }
-    std::cout << std::endl << "LOG : Sending Player ID to Client" << std::endl;
-}
-
-/**
- * It sends the room list to the client
- *
- * @param client The client's IP address and port.
- * @param roomId The id of the room you want to send to the client.
- */
-void Network::Server::sendRoomList(std::pair<sf::IpAddress, unsigned short> client, std::deque<int> roomId)
-{
-    sf::Packet packet;
-
-    packet << Network::Networking::ROOMASKING << roomId;
-    if (_udp.send(packet, client.first, client.second) != sf::Socket::Done) {
-        std::cerr << "Failed to send UDP Packet." << std::endl;
-        exit (84);
-    }
-    std::cout << std::endl << "LOG : Sending Room List to Client" << std::endl;
-}
-
-/**
- * It sends an error message to a client
- *
- * @param client The client to send the error to.
- * @param errorMsg The error message to send to the client.
- */
-void Network::Server::sendError(std::pair<sf::IpAddress, unsigned short> client, std::string errorMsg)
-{
-    sf::Packet packet;
-
-    packet << Network::Networking::ERROR << errorMsg;
-    if (_udp.send(packet, client.first, client.second) != sf::Socket::Done) {
-        std::cerr << "Failed to send UDP Packet." << std::endl;
-        exit (84);
-    }
-    std::cout << std::endl << "LOG : Sending Error Code to Client" << std::endl;
-}
-
-/**
- * It sends an enum to the client
- *
- * @param client The client to send the packet to.
- * @param type The type of packet you want to send.
- */
-void Network::Server::sendEnum(std::pair<sf::IpAddress, unsigned short> client, Network::Networking type)
-{
-    sf::Packet packet;
-
-    packet << type;
-    if (_udp.send(packet, client.first, client.second) != sf::Socket::Done) {
-        std::cerr << "Failed to send UDP Packet." << std::endl;
-        exit (84);
-    }
-    std::cout << std::endl << "LOG : Sending Enum NetworkType to Client" << std::endl;
-}
-
-
-/**
- * It sends the game update to the client
- *
- * @param client The client to send the packet to.
- * @param ent A deque of pairs of Entity and Position.
- */
-void Network::Server::sendGameUpdate(std::pair<sf::IpAddress, unsigned short> client, std::deque<std::pair<ECS::Entity, ECS::Position>> ent)
-{
-    sf::Packet packet;
-
-    packet << Network::Networking::GAMEUPDATE << ent;
-    if (_udp.send(packet, client.first, client.second) != sf::Socket::Done) {
-        std::cerr << "Failed to send UDP Packet." << std::endl;
-        exit (84);
-    }
-    std::cout << std::endl << "LOG : Sending Entities Positions to Client" << std::endl;
-}
-
-/**
- * It sends a packet to a client to tell him that a player has died or disconnected.
- *
- * @param client The client to send the packet to.
- * @param id The id of the player that died or disconnected.
- * @param type The type of packet we're sending.
- */
-void Network::Server::sendPlayerDeathOrDisconnect(std::pair<sf::IpAddress, unsigned short> client, int id, Network::Networking type)
-{
-    sf::Packet packet;
-
-    packet << type << id;
-    if (_udp.send(packet, client.first, client.second) != sf::Socket::Done) {
-        std::cerr << "Failed to send UDP Packet." << std::endl;
-        exit (84);
-    }
-    if (type == Network::Networking::PLAYERDEATH)
-        std::cout << std::endl << "LOG : Sending Player Death to Client" << std::endl;
-    else
-        std::cout << std::endl << "LOG : Sending Player Disconnection to Client" << std::endl;
+    return _clientPair;
 }

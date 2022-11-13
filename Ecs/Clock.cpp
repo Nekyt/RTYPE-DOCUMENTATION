@@ -73,6 +73,8 @@ int Clock::componentUpdateNumber(size_t entity, ECS::ComponentType type)
     int updateOccurance = 0;
     std::clock_t time = std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count();
 
+    if (_previousIte[entity].find(type) == _previousIte[entity].end())
+        return 0;
     for (; _previousIte[entity][type] + _timer[entity][type] < time; ++updateOccurance, _previousIte[entity][type] += _timer[entity][type])
         ;
     return updateOccurance;
@@ -90,6 +92,8 @@ int Clock::componentUpdateNumber(size_t entity, ECS::ComponentType type)
  */
 void Clock::eraseClockComponent(size_t entity, ECS::ComponentType type, bool debug)
 {
+    if (std::find(_timersList[entity].begin(), _timersList[entity].end(), type) == _timersList[entity].end())
+        return;
     if (_timer[entity].size() == 1) {
         this->eraseClock(entity);
         return;

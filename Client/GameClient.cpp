@@ -17,9 +17,10 @@
 GameClient::GameClient(const char* ip, unsigned short port) : _cli(ip, port)
 {
     srand(time(NULL));
+    _playerID = -1;
     _graphical = std::make_shared<InitSfml>();
     _networkClock = std::make_shared<Clock>();
-    _networkClock->addClockComponent(0, ECS::ComponentType::NETWORK, 40);
+    _networkClock->addClockComponent(0, ECS::ComponentType::NETWORK, 50);
     _clock = std::make_shared<Clock>();
     _state = Menu;
     _isInGame = false;
@@ -61,14 +62,45 @@ void GameClient::loadSystems()
     move.setClock(_clock);
 }
 
-void GameClient::waitEnum(Network::Networking net)
+void GameClient::waitEnumTCP(Network::Networking net)
 {
     int networkType = -1;
 
     while (networkType != net) {
-        if (!_retrievedPackets.empty() && _retrievedPackets[0].getDataSize()) {
-            _retrievedPackets[0] >> networkType;
-            _retrievedPackets.erase(_retrievedPackets.begin());
+        if (!_retrievedPacketsTCP.empty() && _retrievedPacketsTCP[0].getDataSize()) {
+            _retrievedPacketsTCP[0] >> networkType;
+            _retrievedPacketsTCP.erase(_retrievedPacketsTCP.begin());
+        }
+    }
+    std::cout << "Enum : " << net << " aquired" << std::endl;
+}
+
+void GameClient::waitConnected()
+{
+    int networkType = -1;
+
+    std::cout << "WAIT CONNECTED" << std::endl;
+    while (_playerID == -1) {
+        if (!_retrievedPacketsTCP.empty() && _retrievedPacketsTCP[0].getDataSize()) {
+            _retrievedPacketsTCP[0] >> networkType;
+            if (networkType == Network::Networking::CONNECTED)
+                _retrievedPacketsTCP[0] >> _playerID;
+            else if (networkType != Network::Networking::ERROR)
+                std::cout << "ENUM RETRIEVED : " << networkType << std::endl;
+            _retrievedPacketsTCP.erase(_retrievedPacketsTCP.begin());
+        }
+    }
+    std::cout << "Enum : " << networkType << " aquired" << std::endl;
+}
+
+void GameClient::waitEnumUDP(Network::Networking net)
+{
+    int networkType = -1;
+
+    while (networkType != net) {
+        if (!_retrievedPacketsUDP.empty() && _retrievedPacketsUDP[0].getDataSize()) {
+            _retrievedPacketsUDP[0] >> networkType;
+            _retrievedPacketsUDP.pop_front();
         }
     }
     std::cout << "Enum : " << net << " aquired" << std::endl;
@@ -90,7 +122,17 @@ void GameClient::empacketing(Network::Networking net)
         pack << _gameCommandsList;
         _gameCommandsList.clear();
     }
-    _sendingPackets.push_back(pack);
+    _sendingPacketsUDP.push_back(pack);
+}
+
+void GameClient::sendReady()
+{
+    sf::Packet pack;
+
+    std::cout << "Sending roomid: " << _roomId << std::endl;
+    pack << Network::Networking::READY << _roomId << _playerID;
+    // _cli.sendPacketTCP(pack);
+    _sendingPacketsTCP.push_back(pack);
 }
 
 /**
@@ -98,15 +140,26 @@ void GameClient::empacketing(Network::Networking net)
  */
 void GameClient::gameLoop()
 {
-    sf::Thread thread(&GameClient::retrievePackets, this);
-    std::deque<int> rooms = _cli.roomAskingList();
+    //Thread TCP
+    sf::Thread tcp(&GameClient::retrievePacketsTCP, this);
+    sf::Thread thread(&GameClient::retrievePacketsUDP, this);
 
+    //launching thread tcp std::deque<std::pair<size_t, std::pair<int, int>>>
+    std::deque<std::pair<size_t, std::pair<int, int>>> rooms = _cli.roomAskingList();
+    _retrievingTCP = true;
+    tcp.launch();
     std::cout << "ASKING FOR ROOMS LIST" << std::endl;
     while (rooms.empty()) {
         _cli.roomCreation(2);
         std::cout << "CREATE A ROOM" << std::endl;
         rooms = _cli.roomAskingList();
         std::cout << "ASKING FOR ROOMS LIST" << std::endl;
+    }
+    for (auto r : rooms) {
+        if (r.second.first != r.second.second) {
+            _roomId = r.first;
+            break;
+        }
     }
     while (_graphical->getWindow()->isOpen()) {
         while (_graphical->getWindow()->pollEvent(_graphical->getEvent())) {
@@ -116,24 +169,28 @@ void GameClient::gameLoop()
         _graphical->clear();
         selectMode();
         _graphical->display();
-        if (!_retrieving && _state == GameState::Game) {
+        if (!_retrievingUDP && _state == GameState::Game) {
             _graphEntitiesCount = static_cast<int>(_manager.getEntities().size());
-            _retrieving = true;
-            _playerID = _cli.joinRoom(rooms);
-            std::cout << "JOINING ROOM" << std::endl;
+            _retrievingUDP = true;
             thread.launch();
-            waitEnum(Network::Networking::READY);
-            empacketing(Network::Networking::READY);
-            waitEnum(Network::Networking::LAUNCHING);
-        } else if (_retrieving && _state != GameState::Game) {
+            sf::Packet pack;
+            pack << Network::Networking::ROOMCONNECT << 0 << _cli.getUdpAddress();
+            _sendingPacketsTCP.push_back(pack);
+            std::cout << "JOINING ROOM" << std::endl;
+            waitConnected();
+            // start UDP here
+            waitEnumTCP(Network::Networking::READY);
+            sendReady();
+            waitEnumUDP(Network::Networking::LAUNCHING);
+        } else if (_retrievingUDP && _state != GameState::Game) {
             thread.terminate();
-            _retrieving = false;
-            _sendingPackets.clear();
-            _retrievedPackets.clear();
+            _retrievingUDP = false;
+            _sendingPacketsUDP.clear();
+            _retrievedPacketsUDP.clear();
         }
     }
     _networkClock->eraseClock(0);
-    if (_retrieving == true)
+    if (_retrievingUDP == true)
         thread.terminate();
 }
 
@@ -314,19 +371,41 @@ void GameClient::loadGame()
 /**
  * It retrieves packets from the client and puts them in a deque
  */
-void GameClient::retrievePackets()
+void GameClient::retrievePacketsUDP()
+{
+    sf::Packet pack;
+    //_cli.connectUDP();
+
+    std::cout << std::boolalpha << "_retrievingUDP is " << _retrievingUDP << std::endl;
+    while (_retrievingUDP) {
+        pack = _cli.retrievePacketUDP();
+        if (pack.getDataSize()) {
+            _retrievedPacketsUDP.push_back(pack);
+            pack.clear();
+        }
+        if (!_sendingPacketsUDP.empty()) {
+            if (!_cli.sendPacketUDP(_sendingPacketsUDP[0]))
+                _sendingPacketsUDP.erase(_sendingPacketsUDP.begin());
+        }
+    }
+}
+
+/**
+ * It retrieves packets from the client and puts them in a deque
+ */
+void GameClient::retrievePacketsTCP()
 {
     sf::Packet pack;
 
-    while (_retrieving) {
-        pack = _cli.retrievePacket();
+    while (_retrievingTCP) {
+        pack = _cli.retrievePacketTCP();
         if (pack.getDataSize()) {
-            _retrievedPackets.push_back(pack);
+            _retrievedPacketsTCP.push_back(pack);
             pack.clear();
         }
-        if (!_sendingPackets.empty()) {
-            if (!_cli.sendPacket(_sendingPackets[0]))
-                _sendingPackets.erase(_sendingPackets.begin());
+        if (!_sendingPacketsTCP.empty()) {
+            if (!_cli.sendPacketTCP(_sendingPacketsTCP[0]))
+                _sendingPacketsTCP.erase(_sendingPacketsTCP.begin());
         }
     }
 }
@@ -345,9 +424,9 @@ void GameClient::manageGame()
     int playerID;
     std::shared_ptr<sf::Texture> texture;
 
-    if (!_retrievedPackets.empty()) {
-        pack = _retrievedPackets[0];
-        _retrievedPackets.erase(_retrievedPackets.begin());
+    if (!_retrievedPacketsUDP.empty()) {
+        pack = _retrievedPacketsUDP[0];
+        _retrievedPacketsUDP.erase(_retrievedPacketsUDP.begin());
         pack >> netw;
         if (netw == Network::Networking::GAMEUPDATE) {
             pack >> entitiesUpdate;

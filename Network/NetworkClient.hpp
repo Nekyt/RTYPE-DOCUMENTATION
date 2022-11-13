@@ -12,6 +12,7 @@
 #include <list>
 #include <SFML/Network.hpp>
 #include "../Graphics/Events.hpp"
+#include <deque>
 
 namespace Network {
 class Client {
@@ -20,18 +21,23 @@ class Client {
         ~Client() = default;
 
         void roomCreation(int players);
-        std::deque<int> roomAskingList();
+        std::deque<std::pair<size_t, std::pair<int, int>>> roomAskingList();
         int joinRoom(std::deque<int> rooms);
-        sf::Packet retrievePacket();
+        sf::Packet retrievePacketUDP();
+        sf::Packet retrievePacketTCP();
         int getRoomId() const;
-        int sendPacket(sf::Packet packet);
+        int sendPacketUDP(sf::Packet packet);
+        int sendPacketTCP(sf::Packet packet);
+        void connectUDP();
 
+        std::pair<sf::IpAddress, unsigned short> getUdpAddress();
 
     protected:
     private:
         std::deque<int> packetTodequeInt(sf::Packet packet, int size);
 
         sf::UdpSocket _udp;
+        sf::TcpSocket _tcp;
         sf::SocketSelector _selector;
         sf::IpAddress _ip;
         int _roomId;

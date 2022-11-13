@@ -45,18 +45,17 @@ void ECS::MoveSystem::update()
                 if (enti.at(i).second.at(j) != ECS::ComponentType::POSITION)
                     continue;
             }
-            if (_clock->componentUpdateNumber(i, ECS::POSITION)) {
+            if (_clock->componentUpdateNumber(enti[i].first, ECS::POSITION)) {
                 std::shared_ptr<ECS::Position> position = std::dynamic_pointer_cast<ECS::Position>(_componentManager->getComponent(entity, ComponentType::POSITION));
                 std::shared_ptr<ECS::Speed> speed = std::dynamic_pointer_cast<ECS::Speed>(_componentManager->getComponent(entity, ComponentType::SPEED));
                 std::shared_ptr<ECS::Acceleration> acceleration = std::dynamic_pointer_cast<ECS::Acceleration>(_componentManager->getComponent(entity, ComponentType::ACCELERATION));
 
                 auto posX = position->getPosition_x();
                 auto posY = position->getPosition_y();
-                if (entity.getType() == ECS::EntityType::PARALLAX && ((posX += acceleration->getAcceleration_x() * speed->getMaxSpeed()) < -1920))
+                if (entity.getType() == ECS::EntityType::PARALLAX && ((posX + acceleration->getAcceleration_x() * speed->getMaxSpeed()) < -1920))
                     position->setPosition_x(1920);
                 else if (entity.getType() == ECS::EntityType::PLAYER) {
                     if (acceleration->getAcceleration_x() != 0)
-                    std::cout << "In movesystem : position before : x=" << posX << " y=" << posY << " Acceleration : x=" << acceleration->getAcceleration_x() << " y=" << acceleration->getAcceleration_y() << std::endl;
                     posX += acceleration->getAcceleration_x() * speed->getMaxSpeed();
                     posY += acceleration->getAcceleration_y() * speed->getMaxSpeed();
                     position->setPosition_x(posX);
@@ -74,8 +73,10 @@ void ECS::MoveSystem::update()
                 } else {
                     position->setPosition_x(posX + acceleration->getAcceleration_x() * speed->getMaxSpeed());
                     position->setPosition_y(posY + acceleration->getAcceleration_y() * speed->getMaxSpeed());
-                    acceleration->setAcceleration_x(0.0f);
-                    acceleration->setAcceleration_y(0.0f);
+                    if (entity.getType() != ECS::EntityType::PARALLAX) {
+                        acceleration->setAcceleration_x(0.0f);
+                        acceleration->setAcceleration_y(0.0f);
+                    }
                 }
             }
         }

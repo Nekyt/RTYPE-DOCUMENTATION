@@ -1,3 +1,4 @@
+#pragma once
 #include <SFML/Network.hpp>
 #include <deque>
 #include <utility>
@@ -70,5 +71,45 @@ inline std::deque<Button>& operator >>(sf::Packet& packet, std::deque<Button>& p
         packet >> elem;
         p.push_back(static_cast<Button>(elem));
     }
+    return p;
+}
+//std::deque<std::pair<size_t, std::pair<int, int>>>
+
+inline sf::Packet& operator <<(sf::Packet& packet, const std::deque<std::pair<size_t, std::pair<int, int>>>& p)
+{
+    packet << static_cast<int>(p.size());
+    for (size_t i = 0; i < p.size(); ++i)
+        packet << static_cast<int>(p[i].first) << p[i].second.first << p[i].second.second;
+    return packet;
+}
+
+inline std::deque<std::pair<size_t, std::pair<int, int>>>& operator >>(sf::Packet& packet, std::deque<std::pair<size_t, std::pair<int, int>>>& p)
+{
+    int size;
+    int roomId;
+    int playersMax;
+    int playerNb;
+
+    packet >> size;
+    for (int i = 0; i < size; ++i) {
+        packet >> roomId >> playersMax >> playerNb;
+        p.push_back(std::make_pair(static_cast<size_t>(roomId), std::make_pair(playersMax, playerNb)));
+    }
+    return p;
+}
+
+inline sf::Packet& operator <<(sf::Packet& packet, const std::pair<sf::IpAddress, unsigned short>& p)
+{
+    packet << p.first.toString() << static_cast<int>(p.second);
+    return packet;
+}
+
+inline std::pair<sf::IpAddress, unsigned short>& operator >>(sf::Packet& packet, std::pair<sf::IpAddress, unsigned short>& p)
+{
+    std::string ip;
+    int port;
+
+    packet >> ip >> port;
+    p = std::make_pair(static_cast<sf::IpAddress>(ip), static_cast<unsigned short>(port));
     return p;
 }

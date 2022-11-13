@@ -8,39 +8,41 @@
 #ifndef NETWORKSERVER_HPP_
 #define NETWORKSERVER_HPP_
 
-#include <iostream>
-#include <SFML/Network.hpp>
 #include "../Ecs/Entity/Entity.hpp"
 #include "../Ecs/IncludeComponents.hpp"
 #include "Enum.hpp"
 #include "PacketOperatorSurcharge.hpp"
+#include <SFML/Network.hpp>
+#include <iostream>
 
 namespace Network {
 class Server {
-    public:
-        Server() = default;
-        ~Server();
+public:
+    Server() = default;
+    ~Server();
 
-        void createConnection();
+    void createConnection();
 
-//      MAIN THREAD -> CREATION OF ROOM + SENDING ROOM LIST
+    //      MAIN THREAD -> CREATION OF ROOM + SENDING ROOM LIST
+    int createRoom(int playerNb);
+    void connectClients();
+    void disconnectClient(sf::TcpSocket *, size_t);
+    void sendTcpPacket(std::pair<std::pair<sf::IpAddress, unsigned short>, sf::Packet>);
+    std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> receivePacket(sf::TcpSocket *, size_t);
+    std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> retrieveTcpPacket();
+    void sendError(std::pair<sf::IpAddress, unsigned short>, std::string errorMsg);
 
-        std::pair<std::pair<sf::IpAddress, unsigned short>, std::pair<Network::Networking, sf::Packet>> retrievePacket();
-        int createRoom(int playerNb);
-        void sendPacket(std::pair<std::pair<sf::IpAddress, unsigned short>, sf::Packet> packet);
-        void sendRoomList(std::pair<sf::IpAddress, unsigned short>, std::deque<int> list);
-        void sendPlayerId(std::pair<sf::IpAddress, unsigned short>, int id);
-        void sendError(std::pair<sf::IpAddress, unsigned short>, std::string errorMsg);
-        void sendEnum(std::pair<sf::IpAddress, unsigned short> client, Network::Networking type);
-        void sendGameUpdate(std::pair<sf::IpAddress, unsigned short> client, std::deque<std::pair<ECS::Entity, ECS::Position>>);
-        void sendPlayerDeathOrDisconnect(std::pair<sf::IpAddress, unsigned short> client, int id, Network::Networking type);
+    std::deque<std::pair<sf::IpAddress, unsigned short>> getClientPair() const;
+private:
+    sf::SocketSelector _selector;
+    sf::TcpListener _listener;
+    std::deque<sf::TcpSocket *> _clientArray;
+    std::deque<std::pair<sf::IpAddress, unsigned short>> _clientPair;
 
-    private:
-        sf::UdpSocket _udp;
-        sf::IpAddress _ip;
-        unsigned short _port;
+    sf::IpAddress _ip;
+    unsigned short _port;
+    bool _isTcpUp;
 };
+}
 
-};
-
-#endif /* !NETWORKSERVER_HPP_ */
+#endif
