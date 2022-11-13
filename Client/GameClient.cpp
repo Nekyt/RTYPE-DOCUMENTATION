@@ -116,7 +116,7 @@ void GameClient::empacketing(Network::Networking net)
 {
     sf::Packet pack;
 
-    pack << net << _cli.getRoomId();
+    pack << net;
     std::cout << "empacketing enum : " << net << std::endl;
     if (net == Network::Networking::PLAYERUPDATE) {
         pack << _gameCommandsList;

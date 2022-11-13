@@ -37,15 +37,12 @@ void GameServer::initGameServer()
     waitForFilledRoom();
     waitForClientsToBeReady();
     prepSending << Network::Networking::LAUNCHING;
-    for (size_t id : _playerIds) {
+    for (size_t id : _playerIds)
         _sendingPackets.push_back(std::make_pair(_players[id], prepSending));
-        std::cout << "Sending to :" << std::endl;
-        std::cout << "ip=" << _players[id].first << std::endl;
-        std::cout << "Port=" << _players[id].second << std::endl;
-    }
     _inGame = true;
     gameLoop();
     retrieve.terminate();
+    _network.~Room();
     _endGame = true;
     //while (_endGame);
 
@@ -305,7 +302,6 @@ void GameServer::GameServer::checkForEntityDeath()
                 _players.erase(_entities[i].getId());
                 _playerIds.erase(std::find(_playerIds.begin(), _playerIds.end(), _entities[i].getId()));
                 _entities.erase(_entities.begin() + i);
-                --i;
                 prepSending.clear();
             }
         }
@@ -323,16 +319,15 @@ void GameServer::GameServer::getPlayersMove()
     std::deque<int> nb;
 
     for (auto id : _playerIds) {
-        if (_retrievedPackets[_players[id]].empty() || _retrievedPackets[_players[id]][0].first != Network::Networking::PLAYERUPDATE) {
-            std::cout << "nb of packets : " << _retrievedPackets[_players[id]].size() << std::endl;
+        if (_retrievedPackets[_players[id]].empty() || _retrievedPackets[_players[id]][0].first != Network::Networking::PLAYERUPDATE)
             continue;
-        }
         _retrievedPackets[_players[id]][0].second >> pressed;
         _retrievedPackets[_players[id]].erase(_retrievedPackets[_players[id]].begin());
+        /*std::cout << "Pressed size : " << pressed.size() << std::endl;
         std::cout << "All buttons : " << std::endl;
         for (size_t i = 0; i < pressed.size(); ++i)
             std::cout << static_cast<int>(pressed[i]) << " ";
-        std::cout << std::endl;
+        std::cout << std::endl;*/
         _manager->getSystem<ECS::EventsSystem>().setEvents(id, pressed);
     }
 }
@@ -345,7 +340,6 @@ void GameServer::GameServer::gameLoop()
 {
     sf::Packet prepSending;
 
-    std::cout << "In game loop" << std::endl;
     while (!_playerIds.empty()) {
         getPlayersMove();
         gameUpdate();

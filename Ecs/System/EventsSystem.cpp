@@ -83,7 +83,6 @@ void ECS::EventsSystem::modifyAcceleration(Entity entity, std::deque<Button> &ev
     }
     speed->setSpeed(speed->getMaxSpeed());
     for (Button button : event) {
-        std::cout << "In for loop" << std::endl;
         switch (button) {
         case Button::Right:
             acceleration->setAcceleration_x(1.0f);

@@ -55,9 +55,13 @@ inline std::deque<std::pair<ECS::Entity, ECS::Position>>& operator >>(sf::Packet
 
 inline sf::Packet& operator <<(sf::Packet& packet, const std::deque<Button>& p)
 {
+    std::cout << "Buttons size : " << static_cast<int>(p.size()) << " : " << std::endl;
     packet << static_cast<int>(p.size());
-    for (size_t i = 0; i < p.size(); ++i)
+    for (size_t i = 0; i < p.size(); ++i) {
         packet << static_cast<int>(p[i]);
+        std::cout << static_cast<int>(p[i]) << " ";
+    }
+    std::cout << std::endl << std::endl;
     return packet;
 }
 
@@ -67,6 +71,7 @@ inline std::deque<Button>& operator >>(sf::Packet& packet, std::deque<Button>& p
     int elem;
 
     packet >> size;
+    std::cout << "Buttons size : " << size << std::endl;
     for (int i = 0; i < size; ++i) {
         packet >> elem;
         p.push_back(static_cast<Button>(elem));
