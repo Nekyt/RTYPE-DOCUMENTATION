@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['applocal_967',['applocal',['../namespaceapplocal.html',1,'']]]
+  ['applocal_1082',['applocal',['../namespaceapplocal.html',1,'']]]
 ];

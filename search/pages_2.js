@@ -1,11 +1,7 @@
 var searchData=
 [
-  ['changelog_1779',['Changelog',['../md_CHANGELOG.html',1,'']]],
-  ['changelog_1780',['CHANGELOG',['../md_vcpkg_CHANGELOG.html',1,'']]],
-  ['contribution_20guidelines_1781',['Contribution Guidelines',['../md_vcpkg_CONTRIBUTING.html',1,'']]],
-  ['common_20command_20options_1782',['Common Command Options',['../md_vcpkg_docs_commands_common-options.html',1,'']]],
-  ['cmake_20guidelines_1783',['CMake Guidelines',['../md_vcpkg_docs_maintainers_cmake-guidelines.html',1,'']]],
-  ['control_20files_1784',['CONTROL files',['../md_vcpkg_docs_maintainers_control-files.html',1,'']]],
-  ['creating_20registries_1785',['Creating Registries',['../md_vcpkg_docs_maintainers_registries.html',1,'']]],
-  ['cmake_20integration_1786',['CMake Integration',['../md_vcpkg_docs_users_buildsystems_cmake-integration.html',1,'']]]
+  ['binary_20caching_1980',['Binary Caching',['../md_vcpkg_docs_users_binarycaching.html',1,'']]],
+  ['binary_20caching_20v1_2e1_20_28jul_2014_2c_202020_29_1981',['Binary Caching v1.1 (Jul 14, 2020)',['../md_vcpkg_docs_specifications_binarycaching.html',1,'']]],
+  ['binary_20export_20_28apr_2028_2c_202017_29_1982',['Binary Export (Apr 28, 2017)',['../md_vcpkg_docs_specifications_export_command.html',1,'']]],
+  ['buildsystem_20integration_1983',['Buildsystem Integration',['../md_vcpkg_docs_users_buildsystems_integration.html',1,'']]]
 ];

@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['scripts_20tree_20extraction_1809',['Scripts Tree Extraction',['../md_vcpkg_docs_specifications_scripts-extraction.html',1,'']]],
-  ['selecting_20library_20features_1810',['Selecting Library Features',['../md_vcpkg_docs_users_selecting-library-features.html',1,'']]],
-  ['security_1811',['SECURITY',['../md_vcpkg_SECURITY.html',1,'']]]
+  ['registries_3a_20take_202_20_28including_20git_20registries_29_2012',['Registries: Take 2 (including Git Registries)',['../md_vcpkg_docs_specifications_registries_2.html',1,'']]]
 ];

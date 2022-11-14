@@ -1,13 +1,19 @@
 var searchData=
 [
-  ['readme_2emd_1103',['README.md',['../README_8md.html',1,'(Global Namespace)'],['../vcpkg_2docs_2README_8md.html',1,'(Global Namespace)'],['../vcpkg_2ports_2flash-runtime-extensions_2README_8md.html',1,'(Global Namespace)'],['../vcpkg_2README_8md.html',1,'(Global Namespace)'],['../vcpkg_2scripts_2azure-pipelines_2osx_2README_8md.html',1,'(Global Namespace)'],['../vcpkg_2scripts_2azure-pipelines_2windows-unstable_2README_8md.html',1,'(Global Namespace)']]],
-  ['readme_5fes_2emd_1104',['README_es.md',['../README__es_8md.html',1,'']]],
-  ['readme_5ffr_2emd_1105',['README_fr.md',['../README__fr_8md.html',1,'']]],
-  ['readme_5fko_5fkr_2emd_1106',['README_ko_KR.md',['../README__ko__KR_8md.html',1,'']]],
-  ['readme_5fzh_5fcn_2emd_1107',['README_zh_CN.md',['../README__zh__CN_8md.html',1,'']]],
-  ['registries_2d2_2emd_1108',['registries-2.md',['../registries-2_8md.html',1,'']]],
-  ['registries_2emd_1109',['registries.md',['../maintainers_2registries_8md.html',1,'(Global Namespace)'],['../specifications_2registries_8md.html',1,'(Global Namespace)'],['../users_2registries_8md.html',1,'(Global Namespace)']]],
-  ['remove_2emd_1110',['remove.md',['../remove_8md.html',1,'']]],
-  ['rotate_2ecpp_1111',['Rotate.cpp',['../Rotate_8cpp.html',1,'']]],
-  ['rotate_2ehpp_1112',['Rotate.hpp',['../Rotate_8hpp.html',1,'']]]
+  ['packaging_2dgithub_2drepos_2emd_1217',['packaging-github-repos.md',['../packaging-github-repos_8md.html',1,'']]],
+  ['packaging_2dzipfiles_2emd_1218',['packaging-zipfiles.md',['../packaging-zipfiles_8md.html',1,'']]],
+  ['packetoperatorsurcharge_2ehpp_1219',['PacketOperatorSurcharge.hpp',['../PacketOperatorSurcharge_8hpp.html',1,'']]],
+  ['patching_2emd_1220',['patching.md',['../patching_8md.html',1,'']]],
+  ['pattern_2ecpp_1221',['Pattern.cpp',['../Pattern_8cpp.html',1,'']]],
+  ['pattern_2ehpp_1222',['Pattern.hpp',['../Pattern_8hpp.html',1,'']]],
+  ['patternsystem_2ecpp_1223',['PatternSystem.cpp',['../PatternSystem_8cpp.html',1,'']]],
+  ['patternsystem_2ehpp_1224',['PatternSystem.hpp',['../PatternSystem_8hpp.html',1,'']]],
+  ['portfile_2dfunctions_2emd_1225',['portfile-functions.md',['../portfile-functions_8md.html',1,'']]],
+  ['ports_2doverlay_2emd_1226',['ports-overlay.md',['../ports-overlay_8md.html',1,'']]],
+  ['position_2ecpp_1227',['Position.cpp',['../Position_8cpp.html',1,'']]],
+  ['position_2ehpp_1228',['Position.hpp',['../Position_8hpp.html',1,'']]],
+  ['pr_2dreview_2dchecklist_2emd_1229',['pr-review-checklist.md',['../pr-review-checklist_8md.html',1,'']]],
+  ['predicates_5finit_2eh_1230',['predicates_init.h',['../predicates__init_8h.html',1,'']]],
+  ['prefab_2emd_1231',['prefab.md',['../prefab_8md.html',1,'']]],
+  ['privacy_2emd_1232',['privacy.md',['../privacy_8md.html',1,'']]]
 ];

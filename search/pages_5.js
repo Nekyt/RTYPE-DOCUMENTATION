@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['getting_20started_20with_20versioning_1790',['Getting started with versioning',['../md_vcpkg_docs_examples_versioning_8getting-started.html',1,'']]]
+  ['frequently_20asked_20questions_1993',['Frequently Asked Questions',['../md_vcpkg_docs_about_faq.html',1,'']]]
 ];

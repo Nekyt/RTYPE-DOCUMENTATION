@@ -1,16 +1,5 @@
 var searchData=
 [
-  ['packaging_2dgithub_2drepos_2emd_1090',['packaging-github-repos.md',['../packaging-github-repos_8md.html',1,'']]],
-  ['packaging_2dzipfiles_2emd_1091',['packaging-zipfiles.md',['../packaging-zipfiles_8md.html',1,'']]],
-  ['patching_2emd_1092',['patching.md',['../patching_8md.html',1,'']]],
-  ['pattern_2ecpp_1093',['Pattern.cpp',['../Pattern_8cpp.html',1,'']]],
-  ['pattern_2ehpp_1094',['Pattern.hpp',['../Pattern_8hpp.html',1,'']]],
-  ['portfile_2dfunctions_2emd_1095',['portfile-functions.md',['../portfile-functions_8md.html',1,'']]],
-  ['ports_2doverlay_2emd_1096',['ports-overlay.md',['../ports-overlay_8md.html',1,'']]],
-  ['position_2ecpp_1097',['Position.cpp',['../Position_8cpp.html',1,'']]],
-  ['position_2ehpp_1098',['Position.hpp',['../Position_8hpp.html',1,'']]],
-  ['pr_2dreview_2dchecklist_2emd_1099',['pr-review-checklist.md',['../pr-review-checklist_8md.html',1,'']]],
-  ['predicates_5finit_2eh_1100',['predicates_init.h',['../predicates__init_8h.html',1,'']]],
-  ['prefab_2emd_1101',['prefab.md',['../prefab_8md.html',1,'']]],
-  ['privacy_2emd_1102',['privacy.md',['../privacy_8md.html',1,'']]]
+  ['openblas_5fcommon_2eh_1215',['openblas_common.h',['../openblas__common_8h.html',1,'']]],
+  ['overlay_2dtriplets_2dlinux_2ddynamic_2emd_1216',['overlay-triplets-linux-dynamic.md',['../overlay-triplets-linux-dynamic_8md.html',1,'']]]
 ];

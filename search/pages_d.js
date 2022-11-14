@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['using_20overlay_20triplets_1813',['Using Overlay Triplets',['../md_vcpkg_docs_examples_overlay-triplets-linux-dynamic.html',1,'']]],
-  ['using_20registries_1814',['Using Registries',['../md_vcpkg_docs_users_registries.html',1,'']]]
+  ['triplet_20files_2016',['Triplet Files',['../md_vcpkg_docs_users_triplets.html',1,'']]]
 ];

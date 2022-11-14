@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['frequently_20asked_20questions_1789',['Frequently Asked Questions',['../md_vcpkg_docs_about_faq.html',1,'']]]
+  ['environment_20and_20configuration_1991',['Environment and Configuration',['../md_vcpkg_docs_users_config_environment.html',1,'']]],
+  ['execute_5fprocess_1992',['execute_process',['../md_vcpkg_docs_maintainers_execute_process.html',1,'']]]
 ];

@@ -1,9 +1,5 @@
 var searchData=
 [
-  ['z_5fvcpkg_5fapply_5fpatches_2emd_1212',['z_vcpkg_apply_patches.md',['../z__vcpkg__apply__patches_8md.html',1,'']]],
-  ['z_5fvcpkg_5fforward_5foutput_5fvariable_2emd_1213',['z_vcpkg_forward_output_variable.md',['../z__vcpkg__forward__output__variable_8md.html',1,'']]],
-  ['z_5fvcpkg_5ffunction_5farguments_2emd_1214',['z_vcpkg_function_arguments.md',['../z__vcpkg__function__arguments_8md.html',1,'']]],
-  ['z_5fvcpkg_5fget_5fcmake_5fvars_2emd_1215',['z_vcpkg_get_cmake_vars.md',['../z__vcpkg__get__cmake__vars_8md.html',1,'']]],
-  ['z_5fvcpkg_5fprettify_5fcommand_5fline_2emd_1216',['z_vcpkg_prettify_command_line.md',['../z__vcpkg__prettify__command__line_8md.html',1,'']]],
-  ['z_5fvcpkg_5fsetup_5fpkgconfig_5fpath_2emd_1217',['z_vcpkg_setup_pkgconfig_path.md',['../z__vcpkg__setup__pkgconfig__path_8md.html',1,'']]]
+  ['x_5fvcpkg_5fget_5fpython_5fpackages_2emd_1343',['x_vcpkg_get_python_packages.md',['../x__vcpkg__get__python__packages_8md.html',1,'']]],
+  ['x_5fvcpkg_5fpkgconfig_5fget_5fmodules_2emd_1344',['x_vcpkg_pkgconfig_get_modules.md',['../x__vcpkg__pkgconfig__get__modules_8md.html',1,'']]]
 ];

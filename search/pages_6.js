@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['host_20dependencies_1791',['Host Dependencies',['../md_vcpkg_docs_users_host-dependencies.html',1,'']]]
+  ['getting_20started_20with_20versioning_1994',['Getting started with versioning',['../md_vcpkg_docs_examples_versioning_getting_started.html',1,'']]]
 ];
