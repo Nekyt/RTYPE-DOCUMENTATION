@@ -2772,4 +2772,4 @@ DOT_CLEANUP            = YES
 INPUT                  += README.md
 USE_MDFILE_AS_MAINPAGE = README.md
 
-PROJECT_NAME           = RTYPE
+PROJECT_NAME           = R-TYPE
